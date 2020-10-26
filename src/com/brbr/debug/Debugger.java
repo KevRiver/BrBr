@@ -1,11 +1,11 @@
 package com.brbr.debug;
 
-import java.awt.geom.Point2D;
+import java.awt.*;
 
 public class Debugger {
     public final static boolean DEBUG = true;
-    public static void Print(Point2D point2D, String tag){
+    public static void Print(String tag, Point point){
         if(!DEBUG) return;
-        System.out.println(tag + " " + point2D.toString());
+        System.out.println(tag + " " + point.toString());
     }
 }

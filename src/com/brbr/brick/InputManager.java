@@ -13,8 +13,13 @@ public class InputManager {
 
     public static InputManager getInstance(){
         if(instance == null) return new InputManager();
-        else return instance;
+        return instance;
     }
+
+    public void setActive(boolean activation){
+        mouseEventListener.setActive(activation);
+    }
+
 
 
 }
