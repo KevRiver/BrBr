@@ -13,8 +13,11 @@ public class TestPhysics extends JFrame {
         physicManager  = PhysicManager.getInstance();
         colliders = new Collider[3];
         colliders[0] = new Collider(new Rectangle(185,340,100,100),false);
-        colliders[1] = new Collider(new Rectangle(85,340,100,100));
+        colliders[0].setTag("RED");
+        colliders[1] = new Collider(new Rectangle(90,340,100,100));
+        colliders[1].setTag("GREEN");
         colliders[2] = new Collider(new Rectangle(185,340,50,50));
+        colliders[2].setTag("BLUE");
 
         for(int i=0; i <3;i++){
            physicManager.addEntity(colliders[i]);

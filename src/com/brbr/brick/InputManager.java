@@ -1,8 +1,5 @@
 package com.brbr.brick;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 public class InputManager {
     private static InputManager instance = null;
     public MouseEventListener mouseEventListener;

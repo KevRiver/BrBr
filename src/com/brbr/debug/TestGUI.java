@@ -87,18 +87,22 @@ public class TestGUI {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        MouseEventListener l = InputManager.getInstance().mouseEventListener;
         JPanel primary = new JPanel(){
+            Point src = new Point();
+            Point dest = new Point();
+
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
-                MouseEventListener ml = InputManager.getInstance().mouseEventListener;
-                Debugger.Print("obtained src: ",ml.source);
-                Debugger.Print("obtained dest: ",ml.destination);
-                g.drawLine(ml.source.x, ml.source.y, ml.destination.x, ml.destination.y);
+                g.setColor(Color.red);
+                Debugger.Print("obtained src: ",l.source);
+                Debugger.Print("obtained dest: ",l.destination);
+                g.drawLine(l.source.x, l.source.y, l.destination.x, l.destination.y);
             }
         };
-        primary.addMouseListener(InputManager.getInstance().mouseEventListener);
-        primary.addMouseMotionListener(InputManager.getInstance().mouseEventListener);
+        primary.addMouseListener(l);
+        primary.addMouseMotionListener(l);
 
         frame.getContentPane().add(primary);
         frame.setSize(370,680);

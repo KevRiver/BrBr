@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
 public class Collider {
+    String tag;
     boolean isKinematic;
     public Rectangle2D rectangle2D;
 
@@ -20,11 +21,19 @@ public class Collider {
         rectangle2D = r;
     }
 
+    public void setTag(String tag){
+        this.tag = tag;
+    }
+
     public void collisionEnter(Collider collider){
-        Debugger.Print("Collision Enter: " + collider.toString());
-        RectangularShape s;
-        if((s = collider.rectangle2D) != null) {
-            Debugger.Print("Center Pos: ", new Point2D.Double(s.getCenterX(),s.getCenterY()));
+        Rectangle2D r;
+        if((r = collider.rectangle2D) != null) {
+            Debugger.Print(this.tag + " Colliding with " + collider.toString());
         }
+    }
+
+    public String toString(){
+        String toStr = tag + " center: "+ new Point2D.Double(rectangle2D.getCenterX(),rectangle2D.getCenterY());
+        return toStr;
     }
 }

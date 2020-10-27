@@ -58,8 +58,6 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
             Debugger.Print("Mouse Released ",destination);
 
             ((JPanel)e.getSource()).repaint();
-            Debugger.Print("Dest after release",destination);
-            Debugger.Print("Src after release",source);
         }catch (Exception exception){
             System.out.println(exception.toString());
         }
@@ -74,6 +72,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     public void mouseDragged(MouseEvent e) {
         try{
             destination.setLocation(e.getX(),e.getY());
+            ((JPanel)e.getSource()).repaint();
 
         }catch (Exception exception){
             System.out.println(exception.toString());
