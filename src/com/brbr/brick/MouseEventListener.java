@@ -2,18 +2,15 @@ package com.brbr.brick;
 import com.brbr.debug.Debugger;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class MouseEventListener extends MouseInputAdapter {
+public class MouseEventListener implements MouseListener, MouseMotionListener {
     private boolean active;
-    private Point source;
-    private Point destination;
+    public Point source;
+    public Point destination;
 
     // Constructor
     public MouseEventListener(){
@@ -28,8 +25,8 @@ public class MouseEventListener extends MouseInputAdapter {
     } // Init
 
     // Getter
-    public Point getSource(){return source;}
-    public Point getDestination(){return destination;}
+    //public Point getSource(){return source;}
+    //public Point getDestination(){return destination;}
 
     // Setter
     public void setActive(boolean activation){
@@ -44,37 +41,53 @@ public class MouseEventListener extends MouseInputAdapter {
         destination.y = y;
     }
 
-
     @Override
     public void mousePressed(MouseEvent e) {
         try {
-            source.setLocation(new Point(e.getX(), e.getY()));
-            destination.setLocation(new Point(e.getX(), e.getY()));
+            source.setLocation(e.getX(),e.getY());
             Debugger.Print("Mouse Pressed ",source);
+
         }catch (Exception exception){
             System.out.println(exception.toString());
         }
+    }
+
+    public void mouseReleased(MouseEvent e) {
+        try{
+            destination.setLocation(e.getX(),e.getY());
+            Debugger.Print("Mouse Released ",destination);
+
+            ((JPanel)e.getSource()).repaint();
+            Debugger.Print("Dest after release",destination);
+            Debugger.Print("Src after release",source);
+        }catch (Exception exception){
+            System.out.println(exception.toString());
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         try{
             destination.setLocation(e.getX(),e.getY());
-            Debugger.Print("Mouse Dragged ",destination);
+
         }catch (Exception exception){
             System.out.println(exception.toString());
         }
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        try{
-            Point dest = destination.getLocation();
-            Debugger.Print("Mouse Released ", dest);
-        }catch (Exception exception){
-            System.out.println(exception.toString());
-        }
-    }
+    public void mouseMoved(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
 
 
 }
