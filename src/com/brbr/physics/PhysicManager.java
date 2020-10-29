@@ -8,12 +8,14 @@ import java.util.*;
 public class PhysicManager {
     private static PhysicManager instance = null;
 
-    private ArrayList<Collider> kinematicObjects;
-    private ArrayList<Collider> staticObjects;
+    private List<Collider> kinematicObjects;
+    private List<Collider> staticObjects;
+    private List<Collider> triggerObejcts;
 
     private PhysicManager(){
         kinematicObjects = new ArrayList<>();
         staticObjects = new ArrayList<>();
+        triggerObejcts = new ArrayList<>();
     }
 
     public static PhysicManager getInstance(){
@@ -21,21 +23,34 @@ public class PhysicManager {
         return instance;
     }
 
+    /// 충돌체의 타입에 따라 PhysicManager에 등록
     public void addEntity(Collider collider){
-        if(collider.isKinematic){
-            kinematicObjects.add(collider);
-        }else{
-            staticObjects.add(collider);
+        switch (collider.type){
+            case KINEMATIC:
+                kinematicObjects.add(collider);
+                break;
+            case STATIC:
+                staticObjects.add(collider);
+                break;
+            case TRIGGER:
+                triggerObejcts.add(collider);
+                break;
         }
     }
 
+    /// kinematicObejects에 등록된 충돌체들과 static/trigger Objects에 등록된 충돌체들의 충돌 검사
     public void collisionCheck(){
         for(var k: kinematicObjects){
             for(var s: staticObjects){
                 if(checkAABB(k,s)){
-                    Debugger.Print("collision detected");
-                    k.collisionEnter(s);
-                    s.collisionEnter(k);
+                    k.onCollisionEnter(s);
+                    s.onCollisionEnter(k);
+                }
+            }
+
+            for(var t: triggerObejcts){
+                if(checkAABB(k,t)){
+                    k.onTriggerEnter(t);
                 }
             }
         }

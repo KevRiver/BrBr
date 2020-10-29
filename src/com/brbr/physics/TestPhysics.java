@@ -12,7 +12,7 @@ public class TestPhysics extends JFrame {
     public TestPhysics(){
         physicManager  = PhysicManager.getInstance();
         colliders = new Collider[3];
-        colliders[0] = new Collider(new Rectangle(185,340,100,100),false);
+        colliders[0] = new Collider(new Rectangle(185,340,100,100),ColliderType.TRIGGER);
         colliders[0].setTag("RED");
         colliders[1] = new Collider(new Rectangle(90,340,100,100));
         colliders[1].setTag("GREEN");

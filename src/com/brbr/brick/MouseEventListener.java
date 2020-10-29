@@ -9,8 +9,8 @@ import java.awt.event.MouseMotionListener;
 
 public class MouseEventListener implements MouseListener, MouseMotionListener {
     private boolean active;
-    public Point source;
-    public Point destination;
+    private Point source;
+    private Point destination;
 
     // Constructor
     public MouseEventListener(){
@@ -25,8 +25,8 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     } // Init
 
     // Getter
-    //public Point getSource(){return source;}
-    //public Point getDestination(){return destination;}
+    public Point getSource(){return source;}
+    public Point getDestination(){return destination;}
 
     // Setter
     public void setActive(boolean activation){
@@ -56,8 +56,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
         try{
             destination.setLocation(e.getX(),e.getY());
             Debugger.Print("Mouse Released ",destination);
-
-            ((JPanel)e.getSource()).repaint();
+            //((JPanel)e.getSource()).repaint();
         }catch (Exception exception){
             System.out.println(exception.toString());
         }
