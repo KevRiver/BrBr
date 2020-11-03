@@ -1,5 +1,7 @@
 package com.brbr.brick;
 
+import com.brbr.brick.object.Brick;
+import com.brbr.brick.object.GameObject;
 import com.brbr.brick.render.Renderer;
 import com.brbr.math.Transform;
 import com.brbr.math.Vector2;
@@ -32,7 +34,7 @@ public class GameManager {
             Vector2 vector2 = new Vector2();
             vector2.x = (float) (random.nextInt(6));
             vector2.y = (float) (random.nextInt(8));
-            GameObject gameObject = new GameObject();
+            GameObject gameObject = new Brick();
             Transform transform = new Transform();
             transform.Translate(vector2);
             gameObject.transform = transform;

@@ -1,8 +1,8 @@
-package com.brbr.brick;
+package com.brbr.brick.object;
 
 import com.brbr.math.Transform;
 
-public class GameObject {
+public abstract class GameObject {
     public Transform transform;
     // update components' transfrom;
 }
