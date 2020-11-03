@@ -60,9 +60,26 @@ public class GameManager {
     private Thread createGameThread() {
         return new Thread(() -> {
             long lastLoopTime = System.currentTimeMillis();
+            long lastFpsTime = System.currentTimeMillis();
+            int frameCount = 0;
+
             while (true) {
                 loop(System.currentTimeMillis() - lastLoopTime);
+
                 lastLoopTime = System.currentTimeMillis();
+                frameCount++;
+                if (System.currentTimeMillis() - lastFpsTime >= 1000) {
+                    lastFpsTime = System.currentTimeMillis();
+                    scene.framePerSecond = frameCount;
+                    frameCount = 0;
+                }
+
+                try {
+                    //noinspection BusyWait
+                    Thread.sleep(1000L / 60L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
