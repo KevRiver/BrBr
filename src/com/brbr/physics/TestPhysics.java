@@ -1,13 +1,9 @@
 package com.brbr.physics;
 
-import com.brbr.brick.Canvas;
-import com.brbr.debug.Debugger;
 import com.brbr.math.Transform;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 public class TestPhysics extends JFrame {
     public class Canvas extends JPanel {
