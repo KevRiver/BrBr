@@ -1,15 +1,32 @@
 package com.brbr.brick;
 
+import com.brbr.brick.render.Renderer;
+
+import javax.swing.*;
+
 public class GameManager {
 
     private final Thread gameThread = createGameThread();
 
+    private Renderer renderer;
+
     public GameManager() {
-        // TODO : init
+        init();
+    }
+
+    private void init() {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        // TODO : init managers
+        renderer = new Renderer();
+
+        frame.getContentPane().add(renderer);
+        frame.setSize(GAME_WIDTH,GAME_HEIGHT);
+        frame.setVisible(true);
     }
 
     public void start() {
-        // TODO : init jframe
         gameThread.start();
     }
 
@@ -32,7 +49,10 @@ public class GameManager {
 
         // TODO : level
 
-        // TODO : render
-
+        // render
+        renderer.repaint();
     }
+
+    private final static int GAME_WIDTH = 540;
+    private final static int GAME_HEIGHT = 800;
 }
