@@ -11,7 +11,7 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ArrayList<Ball> ballList = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 1000; i++) {
             ballList.add(
                     new Ball(
                             100 + (int) (Math.random() * 300),

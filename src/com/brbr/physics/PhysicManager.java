@@ -57,7 +57,7 @@ public class PhysicManager {
     }
 
     private boolean checkAABB(Collider obj0, Collider obj1){
-        Debugger.Print("checkAABB called");
+        //Debugger.Print("checkAABB called");
         Rectangle2D r = obj1.rectangle2D;
         return obj0.rectangle2D.intersects(r.getX(),r.getY(),r.getWidth(),r.getHeight());
     }

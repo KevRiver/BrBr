@@ -9,9 +9,12 @@ public class Collider {
     ColliderType type;
     public Rectangle2D rectangle2D;
 
+    public Collider(){
+        type = ColliderType.KINEMATIC;
+    }
 
     public Collider(Rectangle2D r){
-        type = ColliderType.KINEMATIC;
+        this();
         rectangle2D = r;
     }
 
@@ -26,13 +29,13 @@ public class Collider {
 
     public void onCollisionEnter(Collider collider){
         if((collider.rectangle2D) != null) {
-            Debugger.Print(this.tag + " Colliding with " + collider.toString());
+            //Debugger.Print(this.tag + " Colliding with " + collider.toString());
         }
     }
 
     public void onTriggerEnter(Collider collider){
         if((collider.rectangle2D) != null) {
-            Debugger.Print(this.tag + " Trigger with " + collider.toString());
+            //Debugger.Print(this.tag + " Trigger with " + collider.toString());
         }
     }
 
