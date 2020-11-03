@@ -34,11 +34,12 @@ public class GameManager {
             Vector2 vector2 = new Vector2();
             vector2.x = (float) (random.nextInt(6));
             vector2.y = (float) (random.nextInt(8));
-            GameObject gameObject = new Brick();
+            Brick brick = new Brick();
             Transform transform = new Transform();
             transform.Translate(vector2);
-            gameObject.transform = transform;
-            scene.gameObjectList.add(gameObject);
+            brick.transform = transform;
+            brick.health = random.nextInt(50) + 1;
+            scene.gameObjectList.add(brick);
         }
         frame.getContentPane().add(renderer);
         frame.setSize(GAME_WIDTH, GAME_HEIGHT);

@@ -47,16 +47,46 @@ public class Renderer extends JPanel {
     // game grid : w*h = 8*6. (상단에 1칸, 상하좌우 5px 여 있음)
     // brick : w*h = 95 * 60.
     private void drawGameObject(Graphics g) {
+        int minBrickHealth = Integer.MAX_VALUE;
+        int maxBrickHealth = Integer.MIN_VALUE;
         for (GameObject gameObject : scene.gameObjectList) {
             if (gameObject instanceof Brick) {
-                g.setColor(Color.RED);
+                int health = ((Brick) gameObject).health;
+                if (minBrickHealth > health) minBrickHealth = health;
+                if (maxBrickHealth < health) maxBrickHealth = health;
+            }
+        }
+        int[] healthLevelStep = new int[Colors.BRICK_COLOR_LEVEL.length];
+        for (int i = 0; i < Colors.BRICK_COLOR_LEVEL.length; i++) {
+            healthLevelStep[i] = (maxBrickHealth - minBrickHealth) /
+                    Colors.BRICK_COLOR_LEVEL.length * i +
+                    minBrickHealth;
+        }
 
+        for (GameObject gameObject : scene.gameObjectList) {
+            if (gameObject instanceof Brick) {
+                Brick brick = (Brick) gameObject;
+                int healthLevel = 0;
+                for (int i = 0; i < Colors.BRICK_COLOR_LEVEL.length; i++) {
+                    if (brick.health <= healthLevelStep[i]) {
+                        healthLevel = i;
+                        break;
+                    }
+                }
+                g.setColor(Colors.BRICK_COLOR_LEVEL[healthLevel]);
                 g.fillRect(
-                        ((Brick) gameObject).getAbsoluteX(),
-                        Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE +
-                                ((Brick) gameObject).getAbsoluteY(),
+                        brick.getAbsoluteX(),
+                        Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + brick.getAbsoluteY(),
                         Coordinates.BRICK_WIDTH,
                         Coordinates.BRICK_HEIGHT
+                );
+
+                g.setColor(Color.WHITE);
+                g.drawString(
+                        String.valueOf(brick.health),
+                        brick.getAbsoluteX() + Coordinates.BRICK_WIDTH / 2,
+                        Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + brick.getAbsoluteY()
+                                + Coordinates.BRICK_HEIGHT / 2
                 );
             }
         }
