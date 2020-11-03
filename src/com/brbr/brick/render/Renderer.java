@@ -24,6 +24,8 @@ public class Renderer extends JPanel {
         drawBackground(g);
         drawGameFrame(g);
         drawGameObject(g);
+
+        drawDebugText(g);
     }
 
     private void drawBackground(Graphics g) {
@@ -90,5 +92,10 @@ public class Renderer extends JPanel {
                 );
             }
         }
+    }
+
+    private void drawDebugText(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.drawString("fps : " + scene.framePerSecond, 0, 15);
     }
 }
