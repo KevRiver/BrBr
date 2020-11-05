@@ -1,11 +1,15 @@
 package com.brbr.physics;
 
 import com.brbr.debug.Debugger;
+import com.brbr.math.Bounds;
+import com.brbr.math.Transform;
+import com.brbr.math.Vector2;
 
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
 public class PhysicManager {
+
     private static PhysicManager instance = null;
 
     private List<Collider> kinematicObjects;
@@ -42,24 +46,36 @@ public class PhysicManager {
     public void collisionCheck(){
         for(var k: kinematicObjects){
             for(var s: staticObjects){
-                if(checkAABB(k,s)){
-                    k.onCollisionEnter(s);
-                    s.onCollisionEnter(k);
+                if(checkOverlap(k,s)){
+                    Debugger.Print("Collision Detected " + k.tag + ", " + s.tag);
+                    k.gameObject.onCollisionEnter(s);
+                    s.gameObject.onCollisionEnter(k);
                 }
             }
 
             for(var t: triggerObejcts){
-                if(checkAABB(k,t)){
-                    k.onTriggerEnter(t);
+                if(checkOverlap(k,t)){
+                    k.gameObject.onTriggerEnter(t);
                 }
             }
         }
     }
 
-    private boolean checkAABB(Collider obj0, Collider obj1){
-        //Debugger.Print("checkAABB called");
-        Rectangle2D r = obj1.rectangle2D;
-        return obj0.rectangle2D.intersects(r.getX(),r.getY(),r.getWidth(),r.getHeight());
+    private boolean checkAABB(Collider k, Collider other){
+        boolean isIntersect = false;
+        // make AABB Logic
+        return isIntersect;
+    }
+
+    private boolean checkOverlap(Collider k, Collider other){
+        Bounds kBounds, oBounds;
+
+        kBounds = ((BoxCollider)k).bounds;
+        oBounds = ((BoxCollider)other).bounds;
+
+        if(kBounds.getMaxX() < oBounds.getMinX() || kBounds.getMinX() > oBounds.getMaxX()) return false;
+        if(kBounds.getMaxY() < oBounds.getMinY() || kBounds.getMinY() > oBounds.getMaxY()) return false;
+        return true;
     }
 
 }

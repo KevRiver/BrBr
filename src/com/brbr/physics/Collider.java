@@ -1,46 +1,28 @@
 package com.brbr.physics;
 import com.brbr.debug.Debugger;
+import com.brbr.core.Component;
+import com.brbr.math.Vector2;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-public class Collider {
+public class Collider extends Component {
     String tag;
     ColliderType type;
-    public Rectangle2D rectangle2D;
 
-    public Collider(){
-        type = ColliderType.KINEMATIC;
+    // constructor
+    protected Collider(){
+        super();
     }
-
-    public Collider(Rectangle2D r){
+    protected Collider(ColliderType type){
         this();
-        rectangle2D = r;
+        this.type = type;
     }
 
-    public Collider(Rectangle2D r, ColliderType t){
-        rectangle2D = r;
-        type = t;
-    }
+    public void setCenter(Vector2 position){ }
 
     public void setTag(String tag){
         this.tag = tag;
-    }
-
-    public void onCollisionEnter(Collider collider){
-        if((collider.rectangle2D) != null) {
-            //Debugger.Print(this.tag + " Colliding with " + collider.toString());
-        }
-    }
-
-    public void onTriggerEnter(Collider collider){
-        if((collider.rectangle2D) != null) {
-            //Debugger.Print(this.tag + " Trigger with " + collider.toString());
-        }
-    }
-
-    public String toString(){
-        String toStr = tag + " center: "+ new Point2D.Double(rectangle2D.getCenterX(),rectangle2D.getCenterY());
-        return toStr;
     }
 }
