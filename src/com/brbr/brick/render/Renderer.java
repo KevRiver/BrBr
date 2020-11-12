@@ -5,6 +5,10 @@ import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.Scene;
 import com.brbr.brick.assets.Colors;
+import com.brbr.brick.object.Wall;
+import com.brbr.math.Bounds;
+import com.brbr.physics.Ball;
+import com.brbr.physics.BoxCollider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,6 +92,21 @@ public class Renderer extends JPanel {
                         Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + brick.getAbsoluteY()
                                 + Coordinates.BRICK_HEIGHT / 2
                 );
+            } else if (gameObject instanceof Ball) {
+                Ball ball = (Ball) gameObject;
+                Bounds bounds = ((BoxCollider)ball.getComponent("BoxCollider")).bounds;
+                g.setColor(Color.RED);
+                g.drawOval((int)bounds.getMinX(), (int)bounds.getMinY(), ball.size, ball.size);
+            } else if (gameObject instanceof Wall) {
+                Wall wall = (Wall) gameObject;
+                int x, y, width, height;
+                BoxCollider collider = (BoxCollider)(wall.getComponent("BoxCollider"));
+                x = (int)(collider.bounds.getMinX());
+                y = (int)(collider.bounds.getMinY());
+                width = collider.bounds.getWidth();
+                height = collider.bounds.getHeight();
+                g.setColor(Color.BLACK);
+                g.fillRect(x,y,width,height);
             }
         }
     }

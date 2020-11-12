@@ -3,9 +3,14 @@ package com.brbr.brick;
 import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
+import com.brbr.brick.object.Wall;
 import com.brbr.brick.render.Renderer;
 import com.brbr.math.Transform;
 import com.brbr.math.Vector2;
+import com.brbr.physics.Ball;
+import com.brbr.physics.BoxCollider;
+import com.brbr.physics.ColliderType;
+import com.brbr.physics.PhysicManager;
 
 import javax.swing.*;
 import java.util.Random;
@@ -16,6 +21,7 @@ public class GameManager {
 
     private Scene scene;
     private Renderer renderer;
+    private PhysicManager physicManager;
 
     public GameManager() {
         init();
@@ -28,6 +34,7 @@ public class GameManager {
         // TODO : init managers
         scene = new Scene();
         renderer = new Renderer(scene);
+        physicManager = PhysicManager.getInstance();
 
         // init scene frame
         scene.frameMarginTop = Coordinates.GAME_FRAME_Y;
@@ -35,7 +42,15 @@ public class GameManager {
         scene.frameHeight = Coordinates.BRICK_HEIGHT * Coordinates.BRICK_GRID_HEIGHT +
                 (Coordinates.BRICK_MARGIN + 1) * Coordinates.BRICK_GRID_HEIGHT;
 
-        // dummy data TODO : remove
+        createDummyData();
+
+        frame.getContentPane().add(renderer);
+        frame.setSize(GAME_WIDTH, GAME_HEIGHT);
+        frame.setVisible(true);
+    }
+
+    // dummy data TODO : remove
+    private void createDummyData() {
         Random random = new Random();
         for (int i = 0; i < 80; i++) {
             Vector2 vector2 = new Vector2();
@@ -48,9 +63,36 @@ public class GameManager {
             brick.health = random.nextInt(50) + 1;
             scene.gameObjectList.add(brick);
         }
-        frame.getContentPane().add(renderer);
-        frame.setSize(GAME_WIDTH, GAME_HEIGHT);
-        frame.setVisible(true);
+
+        int[] ballXList = {100, 200, 300};
+        int ballY = 350;
+        for (int ballX : ballXList) {
+            Ball ball = new Ball(ballX, ballY);
+            scene.gameObjectList.add(ball);
+            physicManager.addEntity((BoxCollider) (ball.getComponent("BoxCollider")));
+            ball.throwBall(-45);
+        }
+
+        Wall wall1 = new Wall(scene.frameWidth / 2, 0);
+        ((BoxCollider) wall1.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall0");
+
+        Wall wall2 = new Wall(0, scene.frameHeight / 2);
+        ((BoxCollider) wall2.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall1");
+
+        Wall wall3 = new Wall(scene.frameWidth / 2, scene.frameHeight);
+        ((BoxCollider) wall3.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall2");
+
+        Wall wall4 = new Wall(scene.frameWidth, scene.frameHeight / 2);
+        ((BoxCollider) wall4.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall3");
+
+        scene.gameObjectList.add(wall1);
+        physicManager.addEntity((BoxCollider) (wall1.getComponent("BoxCollider")));
+        scene.gameObjectList.add(wall2);
+        physicManager.addEntity((BoxCollider) (wall2.getComponent("BoxCollider")));
+        scene.gameObjectList.add(wall3);
+        physicManager.addEntity((BoxCollider) (wall3.getComponent("BoxCollider")));
+        scene.gameObjectList.add(wall4);
+        physicManager.addEntity((BoxCollider) (wall4.getComponent("BoxCollider")));
     }
 
     public void start() {
@@ -86,6 +128,7 @@ public class GameManager {
 
     private void loop(long dt) {
         // TODO : physic
+        physicManager.collisionCheck();
 
         // TODO : input
 
@@ -95,6 +138,14 @@ public class GameManager {
 
         // render
         renderer.repaint();
+
+        // TODO : 이동 논의
+        for (GameObject gameObject : scene.gameObjectList) {
+            if (gameObject instanceof Ball) {
+                ((Ball) gameObject).update(dt / 1000.0);
+                System.out.println("ball : " + gameObject.transform.position.x + " y " + gameObject.transform.position.y);
+            }
+        }
     }
 
     private final static int GAME_WIDTH = 605;
