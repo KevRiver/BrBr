@@ -1,5 +1,5 @@
 package com.brbr.brick;
-import com.brbr.debug.Debugger;
+import com.brbr.brick.debug.Debugger;
 
 import javax.swing.*;
 import java.awt.*;

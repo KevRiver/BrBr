@@ -1,4 +1,4 @@
-package com.brbr.math;
+package com.brbr.brick.math;
 
 public class Bounds {
     private Vector2 center;

@@ -1,9 +1,9 @@
-package com.brbr.physics;
+package com.brbr.brick.physics;
 
 import com.brbr.brick.object.GameObject;
-import com.brbr.debug.Debugger;
-import com.brbr.math.Bounds;
-import com.brbr.math.Vector2;
+import com.brbr.brick.debug.Debugger;
+import com.brbr.brick.math.Bounds;
+import com.brbr.brick.math.Vector2;
 
 public class BoxCollider extends Collider{
     public Bounds bounds;

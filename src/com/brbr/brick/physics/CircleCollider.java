@@ -1,10 +1,8 @@
-package com.brbr.physics;
+package com.brbr.brick.physics;
 
-import com.brbr.debug.Debugger;
-import com.brbr.math.Bounds;
-import com.brbr.math.Vector2;
-
-import static com.brbr.math.Vector2.getDistance;
+import com.brbr.brick.debug.Debugger;
+import com.brbr.brick.math.Bounds;
+import com.brbr.brick.math.Vector2;
 
 public class CircleCollider extends Collider{
     public double radius;

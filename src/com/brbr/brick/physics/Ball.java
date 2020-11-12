@@ -1,15 +1,10 @@
-package com.brbr.physics;
+package com.brbr.brick.physics;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.Vector;
-
+import com.brbr.brick.math.Bounds;
 import com.brbr.brick.object.GameObject;
-import com.brbr.debug.Debugger;
-import com.brbr.math.Bounds;
-import com.brbr.math.MathExtention;
-import com.brbr.math.Transform;
-import com.brbr.math.Vector2;
+import com.brbr.brick.math.MathExtention;
+import com.brbr.brick.math.Transform;
+import com.brbr.brick.math.Vector2;
 
 public class Ball extends GameObject {
     public final int size = 20;

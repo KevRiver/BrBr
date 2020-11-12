@@ -1,14 +1,12 @@
-package com.brbr.physics;
+package com.brbr.brick.physics;
 
-import com.brbr.debug.Debugger;
-import com.brbr.math.Bounds;
-import com.brbr.math.Transform;
-import com.brbr.math.Vector2;
+import com.brbr.brick.debug.Debugger;
+import com.brbr.brick.math.Bounds;
+import com.brbr.brick.math.Vector2;
 
-import java.awt.geom.Rectangle2D;
 import java.util.*;
 
-import static com.brbr.math.Vector2.getDistance;
+import static com.brbr.brick.math.Vector2.getDistance;
 
 public class PhysicManager {
 
@@ -46,8 +44,8 @@ public class PhysicManager {
 
     /// kinematicObejects에 등록된 충돌체들과 static/trigger Objects에 등록된 충돌체들의 충돌 검사
     public void collisionCheck(){
-        for(var k: kinematicObjects){
-            for(var s: staticObjects){
+        for(Collider k: kinematicObjects){
+            for(Collider s: staticObjects){
                 if(checkOverlap(k,s)){
                     Debugger.Print("Collision Detected " + k.tag + ", " + s.tag);
                     k.gameObject.onCollisionEnter(s);
@@ -55,7 +53,7 @@ public class PhysicManager {
                 }
             }
 
-            for(var t: triggerObejcts){
+            for(Collider t: triggerObejcts){
                 if(checkOverlap(k,t)){
                     k.gameObject.onTriggerEnter(t);
                 }

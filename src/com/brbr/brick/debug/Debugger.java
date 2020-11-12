@@ -1,4 +1,4 @@
-package com.brbr.debug;
+package com.brbr.brick.debug;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
