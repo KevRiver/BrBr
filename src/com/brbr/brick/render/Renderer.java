@@ -1,6 +1,7 @@
 package com.brbr.brick.render;
 
 import com.brbr.brick.assets.Coordinates;
+import com.brbr.brick.math.Vector2;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.Scene;
@@ -9,6 +10,7 @@ import com.brbr.brick.object.Wall;
 import com.brbr.brick.math.Bounds;
 import com.brbr.brick.physics.Ball;
 import com.brbr.brick.physics.BoxCollider;
+import com.brbr.brick.physics.CircleCollider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,33 +72,44 @@ public class Renderer extends JPanel {
         for (GameObject gameObject : scene.gameObjectList) {
             if (gameObject instanceof Brick) {
                 Brick brick = (Brick) gameObject;
-                int healthLevel = 0;
-                for (int i = 0; i < Colors.BRICK_COLOR_LEVEL.length; i++) {
-                    if (brick.health <= healthLevelStep[i]) {
-                        healthLevel = i;
-                        break;
-                    }
-                }
-                g.setColor(Colors.BRICK_COLOR_LEVEL[healthLevel]);
-                g.fillRect(
-                        brick.getAbsoluteX(),
-                        Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + brick.getAbsoluteY(),
-                        Coordinates.BRICK_WIDTH,
-                        Coordinates.BRICK_HEIGHT
-                );
 
-                g.setColor(Color.WHITE);
-                g.drawString(
-                        String.valueOf(brick.health),
-                        brick.getAbsoluteX() + Coordinates.BRICK_WIDTH / 2,
-                        Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + brick.getAbsoluteY()
-                                + Coordinates.BRICK_HEIGHT / 2
-                );
+                int x, y, width, height;
+                BoxCollider collider = (BoxCollider) (brick.getComponent("BoxCollider"));
+                x = (int) (collider.bounds.getMinX());
+                y = (int) (collider.bounds.getMinY());
+                width = collider.bounds.getWidth();
+                height = collider.bounds.getHeight();
+                g.setColor(Color.RED);
+                g.fillRect(x, y, width, height);
+
+//                int healthLevel = 0;
+//                for (int i = 0; i < Colors.BRICK_COLOR_LEVEL.length; i++) {
+//                    if (brick.health <= healthLevelStep[i]) {
+//                        healthLevel = i;
+//                        break;
+//                    }
+//                }
+//                g.setColor(Colors.BRICK_COLOR_LEVEL[healthLevel]);
+//                g.fillRect(
+//                        brick.getAbsoluteX(),
+//                        Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + brick.getAbsoluteY(),
+//                        Coordinates.BRICK_WIDTH,
+//                        Coordinates.BRICK_HEIGHT
+//                );
+//
+//                g.setColor(Color.WHITE);
+//                g.drawString(
+//                        String.valueOf(brick.health),
+//                        brick.getAbsoluteX() + Coordinates.BRICK_WIDTH / 2,
+//                        Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + brick.getAbsoluteY()
+//                                + Coordinates.BRICK_HEIGHT / 2
+//                );
             } else if (gameObject instanceof Ball) {
                 Ball ball = (Ball) gameObject;
-                Bounds bounds = ((BoxCollider)ball.getComponent("BoxCollider")).bounds;
+                CircleCollider circle = ((CircleCollider)ball.getComponent("CircleCollider"));
+                Vector2 position = new Vector2(circle.center.x - circle.radius, circle.center.y - circle.radius);
                 g.setColor(Color.RED);
-                g.drawOval((int)bounds.getMinX(), (int)bounds.getMinY(), ball.size, ball.size);
+                g.drawOval((int)position.x, (int)position.y, ball.size, ball.size );
             } else if (gameObject instanceof Wall) {
                 Wall wall = (Wall) gameObject;
                 int x, y, width, height;

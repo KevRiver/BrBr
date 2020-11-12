@@ -2,7 +2,7 @@ package com.brbr.brick.physics;
 import com.brbr.brick.core.Component;
 import com.brbr.brick.math.Vector2;
 
-public class Collider extends Component {
+abstract public class Collider extends Component {
     String tag;
     ColliderType type;
 
@@ -15,8 +15,8 @@ public class Collider extends Component {
         this.type = type;
     }
 
-    public void setCenter(Vector2 position){ }
-
+    abstract public void setCenter(Vector2 position);
+    abstract public Vector2 getPositionRelativeTo(BoxCollider collider);
     public void setTag(String tag){
         this.tag = tag;
     }

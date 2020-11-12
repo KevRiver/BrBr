@@ -4,13 +4,10 @@ import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.object.Wall;
+import com.brbr.brick.physics.*;
 import com.brbr.brick.render.Renderer;
 import com.brbr.brick.math.Transform;
 import com.brbr.brick.math.Vector2;
-import com.brbr.brick.physics.Ball;
-import com.brbr.brick.physics.BoxCollider;
-import com.brbr.brick.physics.ColliderType;
-import com.brbr.brick.physics.PhysicManager;
 
 import javax.swing.*;
 import java.util.Random;
@@ -52,16 +49,18 @@ public class GameManager {
     // dummy data TODO : remove
     private void createDummyData() {
         Random random = new Random();
-        for (int i = 0; i < 80; i++) {
+        for (int i = 0; i < 4; i++) {
             Vector2 vector2 = new Vector2();
-            vector2.x = (float) (random.nextInt(6));
-            vector2.y = (float) (random.nextInt(8));
+            vector2.x = (float) (random.nextInt(6)) * Coordinates.BRICK_WIDTH;
+            vector2.y = (float) (random.nextInt(8)) * Coordinates.BRICK_HEIGHT;
             Brick brick = new Brick();
             Transform transform = new Transform();
             transform.translate(vector2);
             brick.transform = transform;
             brick.health = random.nextInt(50) + 1;
+            ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick0");
             scene.gameObjectList.add(brick);
+            physicManager.addEntity((BoxCollider)(brick.getComponent("BoxCollider")));
         }
 
         int[] ballXList = {100, 200, 300};
@@ -69,7 +68,7 @@ public class GameManager {
         for (int ballX : ballXList) {
             Ball ball = new Ball(ballX, ballY);
             scene.gameObjectList.add(ball);
-            physicManager.addEntity((BoxCollider) (ball.getComponent("BoxCollider")));
+            physicManager.addEntity((CircleCollider) (ball.getComponent("CircleCollider")));
             ball.throwBall(-45);
         }
 
