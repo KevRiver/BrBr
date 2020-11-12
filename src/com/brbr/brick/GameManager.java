@@ -5,12 +5,12 @@ import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.object.Wall;
 import com.brbr.brick.render.Renderer;
-import com.brbr.math.Transform;
-import com.brbr.math.Vector2;
-import com.brbr.physics.Ball;
-import com.brbr.physics.BoxCollider;
-import com.brbr.physics.ColliderType;
-import com.brbr.physics.PhysicManager;
+import com.brbr.brick.math.Transform;
+import com.brbr.brick.math.Vector2;
+import com.brbr.brick.physics.Ball;
+import com.brbr.brick.physics.BoxCollider;
+import com.brbr.brick.physics.ColliderType;
+import com.brbr.brick.physics.PhysicManager;
 
 import javax.swing.*;
 import java.util.Random;
@@ -143,7 +143,6 @@ public class GameManager {
         for (GameObject gameObject : scene.gameObjectList) {
             if (gameObject instanceof Ball) {
                 ((Ball) gameObject).update(dt / 1000.0);
-                System.out.println("ball : " + gameObject.transform.position.x + " y " + gameObject.transform.position.y);
             }
         }
     }

@@ -1,6 +1,6 @@
-package com.brbr.core;
+package com.brbr.brick.core;
 
-import com.brbr.physics.Collider;
+import com.brbr.brick.physics.Collider;
 
 public interface BRBehavior {
     public void onCollisionEnter(Collider collider);

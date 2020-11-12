@@ -1,13 +1,10 @@
-package com.brbr.debug;
+package com.brbr.brick.debug;
 
 import com.brbr.brick.InputManager;
 import com.brbr.brick.MouseEventListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 public class TestGUI {
     public static void main(String[] args){
@@ -23,8 +20,8 @@ public class TestGUI {
             public void paint(Graphics g) {
                 super.paint(g);
                 g.setColor(Color.red);
-                Debugger.Print("src: ",l.getSource());
-                Debugger.Print("dest: ",l.getDestination());
+                com.brbr.brick.debug.Debugger.Print("src: ",l.getSource());
+                com.brbr.brick.debug.Debugger.Print("dest: ",l.getDestination());
                 g.drawLine(l.getSource().x, l.getSource().y, l.getDestination().x, l.getDestination().y);
             }
         };

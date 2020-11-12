@@ -1,4 +1,4 @@
-package com.brbr.physics;
+package com.brbr.brick.physics;
 
 public enum ColliderType {
     KINEMATIC,

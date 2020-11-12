@@ -6,9 +6,9 @@ import com.brbr.brick.object.GameObject;
 import com.brbr.brick.Scene;
 import com.brbr.brick.assets.Colors;
 import com.brbr.brick.object.Wall;
-import com.brbr.math.Bounds;
-import com.brbr.physics.Ball;
-import com.brbr.physics.BoxCollider;
+import com.brbr.brick.math.Bounds;
+import com.brbr.brick.physics.Ball;
+import com.brbr.brick.physics.BoxCollider;
 
 import javax.swing.*;
 import java.awt.*;

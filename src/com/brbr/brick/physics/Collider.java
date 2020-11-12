@@ -1,11 +1,6 @@
-package com.brbr.physics;
-import com.brbr.debug.Debugger;
-import com.brbr.core.Component;
-import com.brbr.math.Vector2;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+package com.brbr.brick.physics;
+import com.brbr.brick.core.Component;
+import com.brbr.brick.math.Vector2;
 
 public class Collider extends Component {
     String tag;

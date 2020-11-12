@@ -1,4 +1,4 @@
-package com.brbr.math;
+package com.brbr.brick.math;
 
 import java.awt.geom.Point2D;
 

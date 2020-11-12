@@ -1,11 +1,10 @@
 package com.brbr.brick.object;
 
-import com.brbr.core.BRBehavior;
-import com.brbr.core.Component;
-import com.brbr.debug.Debugger;
-import com.brbr.math.Transform;
-import com.brbr.math.Vector2;
-import com.brbr.physics.Collider;
+import com.brbr.brick.core.BRBehavior;
+import com.brbr.brick.core.Component;
+import com.brbr.brick.debug.Debugger;
+import com.brbr.brick.math.Transform;
+import com.brbr.brick.physics.Collider;
 
 import java.util.HashMap;
 import java.util.Map;
