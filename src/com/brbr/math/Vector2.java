@@ -3,10 +3,15 @@ package com.brbr.math;
 import java.awt.geom.Point2D;
 
 public class Vector2 extends Point2D.Double {
-    public final static Vector2 up = new Vector2(0,1);
-    public final static Vector2 down = new Vector2(0,-1);
+    public final static Vector2 up = new Vector2(0,-1);
+    public final static Vector2 down = new Vector2(0,1);
     public final static Vector2 right = new Vector2(1,0);
     public final static Vector2 left = new Vector2(-1,0);
+    public final static Vector2 leftUp = new Vector2(-1,-1);
+    public final static Vector2 leftDown = new Vector2(-1,1);
+    public final static Vector2 rightUp = new Vector2(1,-1);
+    public final static Vector2 rightDown = new Vector2(1,1);
+
     // constructor
     public Vector2(){
         super();

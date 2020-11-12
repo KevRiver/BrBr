@@ -1,5 +1,6 @@
 package com.brbr.physics;
 
+import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
 import com.brbr.math.Bounds;
 import com.brbr.math.Transform;
@@ -19,9 +20,10 @@ public class TestPhysics extends JFrame {
             super.paint(g);
 
             for(var ball: balls){
-                Bounds bounds = ((BoxCollider)ball.getComponent("BoxCollider")).bounds;
+                CircleCollider circle = ((CircleCollider)ball.getComponent("CircleCollider"));
+                Vector2 position = new Vector2(circle.center.x - circle.radius, circle.center.y - circle.radius);
                 g.setColor(Color.RED);
-                g.drawOval((int)bounds.getMinX(), (int)bounds.getMinY(), ball.size, ball.size);
+                g.drawOval((int)position.x, (int)position.y, ball.size, ball.size );
             }
 
             for(var wall: walls){
@@ -34,6 +36,17 @@ public class TestPhysics extends JFrame {
                 g.setColor(Color.BLACK);
                 g.fillRect(x,y,width,height);
             }
+
+            for(var brick: bricks){
+                int x, y, width, height;
+                BoxCollider collider = (BoxCollider)(brick.getComponent("BoxCollider"));
+                x = (int)(collider.bounds.getMinX());
+                y = (int)(collider.bounds.getMinY());
+                width = collider.bounds.getWidth();
+                height = collider.bounds.getHeight();
+                g.setColor(Color.RED);
+                g.fillRect(x,y,width,height);
+            }
         }
     }
 
@@ -42,6 +55,8 @@ public class TestPhysics extends JFrame {
     private Ball ball;
     private Ball[] balls;
     private GameObject[] walls;
+    private GameObject[] bricks;
+
     private final int width = 400;
     private final int height = 700;
     private double lastTime = 0;
@@ -49,10 +64,10 @@ public class TestPhysics extends JFrame {
     public TestPhysics(){
         physicManager  = PhysicManager.getInstance();
 
-        balls = new Ball[3];
+        balls = new Ball[1];
         balls[0] = new Ball(100,350);
-        balls[1] = new Ball(200,350);
-        balls[2] = new Ball(300, 350);
+        //balls[1] = new Ball(200,350);
+        //balls[2] = new Ball(300, 350);
 
 
         walls = new GameObject[4];
@@ -65,12 +80,25 @@ public class TestPhysics extends JFrame {
         walls[3] = new GameObject(width,height/2);
         ((BoxCollider) walls[3].addComponent(new BoxCollider(10, height, ColliderType.STATIC))).setTag("wall3");
 
+        bricks = new GameObject[3];
+        bricks[0] = new GameObject(100,300);
+        ((BoxCollider) bricks[0].addComponent(new BoxCollider(95, 60, ColliderType.STATIC))).setTag("brick0");
+        bricks[1] = new GameObject(200,300);
+        ((BoxCollider) bricks[1].addComponent(new BoxCollider(95, 60, ColliderType.STATIC))).setTag("brick1");
+        bricks[2] = new GameObject(300, 300);
+        ((BoxCollider) bricks[2].addComponent(new BoxCollider(95, 60, ColliderType.STATIC))).setTag("brick2");
+
+
         for(int i = 0; i < 4; i++)
             physicManager.addEntity((BoxCollider)(walls[i].getComponent("BoxCollider")));
 
-        for(int i = 0; i < 3; i++){
-            physicManager.addEntity((BoxCollider)(balls[i].getComponent("BoxCollider")));
+        for(int i = 0; i < 1; i++){
+            physicManager.addEntity((CircleCollider)(balls[i].getComponent("CircleCollider")));
         }
+
+        for(int i = 0; i < 3; i++)
+            physicManager.addEntity((BoxCollider)(bricks[i].getComponent("BoxCollider")));
+
         for(var ball: balls){
             ball.throwBall(-45);
         }

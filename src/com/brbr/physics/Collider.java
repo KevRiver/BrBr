@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-public class Collider extends Component {
+abstract public class Collider extends Component {
     String tag;
     ColliderType type;
 
@@ -20,8 +20,8 @@ public class Collider extends Component {
         this.type = type;
     }
 
-    public void setCenter(Vector2 position){ }
-
+    abstract public void setCenter(Vector2 position);
+    abstract public Vector2 getPositionRelativeTo(BoxCollider collider);
     public void setTag(String tag){
         this.tag = tag;
     }
