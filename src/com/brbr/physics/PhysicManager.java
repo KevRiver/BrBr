@@ -44,8 +44,8 @@ public class PhysicManager {
 
     /// kinematicObejects에 등록된 충돌체들과 static/trigger Objects에 등록된 충돌체들의 충돌 검사
     public void collisionCheck(){
-        for(var k: kinematicObjects){
-            for(var s: staticObjects){
+        for(Collider k: kinematicObjects){
+            for(Collider s: staticObjects){
                 if(checkOverlap(k,s)){
                     Debugger.Print("Collision Detected " + k.tag + ", " + s.tag);
                     k.gameObject.onCollisionEnter(s);
@@ -53,7 +53,7 @@ public class PhysicManager {
                 }
             }
 
-            for(var t: triggerObejcts){
+            for(Collider t: triggerObejcts){
                 if(checkOverlap(k,t)){
                     k.gameObject.onTriggerEnter(t);
                 }

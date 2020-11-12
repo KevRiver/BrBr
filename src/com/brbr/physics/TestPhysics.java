@@ -18,13 +18,13 @@ public class TestPhysics extends JFrame {
         public void paint(Graphics g) {
             super.paint(g);
 
-            for(var ball: balls){
+            for(Ball ball: balls){
                 Bounds bounds = ((BoxCollider)ball.getComponent("BoxCollider")).bounds;
                 g.setColor(Color.RED);
                 g.drawOval((int)bounds.getMinX(), (int)bounds.getMinY(), ball.size, ball.size);
             }
 
-            for(var wall: walls){
+            for(GameObject wall: walls){
                 int x, y, width, height;
                 BoxCollider collider = (BoxCollider)(wall.getComponent("BoxCollider"));
                 x = (int)(collider.bounds.getMinX());
@@ -71,7 +71,7 @@ public class TestPhysics extends JFrame {
         for(int i = 0; i < 3; i++){
             physicManager.addEntity((BoxCollider)(balls[i].getComponent("BoxCollider")));
         }
-        for(var ball: balls){
+        for(Ball ball: balls){
             ball.throwBall(-45);
         }
 
@@ -94,7 +94,7 @@ public class TestPhysics extends JFrame {
                 double dt = (System.currentTimeMillis() - lastTime) / 1000.0;
                 lastTime = System.currentTimeMillis();
                 physicManager.collisionCheck();
-                for(var ball: balls){
+                for(Ball ball: balls){
                     ball.update(dt);
                 }
 
