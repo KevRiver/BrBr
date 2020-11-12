@@ -36,9 +36,7 @@ public class Renderer extends JPanel {
         g.fillRect(0, Coordinates.GAME_FRAME_Y, getWidth(), Coordinates.GAME_FRAME_STROKE);
         g.fillRect(
                 0,
-                Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE +
-                        Coordinates.BRICK_HEIGHT * Coordinates.BRICK_GRID_HEIGHT +
-                        (Coordinates.BRICK_MARGIN + 1) * Coordinates.BRICK_GRID_HEIGHT,
+                Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + scene.frameHeight,
                 getWidth(),
                 Coordinates.GAME_FRAME_STROKE
         );

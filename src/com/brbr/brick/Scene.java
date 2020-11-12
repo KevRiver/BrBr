@@ -7,4 +7,9 @@ import java.util.List;
 
 public class Scene {
     public List<GameObject> gameObjectList = new ArrayList();
+    public int frameMarginTop = UNINITIALIZED;
+    public int frameWidth = UNINITIALIZED;
+    public int frameHeight = UNINITIALIZED;
+
+    private static final int UNINITIALIZED = -1;
 }

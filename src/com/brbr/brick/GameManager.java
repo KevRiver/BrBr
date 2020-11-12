@@ -1,5 +1,6 @@
 package com.brbr.brick;
 
+import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.render.Renderer;
@@ -27,6 +28,12 @@ public class GameManager {
         // TODO : init managers
         scene = new Scene();
         renderer = new Renderer(scene);
+
+        // init scene frame
+        scene.frameMarginTop = Coordinates.GAME_FRAME_Y;
+        scene.frameWidth = GAME_WIDTH;
+        scene.frameHeight = Coordinates.BRICK_HEIGHT * Coordinates.BRICK_GRID_HEIGHT +
+                (Coordinates.BRICK_MARGIN + 1) * Coordinates.BRICK_GRID_HEIGHT;
 
         // dummy data TODO : remove
         Random random = new Random();
