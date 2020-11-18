@@ -1,5 +1,6 @@
 package com.brbr.brick.physics;
 
+import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Bounds;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.math.MathExtention;
@@ -87,7 +88,7 @@ public class Ball extends GameObject {
             else
                 collisionPos = new Vector2(bound.getMaxX(), bound.getMaxY());
 
-            double rot = Math.atan2(collisionPos.y - transform.position.y, collisionPos.x - transform.position.x);
+            double rot = Math.atan2(transform.position.y - collisionPos.y, transform.position.x - collisionPos.x);
             setDirection(MathExtention.rad2deg(rot));
         }
         transform.translate(relativePosition);
