@@ -1,6 +1,7 @@
 package com.brbr.brick;
 
 import com.brbr.brick.assets.Coordinates;
+import com.brbr.brick.object.BallItem;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.object.Wall;
@@ -19,6 +20,7 @@ public class GameManager {
     private Scene scene;
     private Renderer renderer;
     private PhysicManager physicManager;
+    private AnimationManager animationManager;
 
     public GameManager() {
         init();
@@ -32,6 +34,7 @@ public class GameManager {
         scene = new Scene();
         renderer = new Renderer(scene);
         physicManager = new PhysicManager(scene);
+        animationManager = new AnimationManager(scene);
 
         // init scene frame
         scene.frameMarginTop = Coordinates.GAME_FRAME_Y;
@@ -60,6 +63,17 @@ public class GameManager {
             brick.health = random.nextInt(50) + 1;
             ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick0");
             scene.gameObjectList.add(brick);
+        }
+
+        for (int i = 0; i < 4; i++) {
+            BallItem item = new BallItem();
+            Transform transform = new Transform(
+                    (float) (random.nextInt(6)) * Coordinates.BRICK_WIDTH,
+                    (float) (random.nextInt(8)) * Coordinates.BRICK_HEIGHT
+            );
+            item.transform = transform;
+            scene.gameObjectList.add(item);
+
         }
 
         int[] ballXList = {100, 200, 300};
@@ -128,6 +142,9 @@ public class GameManager {
         // TODO : logic
 
         // TODO : level
+
+        // animation
+        animationManager.update(dt);
 
         // render
         renderer.repaint();
