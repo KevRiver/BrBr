@@ -31,7 +31,7 @@ public class GameManager {
         // TODO : init managers
         scene = new Scene();
         renderer = new Renderer(scene);
-        physicManager = PhysicManager.getInstance();
+        physicManager = new PhysicManager(scene);
 
         // init scene frame
         scene.frameMarginTop = Coordinates.GAME_FRAME_Y;
@@ -60,7 +60,6 @@ public class GameManager {
             brick.health = random.nextInt(50) + 1;
             ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick0");
             scene.gameObjectList.add(brick);
-            physicManager.addEntity((BoxCollider)(brick.getComponent("BoxCollider")));
         }
 
         int[] ballXList = {100, 200, 300};
@@ -68,7 +67,6 @@ public class GameManager {
         for (int ballX : ballXList) {
             Ball ball = new Ball(ballX, ballY);
             scene.gameObjectList.add(ball);
-            physicManager.addEntity((CircleCollider) (ball.getComponent("CircleCollider")));
             ball.throwBall(-45);
         }
 
@@ -85,13 +83,9 @@ public class GameManager {
         ((BoxCollider) wall4.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall3");
 
         scene.gameObjectList.add(wall1);
-        physicManager.addEntity((BoxCollider) (wall1.getComponent("BoxCollider")));
         scene.gameObjectList.add(wall2);
-        physicManager.addEntity((BoxCollider) (wall2.getComponent("BoxCollider")));
         scene.gameObjectList.add(wall3);
-        physicManager.addEntity((BoxCollider) (wall3.getComponent("BoxCollider")));
         scene.gameObjectList.add(wall4);
-        physicManager.addEntity((BoxCollider) (wall4.getComponent("BoxCollider")));
     }
 
     public void start() {
