@@ -74,7 +74,7 @@ public class CircleCollider extends Collider{
         }
 
         if(center.x >= bound.getMaxX() && center.y >= bound.getMaxY()){ // 사각형의 오른쪽 하단에 위치
-            Debugger.Print("Relatively righttDown");
+            Debugger.Print("Relatively rightDown");
             return Vector2.rightDown;
         }
 

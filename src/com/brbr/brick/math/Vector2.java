@@ -29,6 +29,21 @@ public class Vector2 extends Point2D.Double {
         return distance;
     }
 
+    public static Vector2 getNormalized(Vector2 dir){
+        double x = dir.x;
+        double y = dir.y;
+        final double m = Math.pow(x, 2) + Math.pow(y, 2);
+        return new Vector2(x / Math.sqrt(m), y/Math.sqrt(m));
+    }
+
+    public static void normalize(Vector2 dir){
+        double x = dir.x;
+        double y = dir.y;
+        final double m = Math.pow(x, 2) + Math.pow(y, 2);
+        dir.x = (dir.x / Math.sqrt(m));
+        dir.y = (dir.y / Math.sqrt(m));
+    }
+
     // add two vector
     public static Vector2 add(Vector2 lhs, Vector2 rhs){
         Vector2 ret = new Vector2(lhs.x + rhs.x, lhs.y+ rhs.y );
@@ -36,7 +51,7 @@ public class Vector2 extends Point2D.Double {
     }
     // subtract two vector
     public static Vector2 subtract(Vector2 lhs, Vector2 rhs){
-        Vector2 ret = new Vector2(lhs.x + rhs.x, lhs.y+ rhs.y );
+        Vector2 ret = new Vector2(lhs.x - rhs.x, lhs.y - rhs.y );
         return ret;
     }
     // multiply
