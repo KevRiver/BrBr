@@ -1,7 +1,6 @@
 package com.brbr.brick.physics;
 
 import com.brbr.brick.Scene;
-import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Bounds;
 import com.brbr.brick.math.Vector2;
 
@@ -44,7 +43,7 @@ public class PhysicManager {
         for (Collider k : getKinematicObjects()) {
             for (Collider s : getStaticObjects()) {
                 if (checkOverlap(k, s)) {
-                    Debugger.Print("Collision Detected " + k.tag + ", " + s.tag);
+                    //Debugger.Print("Collision Detected " + k.tag + ", " + s.tag);
                     k.gameObject.onCollisionEnter(s);
                     s.gameObject.onCollisionEnter(k);
                 }

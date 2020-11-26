@@ -1,6 +1,10 @@
 package com.brbr.brick.render;
 
+import com.brbr.brick.InputManager;
+import com.brbr.brick.UI.UI;
+import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
+import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Vector2;
 import com.brbr.brick.object.BallItem;
 import com.brbr.brick.object.Brick;
@@ -16,11 +20,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Renderer extends JPanel {
-
     private Scene scene;
+    private UIManager uiManager;
+
+    private InputManager inputManager; //Todo: delete
 
     public Renderer(Scene scene) {
         this.scene = scene;
+        uiManager = UIManager.getInstance();
+
+        //Todo: delete
+        inputManager = InputManager.getInstance();
+        addMouseListener(inputManager.mouseEventListener);
     }
 
     @Override
@@ -28,10 +39,11 @@ public class Renderer extends JPanel {
         super.paint(g);
 
         drawBackground(g);
-        drawGameFrame(g);
+        //drawGameFrame(g);
         drawGameObject(g);
 
         drawDebugText(g);
+        uiManager.drawUI(g);
     }
 
     private void drawBackground(Graphics g) {

@@ -1,6 +1,11 @@
 package com.brbr.brick;
 
+import com.brbr.brick.UI.ButtonClickCallback;
+import com.brbr.brick.UI.ButtonUI;
+import com.brbr.brick.UI.TextUI;
+import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
+import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.object.BallItem;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
@@ -20,6 +25,8 @@ public class GameManager {
     private Scene scene;
     private Renderer renderer;
     private PhysicManager physicManager;
+    private UIManager uiManager;
+    private InputManager inputManager;
     private AnimationManager animationManager;
 
     public GameManager() {
@@ -29,12 +36,12 @@ public class GameManager {
     private void init() {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         // TODO : init managers
         scene = new Scene();
         renderer = new Renderer(scene);
         physicManager = new PhysicManager(scene);
         animationManager = new AnimationManager(scene);
+        uiManager = UIManager.getInstance();
 
         // init scene frame
         scene.frameMarginTop = Coordinates.GAME_FRAME_Y;
@@ -43,6 +50,20 @@ public class GameManager {
                 (Coordinates.BRICK_MARGIN + 1) * Coordinates.BRICK_GRID_HEIGHT;
 
         createDummyData();
+        TextUI recordUI = new TextUI("Record: 0", new Vector2(scene.frameWidth / 2 - 48, 30), 20);
+        TextUI scoreUI = new TextUI("Score: 0", new Vector2(scene.frameWidth / 2 - 48, 60), 20);
+
+        //Todo: Delete
+        ButtonUI tmpButton = new ButtonUI("임시버튼", new Vector2(50, 15), 20, 100, 40,
+                new ButtonClickCallback() {
+                    @Override
+                    public void clicked() {
+                        Debugger.Print("button clicked");
+                    }
+                });
+        uiManager.addTextUI(recordUI);
+        uiManager.addTextUI(scoreUI);
+        uiManager.addButtonUI(tmpButton);
 
         frame.getContentPane().add(renderer);
         frame.setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -55,7 +76,7 @@ public class GameManager {
         for (int i = 0; i < 4; i++) {
             Vector2 vector2 = new Vector2();
             vector2.x = (float) (random.nextInt(6)) * Coordinates.BRICK_WIDTH;
-            vector2.y = (float) (random.nextInt(8)) * Coordinates.BRICK_HEIGHT;
+            vector2.y = (float) (random.nextInt(8)) * Coordinates.BRICK_HEIGHT + scene.frameMarginTop;
             Brick brick = new Brick();
             Transform transform = new Transform();
             transform.translate(vector2);
@@ -84,16 +105,16 @@ public class GameManager {
             ball.throwBall(-45);
         }
 
-        Wall wall1 = new Wall(scene.frameWidth / 2, 0);
+        Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop);
         ((BoxCollider) wall1.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall0");
 
-        Wall wall2 = new Wall(0, scene.frameHeight / 2);
+        Wall wall2 = new Wall(0, scene.frameHeight / 2 + scene.frameMarginTop);
         ((BoxCollider) wall2.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall1");
 
-        Wall wall3 = new Wall(scene.frameWidth / 2, scene.frameHeight);
+        Wall wall3 = new Wall(scene.frameWidth / 2, scene.frameHeight + scene.frameMarginTop);
         ((BoxCollider) wall3.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall2");
 
-        Wall wall4 = new Wall(scene.frameWidth, scene.frameHeight / 2);
+        Wall wall4 = new Wall(scene.frameWidth, scene.frameHeight / 2 + scene.frameMarginTop);
         ((BoxCollider) wall4.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall3");
 
         scene.gameObjectList.add(wall1);
