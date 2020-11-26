@@ -47,7 +47,7 @@ public class PhysicManager {
         for(Collider k: kinematicObjects){
             for(Collider s: staticObjects){
                 if(checkOverlap(k,s)){
-                    Debugger.Print("Collision Detected " + k.tag + ", " + s.tag);
+                    //Debugger.Print("Collision Detected " + k.tag + ", " + s.tag);
                     k.gameObject.onCollisionEnter(s);
                     s.gameObject.onCollisionEnter(k);
                 }

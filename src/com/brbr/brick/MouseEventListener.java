@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import com.brbr.brick.UI.UIManager;
 
 public class MouseEventListener implements MouseListener, MouseMotionListener {
     private boolean active;
@@ -45,6 +46,8 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     public void mousePressed(MouseEvent e) {
         try {
             source.setLocation(e.getX(),e.getY());
+            UIManager uiManager = UIManager.getInstance();
+            uiManager.buttonClickCheck(e.getX(), e.getY());
             Debugger.Print("Mouse Pressed ",source);
 
         }catch (Exception exception){
