@@ -50,17 +50,17 @@ public class RayTest extends JFrame {
         renderer.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
+                //((JPanel) e.getSource()).repaint();
+
+                Graphics g = ((JPanel) e.getSource()).getGraphics();
+                g.setColor(Color.GREEN);
                 destination.x = e.getX();
                 destination.y = e.getY();
                 direction = Vector2.subtract(destination, source);
-                //Vector2.normalize(direction);
+                Vector2.normalize(direction);
                 Debugger.Print("direction: " + direction.x + ", " + direction.y);
-                ArrayList<Vector2> rayPathPoints = (ArrayList<Vector2>) physicManager.getRayPath(source, direction, 100);
-                for(int i = 0; i < rayPathPoints.size(); i++){
-                    //Debugger.Print("point " + i + " : " + rayPathPoints.get(i).x + ", " + rayPathPoints.get(i).y);
-                }
-                Graphics g = ((JPanel) e.getSource()).getGraphics();
-                g.setColor(Color.GREEN);
+                ArrayList<Vector2> rayPathPoints = (ArrayList<Vector2>) physicManager.getRayPath(source, direction, 1000);
+
                 for(int i = 0; i < rayPathPoints.size() - 1; i++){
                     int sx = ((int) rayPathPoints.get(i).x);
                     int sy = ((int) rayPathPoints.get(i).y);
@@ -93,8 +93,8 @@ public class RayTest extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 // reset destination
-                //Graphics g = ((JPanel) e.getSource()).getGraphics();
-                //((JPanel) e.getSource()).repaint();
+                Graphics g = ((JPanel) e.getSource()).getGraphics();
+                ((JPanel) e.getSource()).repaint();
             }
 
             @Override

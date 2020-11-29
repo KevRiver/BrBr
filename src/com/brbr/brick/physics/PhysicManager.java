@@ -14,12 +14,14 @@ public class PhysicManager {
 
     private List<Collider> kinematicObjects;
     private List<Collider> staticObjects;
-    private List<Collider> triggerObejcts;
+    private List<Collider> triggerObjects;
+
+    private final double MIN_THRESHOLD = 0.01;
 
     private PhysicManager(){
         kinematicObjects = new ArrayList<>();
         staticObjects = new ArrayList<>();
-        triggerObejcts = new ArrayList<>();
+        triggerObjects = new ArrayList<>();
     }
 
     public static PhysicManager getInstance(){
@@ -38,7 +40,7 @@ public class PhysicManager {
                 Debugger.Print("static object added, current entities: " + staticObjects.size());
                 break;
             case TRIGGER:
-                triggerObejcts.add(collider);
+                triggerObjects.add(collider);
                 break;
         }
     }
@@ -54,7 +56,7 @@ public class PhysicManager {
                 }
             }
 
-            for(Collider t: triggerObejcts){
+            for(Collider t: triggerObjects){
                 if(checkOverlap(k,t)){
                     k.gameObject.onTriggerEnter(t);
                 }
@@ -66,22 +68,20 @@ public class PhysicManager {
         List<Vector2> points = new ArrayList<>();
         points.add(new Vector2(source.x, source.y));
         Vector2 src = new Vector2(source.x, source.y);
-        Vector2 dir = Vector2.getNormalized(direction);
-        RaycastHit hit = null;
+        RaycastHit hit;
         double travelRemain = length;
-        while(!(travelRemain <= 0)){
-            if((hit = raycast(src, dir, travelRemain)) != null){
-                Debugger.Print("Ray hit");
+        while(!(travelRemain <= 10)){
+            if((hit = raycast(src, direction, travelRemain)) != null){
                 points.add(new Vector2(hit.point.x, hit.point.y));
                 src.x = hit.point.x;
                 src.y = hit.point.y;
-                dir.x *= hit.reflect.x;
-                dir.y *= hit.reflect.y;
+                direction.x = hit.reflect.x > 0 ? direction.x : -direction.x;
+                direction.y = hit.reflect.y > 0 ? direction.y : -direction.y;
+                // direction not correct
                 travelRemain -= hit.distance;
             }else{
-                Vector2 normalized = Vector2.getNormalized(direction);
-                double x = source.x + normalized.x * travelRemain;
-                double y = source.y + normalized.y * travelRemain;
+                double x = src.x + direction.x * travelRemain;
+                double y = src.y + direction.y * travelRemain;
                 points.add(new Vector2(x,y));
                 travelRemain = 0;
             }
@@ -89,6 +89,7 @@ public class PhysicManager {
         return points;
     }
 
+    // simulate a ray, return hit data
     public RaycastHit raycast(final Vector2 source, final Vector2 dir, final double length){
         RaycastHit firstHit = null;
         RaycastHit hit;
@@ -101,119 +102,133 @@ public class PhysicManager {
                 } else {
                     double d0 = getDistance(source, firstHit.point);
                     double d1 = getDistance(source, hit.point);
-                    firstHit = d0 < d1 ? firstHit : hit;
+                    firstHit = d0 <= d1 ? firstHit : hit;
                 }
             }
-        }
-        if(firstHit != null){
-            Debugger.Print("Hit reflect: " + firstHit.reflect.x + ", " + firstHit.reflect.y);
         }
         return firstHit;
     }
 
     private RaycastHit isHit(final Vector2 source,final Vector2 dir,final double length,final Bounds bounds){
-        RaycastHit hit;
-        Vector2 contact = getPointOfContact(source, dir, bounds);
+        RaycastHit contact = getPointOfContact(source, dir, bounds);
         if(contact == null) return null;
-
-        double distance = Vector2.getDistance(source, contact);
-        if(distance <= length){ // ray hits the bounds
-            Debugger.Print("contact: " + contact.x +", "+ contact.y);
-            hit = new RaycastHit();
-            hit.point = contact;
-            hit.distance = distance;
-            if(contact.x == bounds.getMinX() || contact.x == bounds.getMaxX()){
-                hit.reflect.x = -1;
-                hit.reflect.y = 1;
-            } // flip by x axis
-            else{
-                hit.reflect.x = 1;
-                hit.reflect.y = -1;
-            } // flip by y axis
-            return hit;
-        }
-        return null;
+        if(contact.distance > length) return null;
+        return contact;
     }
 
-    private Vector2 getDeterminant(final Vector2 dir, final Bounds bounds){
-        Vector2 determinant = new Vector2();
-        Debugger.Print("getDeterminant::dir : " + dir.x + "," + dir.y);
-        if(dir.x > 0 && dir.y > 0){
-            determinant.x = bounds.getMinX();
-            determinant.y = bounds.getMinY();
-            Debugger.Print("Determinant min, min");
-        }else if(dir.x < 0 && dir.y > 0){
-            determinant.x = bounds.getMaxX();
-            determinant.y = bounds.getMinY();
-            Debugger.Print("Determinant max, min");
-        }else if(dir.x < 0 && dir.y < 0){
-            determinant.x = bounds.getMaxX();
-            determinant.y = bounds.getMaxY();
-            Debugger.Print("Determinant max, max");
-        }else if(dir.x > 0 && dir.y < 0){
-            determinant.x = bounds.getMinX();
-            determinant.y = bounds.getMaxY();
-            Debugger.Print("Determinant min, max");
-        }else if(dir.x == 0){
-            determinant.y =  dir.y > 0 ? bounds.getMinY() : bounds.getMaxY();
-            determinant.x = -10;
-        }else{
-            determinant.x =  dir.x > 0 ? bounds.getMinX(): bounds.getMaxX();
-            determinant.y = -10;
-        }
-        return determinant;
-    }
-
-    private Vector2 getPointOfContact(final Vector2 source, final Vector2 dir, final Bounds bounds){
-        Vector2 determinant;
-        Vector2 contact = new Vector2();
+    private RaycastHit getPointOfContact(final Vector2 source, final Vector2 dir, final Bounds bounds){
+        RaycastHit contact = new RaycastHit();
+        Vector2 determinant = getDeterminant(source, dir, bounds);
         double a, x, y, dx, dy;
-        try{
-            determinant = getDeterminant(dir, bounds);
-            if(determinant.x != -10){
-                a = dir.y / dir.x;
-                dx = determinant.x - source.x;
-                x = determinant.x;
-                dy = a * dx;
-                y = source.y + dy;
-                if(y > bounds.getMinY() && y <= bounds.getMaxY()) {
-                    contact.x = x;
-                    contact.y = y;
-                    Debugger.Print("contact: " + x + ", " + y);
-                    return contact; // contact detected from vertical axis
-                }
-            }
-            if(determinant.y != -10){
-                a = dir.x / dir.y;
-                dy = determinant.y - source.y;
-                y = determinant.y;
-                dx = a * dy;
-                x = source.x + dx;
-                if(x > bounds.getMinX() && x <= bounds.getMaxX()) {
-                    contact.x = x;
-                    contact.y = y;
-                    Debugger.Print("contact: " + x + ", " + y);
-                    return contact; // contact detected from horizontal axis
-                }
-            }
-            if(determinant.x != -1){
-                contact.x = source.x;
-                contact.y = determinant.y;
-            }else{
-                contact.x = determinant.x;
-                contact.y  = source.y;
-            }
+
+        if(determinant == null) return null;
+        // dir parallel to y axis
+        if(Math.abs(dir.x) <= MIN_THRESHOLD){
+            contact.point.x = source.x;
+            contact.point.y = determinant.y;
+            contact.distance = getDistance(source, contact.point);
+            contact.reflect.x = 1;
+            contact.reflect.y = -1;
             return contact;
-        } catch (Exception e){
+        }
+        // dir parallel to x axis
+        if(Math.abs(dir.y) <= MIN_THRESHOLD){
+            contact.point.x = determinant.x;
+            contact.point.y  = source.y;
+            contact.distance = getDistance(source, contact.point);
+            contact.reflect.x = -1;
+            contact.reflect.y = 1;
+            return contact;
+        }
+        // check if ray hit from sides
+        try {
+            a = dir.y / dir.x;
+            dx = determinant.x - source.x;
+            x = determinant.x;
+            dy = a * dx;
+            y = source.y + dy;
+            if (y > bounds.getMinY() && y <= bounds.getMaxY()) {
+                contact.point.x = x;
+                contact.point.y = y;
+                contact.distance = getDistance(source, contact.point);
+                contact.reflect.x = -1;
+                contact.reflect.y = 1;
+                return contact;
+            }
+        }catch (Exception e){
+            Debugger.Print(e.toString());
+        }
+
+        try {
+            a = dir.x / dir.y;
+            dy = determinant.y - source.y;
+            y = determinant.y;
+            dx = a * dy;
+            x = source.x + dx;
+            if (x > bounds.getMinX() && x <= bounds.getMaxX()) {
+                contact.point.x = x;
+                contact.point.y = y;
+                contact.distance = getDistance(source, contact.point);
+                contact.reflect.x = 1;
+                contact.reflect.y = -1;
+                return contact;
+            }
+        }catch (Exception e){
             Debugger.Print(e.toString());
         }
         return null;
     }
 
-    private boolean checkAABB(Collider k, Collider other){
-        boolean isIntersect = false;
-        // make AABB Logic
-        return isIntersect;
+    private Vector2 getDeterminant(final Vector2 source, final Vector2 dir, final Bounds bounds){
+        Vector2 determinant = new Vector2();
+
+        if(Math.abs(dir.x) <= MIN_THRESHOLD){ // orthogonal to x axis
+            if(dir.y > 0){
+                determinant.y = bounds.getMinY();
+                determinant.x = bounds.getMinX();
+                if(determinant.y < source.y) determinant = null;
+            }else{
+                determinant.y = bounds.getMaxY();
+                determinant.x = bounds.getMaxX();
+                if(determinant.y > source.y) determinant = null;
+            }
+            return determinant;
+        }
+        if(Math.abs(dir.y) <= MIN_THRESHOLD){ // orthogonal to y axis
+            if(dir.x > 0){
+                determinant.x = bounds.getMinX();
+                determinant.y = bounds.getMinY();
+                if(determinant.x < source.x) determinant = null;
+            }else{
+                determinant.x = bounds.getMaxX();
+                determinant.y = bounds.getMaxY();
+                if(determinant.x > source.x) determinant = null;
+            }
+            return determinant;
+        }
+
+        if(dir.x > 0 && dir.y > 0){
+            determinant.x = bounds.getMinX();
+            determinant.y = bounds.getMinY();
+            if(source.x > determinant.x && source.y > determinant.y)
+                determinant = null;
+        }else if(dir.x < 0 && dir.y > 0){
+            determinant.x = bounds.getMaxX();
+            determinant.y = bounds.getMinY();
+            if(source.x < determinant.x && source.y > determinant.y)
+                determinant = null;
+        }else if(dir.x < 0 && dir.y < 0){
+            determinant.x = bounds.getMaxX();
+            determinant.y = bounds.getMaxY();
+            if(source.x < determinant.x && source.y < determinant.y)
+                determinant = null;
+        }else if(dir.x > 0 && dir.y < 0){
+            determinant.x = bounds.getMinX();
+            determinant.y = bounds.getMaxY();
+            if(source.x > determinant.x && source.y < determinant.y)
+                determinant = null;
+        }
+        return determinant;
     }
 
     private boolean checkOverlap(Collider k, Collider other){
