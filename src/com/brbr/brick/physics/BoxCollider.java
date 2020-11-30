@@ -47,23 +47,23 @@ public class BoxCollider extends Collider{
 
     public Vector2 getPositionRelativeTo(BoxCollider collider){
         Bounds b = collider.bounds;
-        Debugger.Print(collider.tag +" "+ b.toString());
+        //Debugger.Print(collider.tag +" "+ b.toString());
         if(bounds.getMaxX() >= b.getMinX() && bounds.getMinX() < b.getMinX()){
             // 상대적으로 왼쪽에 위치함
-            Debugger.Print("Relatively left");
+            //Debugger.Print("Relatively left");
            return Vector2.left;
         }
         if(bounds.getMinX() <= b.getMaxX() && bounds.getMaxX() > b.getMaxX()){
             // 상대적으로 오른쪽에 위치함
-            Debugger.Print("Relatively right");
+            //Debugger.Print("Relatively right");
             return Vector2.right;
         }
         if(bounds.getMaxY() >= b.getMinY() && bounds.getMinY() < b.getMinY()){
-            Debugger.Print("Relatively down");
+            //Debugger.Print("Relatively down");
             // 상대적으로 아래쪽에 위치함
             return  Vector2.down;
         }
-        Debugger.Print("Relatively up");
+        //Debugger.Print("Relatively up");
         return Vector2.up;
 
     }

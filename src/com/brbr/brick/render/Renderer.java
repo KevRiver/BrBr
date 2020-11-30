@@ -1,13 +1,17 @@
 package com.brbr.brick.render;
 
+import com.brbr.brick.InputManager;
+import com.brbr.brick.UI.UI;
+import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
+import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Vector2;
+import com.brbr.brick.object.BallItem;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.Scene;
 import com.brbr.brick.assets.Colors;
 import com.brbr.brick.object.Wall;
-import com.brbr.brick.math.Bounds;
 import com.brbr.brick.physics.Ball;
 import com.brbr.brick.physics.BoxCollider;
 import com.brbr.brick.physics.CircleCollider;
@@ -16,11 +20,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Renderer extends JPanel {
-
     private Scene scene;
+    private UIManager uiManager;
+
+    private InputManager inputManager; //Todo: delete
 
     public Renderer(Scene scene) {
         this.scene = scene;
+        uiManager = UIManager.getInstance();
+
+        //Todo: delete
+        inputManager = InputManager.getInstance();
+        addMouseListener(inputManager.mouseEventListener);
     }
 
     @Override
@@ -28,10 +39,11 @@ public class Renderer extends JPanel {
         super.paint(g);
 
         drawBackground(g);
-        drawGameFrame(g);
+        //drawGameFrame(g);
         drawGameObject(g);
 
         drawDebugText(g);
+        uiManager.drawUI(g);
     }
 
     private void drawBackground(Graphics g) {
@@ -120,8 +132,31 @@ public class Renderer extends JPanel {
                 height = collider.bounds.getHeight();
                 g.setColor(Color.BLACK);
                 g.fillRect(x,y,width,height);
+            } else if (gameObject instanceof BallItem) {
+                BallItem ballItem = (BallItem) gameObject;
+                int x = (int) ballItem.transform.position.x;
+                int y = (int) ballItem.transform.position.y;
+
+                System.out.println(ballItem.animatedValue);
+                g.setColor(Color.GREEN);
+                drawOval(g, x, y, 15 + ballItem.animatedValue * 6);
+                g.setColor(Color.WHITE);
+                drawOval(g, x, y, 10 + ballItem.animatedValue * 6);
+                g.setColor(Color.GREEN);
+                drawOval(g, x, y, 10);
             }
         }
+    }
+
+    private void drawOval(Graphics g, float centerX, float centerY, float radius) {
+        float x = centerX - radius;
+        float y = centerY - radius;
+        g.fillOval(
+                Math.round(x),
+                Math.round(y),
+                Math.round(radius * 2),
+                Math.round(radius * 2)
+        );
     }
 
     private void drawDebugText(Graphics g) {
