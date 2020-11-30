@@ -94,6 +94,7 @@ public class BallShooter extends GameObject implements IEventListener<ReleaseEve
         y = releaseEvent.getMouseEvent().getY();
         Vector2 destination = new Vector2(x, y);
         Vector2 direction = Vector2.subtract(destination, transform.position);
+        Debugger.Print("Direction: (" + direction.x + ", " + direction.y + ")");
         // normalize direction
         setShootDirection(direction);
 

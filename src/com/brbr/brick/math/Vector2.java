@@ -36,7 +36,7 @@ public class Vector2 extends Point2D.Double {
     }
     // subtract two vector
     public static Vector2 subtract(Vector2 lhs, Vector2 rhs){
-        Vector2 ret = new Vector2(lhs.x + rhs.x, lhs.y+ rhs.y );
+        Vector2 ret = new Vector2(lhs.x - rhs.x, lhs.y - rhs.y );
         return ret;
     }
     // multiply

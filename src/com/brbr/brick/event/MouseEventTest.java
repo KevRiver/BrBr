@@ -1,6 +1,7 @@
 package com.brbr.brick.event;
 
 import com.brbr.brick.debug.Debugger;
+import com.brbr.brick.object.BallShooter;
 
 import javax.management.remote.JMXConnectorFactory;
 import javax.swing.*;
@@ -51,9 +52,7 @@ public class MouseEventTest {
 
             }
         });
-        MouseDraggedEventListener dragged = new MouseDraggedEventListener();
-        MousePressedEventListener pressed = new MousePressedEventListener();
-        MouseReleasedEventListener released = new MouseReleasedEventListener();
+        BallShooter ballShooter = new BallShooter(250, 480);
 
         frame.setVisible(true);
     }
