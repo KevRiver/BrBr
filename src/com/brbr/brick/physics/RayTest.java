@@ -2,6 +2,7 @@ package com.brbr.brick.physics;
 
 import com.brbr.brick.MouseEventListener;
 import com.brbr.brick.Scene;
+import com.brbr.brick.assets.Colors;
 import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.object.Brick;
@@ -17,6 +18,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -53,20 +55,21 @@ public class RayTest extends JFrame {
                 //((JPanel) e.getSource()).repaint();
 
                 Graphics g = ((JPanel) e.getSource()).getGraphics();
-                g.setColor(Color.GREEN);
+                Graphics2D g2 = ((Graphics2D) g);
+                g2.setColor(Colors.LINE_COLOR);
                 destination.x = e.getX();
                 destination.y = e.getY();
                 direction = Vector2.subtract(destination, source);
                 Vector2.normalize(direction);
-                Debugger.Print("direction: " + direction.x + ", " + direction.y);
                 ArrayList<Vector2> rayPathPoints = (ArrayList<Vector2>) physicManager.getRayPath(source, direction, 1000);
 
+                g2.setStroke(new BasicStroke(5));
                 for(int i = 0; i < rayPathPoints.size() - 1; i++){
                     int sx = ((int) rayPathPoints.get(i).x);
                     int sy = ((int) rayPathPoints.get(i).y);
                     int dx = ((int) rayPathPoints.get(i + 1).x);
                     int dy = ((int) rayPathPoints.get(i + 1).y);
-                    g.drawLine(sx, sy, dx, dy);
+                    g2.draw(new Line2D.Double(sx,sy,dx,dy));
                 }
             }
 
