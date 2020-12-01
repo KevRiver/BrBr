@@ -137,7 +137,6 @@ public class Renderer extends JPanel {
                 int x = (int) ballItem.transform.position.x;
                 int y = (int) ballItem.transform.position.y;
 
-                System.out.println(ballItem.animatedValue);
                 g.setColor(Color.GREEN);
                 drawOval(g, x, y, 15 + ballItem.animatedValue * 6);
                 g.setColor(Color.WHITE);
