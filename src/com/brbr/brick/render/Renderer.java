@@ -76,9 +76,9 @@ public class Renderer extends JPanel {
         }
         int[] healthLevelStep = new int[Colors.BRICK_COLOR_LEVEL.length];
         for (int i = 0; i < Colors.BRICK_COLOR_LEVEL.length; i++) {
-            healthLevelStep[i] = (maxBrickHealth - minBrickHealth) /
-                    Colors.BRICK_COLOR_LEVEL.length * i +
-                    minBrickHealth;
+            healthLevelStep[i] = (int) ((maxBrickHealth - minBrickHealth) /
+                    (float) Colors.BRICK_COLOR_LEVEL.length * (i + 1) +
+                    minBrickHealth);
         }
 
         for (GameObject gameObject : scene.gameObjectList) {
