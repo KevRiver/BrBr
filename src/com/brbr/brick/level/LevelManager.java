@@ -48,6 +48,7 @@ public class LevelManager {
                                 collider.bounds.getCenter().y + Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN
                         )
                 );
+                brick.animateMove();
             }
         }
 

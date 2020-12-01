@@ -1,18 +1,32 @@
 package com.brbr.brick.object;
 
-import com.brbr.brick.assets.Coordinates;
-
-public class Brick extends GameObject {
+public class Brick extends AnimationObject {
 
     public int health;
+    private boolean isMoving = false;
 
-    public int getAbsoluteX() {
-        int x = (int) transform.position.x;
-        return x * Coordinates.BRICK_WIDTH + (x + 1) * Coordinates.BRICK_MARGIN;
+    public Brick() {
+        animatedValue = 1f;
     }
 
-    public int getAbsoluteY() {
-        int y = (int) transform.position.y;
-        return y * Coordinates.BRICK_HEIGHT + (y + 1) * Coordinates.BRICK_MARGIN;
+    @Override
+    float getSpeed() {
+        if (isMoving) return 1 / 150f; else return 0f;
+    }
+
+    public void animateMove() {
+        animatedValue = 0f;
+        isMoving = true;
+    }
+
+    @Override
+    public void update(long dt) {
+        if (!isMoving) return;
+
+        animatedValue = animatedValue + getSpeed() * dt;
+        if (animatedValue > 1) {
+            isMoving = false;
+            animatedValue = 1f;
+        }
     }
 }

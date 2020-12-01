@@ -97,7 +97,7 @@ public class Renderer extends JPanel {
                 g.setColor(Colors.BRICK_COLOR_LEVEL[healthLevel]);
                 g.fillRect(
                         (int) (collider.bounds.getMinX()),
-                        (int) (collider.bounds.getMinY()),
+                        (int) (collider.bounds.getMinY() - (1 - brick.animatedValue) * Coordinates.BRICK_HEIGHT),
                         collider.bounds.getWidth(),
                         collider.bounds.getHeight()
                 );
