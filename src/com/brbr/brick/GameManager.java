@@ -6,6 +6,7 @@ import com.brbr.brick.UI.TextUI;
 import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.debug.Debugger;
+import com.brbr.brick.level.LevelManager;
 import com.brbr.brick.object.BallItem;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
@@ -26,6 +27,7 @@ public class GameManager {
     private Renderer renderer;
     private PhysicManager physicManager;
     private UIManager uiManager;
+    private LevelManager levelManager;
     private InputManager inputManager;
     private AnimationManager animationManager;
 
@@ -40,6 +42,7 @@ public class GameManager {
         scene = new Scene();
         renderer = new Renderer(scene);
         physicManager = new PhysicManager(scene);
+        levelManager = new LevelManager(scene);
         animationManager = new AnimationManager(scene);
         uiManager = UIManager.getInstance();
 
@@ -73,19 +76,6 @@ public class GameManager {
     // dummy data TODO : remove
     private void createDummyData() {
         Random random = new Random();
-        for (int i = 0; i < 4; i++) {
-            Vector2 vector2 = new Vector2();
-            vector2.x = (float) (random.nextInt(6)) * Coordinates.BRICK_WIDTH;
-            vector2.y = (float) (random.nextInt(8)) * Coordinates.BRICK_HEIGHT + scene.frameMarginTop;
-            Brick brick = new Brick();
-            Transform transform = new Transform();
-            transform.translate(vector2);
-            brick.transform = transform;
-            brick.health = random.nextInt(50) + 1;
-            ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick0");
-            scene.gameObjectList.add(brick);
-        }
-
         for (int i = 0; i < 4; i++) {
             BallItem item = new BallItem();
             Transform transform = new Transform(
@@ -162,7 +152,8 @@ public class GameManager {
 
         // TODO : logic
 
-        // TODO : level
+        // level
+        levelManager.update(dt);
 
         // animation
         animationManager.update(dt);

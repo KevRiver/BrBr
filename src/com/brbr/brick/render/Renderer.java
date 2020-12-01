@@ -85,37 +85,29 @@ public class Renderer extends JPanel {
             if (gameObject instanceof Brick) {
                 Brick brick = (Brick) gameObject;
 
-                int x, y, width, height;
+                int healthLevel = 0;
+                for (int i = 0; i < Colors.BRICK_COLOR_LEVEL.length; i++) {
+                    if (brick.health <= healthLevelStep[i]) {
+                        healthLevel = i;
+                        break;
+                    }
+                }
                 BoxCollider collider = (BoxCollider) (brick.getComponent("BoxCollider"));
-                x = (int) (collider.bounds.getMinX());
-                y = (int) (collider.bounds.getMinY());
-                width = collider.bounds.getWidth();
-                height = collider.bounds.getHeight();
-                g.setColor(Color.RED);
-                g.fillRect(x, y, width, height);
 
-//                int healthLevel = 0;
-//                for (int i = 0; i < Colors.BRICK_COLOR_LEVEL.length; i++) {
-//                    if (brick.health <= healthLevelStep[i]) {
-//                        healthLevel = i;
-//                        break;
-//                    }
-//                }
-//                g.setColor(Colors.BRICK_COLOR_LEVEL[healthLevel]);
-//                g.fillRect(
-//                        brick.getAbsoluteX(),
-//                        Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + brick.getAbsoluteY(),
-//                        Coordinates.BRICK_WIDTH,
-//                        Coordinates.BRICK_HEIGHT
-//                );
-//
-//                g.setColor(Color.WHITE);
-//                g.drawString(
-//                        String.valueOf(brick.health),
-//                        brick.getAbsoluteX() + Coordinates.BRICK_WIDTH / 2,
-//                        Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + brick.getAbsoluteY()
-//                                + Coordinates.BRICK_HEIGHT / 2
-//                );
+                g.setColor(Colors.BRICK_COLOR_LEVEL[healthLevel]);
+                g.fillRect(
+                        (int) (collider.bounds.getMinX()),
+                        (int) (collider.bounds.getMinY()),
+                        collider.bounds.getWidth(),
+                        collider.bounds.getHeight()
+                );
+
+                g.setColor(Color.WHITE);
+                g.drawString(
+                        String.valueOf(brick.health),
+                        (int) (collider.bounds.getCenter().x),
+                        (int) (collider.bounds.getCenter().y)
+                );
             } else if (gameObject instanceof Ball) {
                 Ball ball = (Ball) gameObject;
                 CircleCollider circle = ((CircleCollider)ball.getComponent("CircleCollider"));
