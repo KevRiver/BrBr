@@ -41,6 +41,7 @@ public class GameManager {
         renderer = new Renderer(scene);
         physicManager = new PhysicManager(scene);
         animationManager = new AnimationManager(scene);
+        inputManager = InputManager.getInstance();
         uiManager = UIManager.getInstance();
 
         // init scene frame
@@ -48,6 +49,8 @@ public class GameManager {
         scene.frameWidth = GAME_WIDTH;
         scene.frameHeight = Coordinates.BRICK_HEIGHT * Coordinates.BRICK_GRID_HEIGHT +
                 (Coordinates.BRICK_MARGIN + 1) * Coordinates.BRICK_GRID_HEIGHT;
+
+        inputManager.setTarget(renderer);
 
         createDummyData();
         TextUI recordUI = new TextUI("Record: 0", new Vector2(scene.frameWidth / 2 - 48, 30), 20);

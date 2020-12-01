@@ -1,5 +1,7 @@
 package com.brbr.brick;
 
+import javax.swing.*;
+
 public class InputManager {
     private static InputManager instance = null;
     public MouseEventListener mouseEventListener;
@@ -17,6 +19,10 @@ public class InputManager {
         mouseEventListener.setActive(activation);
     }
 
+    public void setTarget(JComponent component){
+        component.addMouseMotionListener(mouseEventListener);
+        component.addMouseListener(mouseEventListener);
+    }
 
 
 }
