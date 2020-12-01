@@ -5,6 +5,7 @@ import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.math.Transform;
 import com.brbr.brick.math.Vector2;
 import com.brbr.brick.object.Brick;
+import com.brbr.brick.object.GameObject;
 import com.brbr.brick.physics.BoxCollider;
 import com.brbr.brick.physics.ColliderType;
 
@@ -37,6 +38,19 @@ public class LevelManager {
     private void createNewLevel() {
         scene.level++;
 
+        for (GameObject gameObject : scene.gameObjectList) {
+            if (gameObject instanceof Brick) {
+                Brick brick = (Brick) gameObject;
+                BoxCollider collider = ((BoxCollider) brick.getComponent("BoxCollider"));
+                collider.setCenter(
+                        new Vector2(
+                                collider.bounds.getCenter().x,
+                                collider.bounds.getCenter().y + Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN
+                        )
+                );
+            }
+        }
+
         Random random = new Random();
 
         List<Integer> itemIndexList = new ArrayList<>();
@@ -52,7 +66,7 @@ public class LevelManager {
             Transform transform = new Transform();
             transform.translate(vector2);
             brick.transform = transform;
-            brick.health = random.nextInt(scene.level) + 1;
+            brick.health = scene.level;
             ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick0");
             scene.gameObjectList.add(brick);
         }
