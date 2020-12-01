@@ -1,9 +1,7 @@
 package com.brbr.brick.event;
 
-import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.object.BallShooter;
 
-import javax.management.remote.JMXConnectorFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -18,7 +16,7 @@ public class MouseEventTest {
         frame.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                DragEvent.getInstance().raise(e);
+                DragEventBus.getInstance().raise(e);
             }
 
             @Override
@@ -34,12 +32,12 @@ public class MouseEventTest {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                PressEvent.getInstance().raise(e);
+                PressEventBus.getInstance().raise(e);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                ReleaseEvent.getInstance().raise(e);
+                ReleaseEventBus.getInstance().raise(e);
             }
 
             @Override

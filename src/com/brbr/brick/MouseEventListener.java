@@ -4,9 +4,9 @@ import com.brbr.brick.debug.Debugger;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import com.brbr.brick.event.DragEvent;
-import com.brbr.brick.event.PressEvent;
-import com.brbr.brick.event.ReleaseEvent;
+import com.brbr.brick.event.DragEventBus;
+import com.brbr.brick.event.PressEventBus;
+import com.brbr.brick.event.ReleaseEventBus;
 
 public class MouseEventListener implements MouseListener, MouseMotionListener {
     private boolean active;
@@ -23,7 +23,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     @Override
     public void mousePressed(MouseEvent e) {
         try {
-            PressEvent.getInstance().raise(e);
+            PressEventBus.getInstance().raise(e);
             Debugger.Print("Mouse Pressed ");
         }catch (Exception exception){
             System.out.println(exception.toString());
@@ -32,7 +32,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
 
     public void mouseReleased(MouseEvent e) {
         try{
-            ReleaseEvent.getInstance().raise(e);
+            ReleaseEventBus.getInstance().raise(e);
             Debugger.Print("Mouse Released ");
         }catch (Exception exception){
             System.out.println(exception.toString());
@@ -47,7 +47,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     @Override
     public void mouseDragged(MouseEvent e) {
         try{
-            DragEvent.getInstance().raise(e);
+            DragEventBus.getInstance().raise(e);
         }catch (Exception exception){
             System.out.println(exception.toString());
         }

@@ -1,24 +1,23 @@
 package com.brbr.brick.event;
 
 import com.brbr.brick.debug.Debugger;
-import com.brbr.brick.math.Vector2;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PressEvent implements IEvent<IEventListener<PressEvent>, MouseEvent>{
-    private static PressEvent instance = null;
+public class PressEventBus implements IEventBus<IEventListener<PressEventBus>, MouseEvent> {
+    private static PressEventBus instance = null;
     private MouseEvent mouseEvent;
-    private List<IEventListener<PressEvent>> listeners;
+    private List<IEventListener<PressEventBus>> listeners;
 
-    private PressEvent(){
+    private PressEventBus(){
         listeners = new ArrayList<>();
     }
 
-    public static PressEvent getInstance(){
+    public static PressEventBus getInstance(){
         if(instance == null){
-            instance = new PressEvent();
+            instance = new PressEventBus();
         }
         return instance;
     }
@@ -35,13 +34,13 @@ public class PressEvent implements IEvent<IEventListener<PressEvent>, MouseEvent
     }
 
     @Override
-    public void addListener(IEventListener<PressEvent> listener) {
+    public void addListener(IEventListener<PressEventBus> listener) {
         listeners.add(listener);
         Debugger.Print("PressEvent listener added: " + listeners.size());
     }
 
     @Override
-    public void removeListener(IEventListener<PressEvent> listener) {
+    public void removeListener(IEventListener<PressEventBus> listener) {
         listeners.remove(listener);
         Debugger.Print("PressEvent listener removed: " + listeners.size());
     }

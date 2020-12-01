@@ -2,10 +2,10 @@ package com.brbr.brick.object;
 
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.event.IEventListener;
-import com.brbr.brick.event.ReleaseEvent;
+import com.brbr.brick.event.ReleaseEventBus;
 import com.brbr.brick.math.Vector2;
 
-public class BallShooter extends GameObject implements IEventListener<ReleaseEvent> {
+public class BallShooter extends GameObject implements IEventListener<ReleaseEventBus> {
     private double distanceBetweenBalls; // ball - ball distance;
     private double ballSpeed;
     private double shootInterval;
@@ -23,7 +23,7 @@ public class BallShooter extends GameObject implements IEventListener<ReleaseEve
     }
 
     public void init(){
-        register(ReleaseEvent.getInstance());
+        register(ReleaseEventBus.getInstance());
 
         ballSpeed = 500;
         distanceBetweenBalls = 20;
@@ -78,17 +78,17 @@ public class BallShooter extends GameObject implements IEventListener<ReleaseEve
     }
 
     @Override
-    public void register(ReleaseEvent releaseEvent) {
+    public void register(ReleaseEventBus releaseEvent) {
         releaseEvent.addListener(this);
     }
 
     @Override
-    public void deregister(ReleaseEvent releaseEvent) {
+    public void deregister(ReleaseEventBus releaseEvent) {
         releaseEvent.removeListener(this);
     }
 
     @Override
-    public void onEvent(ReleaseEvent releaseEvent) {
+    public void onEvent(ReleaseEventBus releaseEvent) {
         int x,y;
         x = releaseEvent.getMouseEvent().getX();
         y = releaseEvent.getMouseEvent().getY();

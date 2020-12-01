@@ -1,23 +1,22 @@
 package com.brbr.brick.event;
 
 import com.brbr.brick.debug.Debugger;
-import com.brbr.brick.math.Vector2;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReleaseEvent implements IEvent<IEventListener<ReleaseEvent>, MouseEvent>{
-    private static ReleaseEvent instance = null;
+public class ReleaseEventBus implements IEventBus<IEventListener<ReleaseEventBus>, MouseEvent> {
+    private static ReleaseEventBus instance = null;
     private MouseEvent mouseEvent;
-    private List<IEventListener<ReleaseEvent>> listeners;
+    private List<IEventListener<ReleaseEventBus>> listeners;
 
-    private ReleaseEvent(){
+    private ReleaseEventBus(){
         listeners = new ArrayList<>();
     }
-    public static ReleaseEvent getInstance(){
+    public static ReleaseEventBus getInstance(){
         if(instance == null){
-            instance = new ReleaseEvent();
+            instance = new ReleaseEventBus();
         }
         return instance;
     }
@@ -33,13 +32,13 @@ public class ReleaseEvent implements IEvent<IEventListener<ReleaseEvent>, MouseE
     }
 
     @Override
-    public void addListener(IEventListener<ReleaseEvent> listener) {
+    public void addListener(IEventListener<ReleaseEventBus> listener) {
         listeners.add(listener);
         Debugger.Print("ReleaseEvent listener added: " + listeners.size());
     }
 
     @Override
-    public void removeListener(IEventListener<ReleaseEvent> listener) {
+    public void removeListener(IEventListener<ReleaseEventBus> listener) {
         listeners.remove(listener);
         Debugger.Print("ReleaseEvent listener removed: " + listeners.size());
     }
