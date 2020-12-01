@@ -44,6 +44,10 @@ public class GameObject implements BRBehavior {
         return ret;
     }
 
+    public Map<String, Component> getComponents() {
+        return Map.copyOf(componentMap);
+    }
+
     public void removeComponent(String componentName){
         try{
             componentMap.remove(componentName);
