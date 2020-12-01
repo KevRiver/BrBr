@@ -159,7 +159,6 @@ public class GameManager {
         physicManager.collisionCheck();
 
         // TODO : input
-
         // TODO : logic
 
         // TODO : level

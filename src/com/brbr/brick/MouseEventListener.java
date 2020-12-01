@@ -1,5 +1,6 @@
 package com.brbr.brick;
 import com.brbr.brick.debug.Debugger;
+import com.brbr.brick.math.Vector2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +29,10 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     // Getter
     public Point getSource(){return source;}
     public Point getDestination(){return destination;}
+    public Vector2 getRelativePosition(Vector2 point){
+        Vector2 ret = new Vector2(point.x - destination.x, point.y - destination.y);
+        return ret;
+    }
 
     // Setter
     public void setActive(boolean activation){
@@ -59,7 +64,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
         try{
             destination.setLocation(e.getX(),e.getY());
             Debugger.Print("Mouse Released ",destination);
-            //((JPanel)e.getSource()).repaint();
+
         }catch (Exception exception){
             System.out.println(exception.toString());
         }
@@ -74,7 +79,6 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     public void mouseDragged(MouseEvent e) {
         try{
             destination.setLocation(e.getX(),e.getY());
-            ((JPanel)e.getSource()).repaint();
 
         }catch (Exception exception){
             System.out.println(exception.toString());
