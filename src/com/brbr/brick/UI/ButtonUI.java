@@ -1,5 +1,6 @@
 package com.brbr.brick.UI;
 
+import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Vector2;
 
 import java.awt.*;
@@ -12,29 +13,50 @@ public class ButtonUI implements UI{
     public int textSize;
     public int width;
     public int height;
+    public boolean visible = true;
+    public Color backgroundColor;
+    public Color textColor;
 
     public ButtonUI(String text){
         setText(text);
         position = new Vector2();
+
+        backgroundColor = Color.WHITE;
+        textColor = Color.BLACK;
     }
 
-    public ButtonUI(String text, Vector2 position, int textSize, int width, int height,
-                    ButtonClickCallback buttonClickCallback){
+    public ButtonUI(String text, Vector2 position, int textSize, int width, int height){
         this(text);
         setPosition(position);
         setTextSize(textSize);
         this.width = width;
         this.height = height;
+    }
+
+    public ButtonUI(String text, Vector2 position, int textSize, int width, int height,
+                    ButtonClickCallback buttonClickCallback){
+        this(text, position, textSize, width, height);
+        this.buttonClickCallback = buttonClickCallback;
+    }
+
+    public void setButtonClickCallback(ButtonClickCallback buttonClickCallback){
         this.buttonClickCallback = buttonClickCallback;
     }
 
     public void drawUI(Graphics g){
         g.setFont(new Font("Verdana", Font.BOLD, textSize));
+        g.setColor(textColor);
         g.drawRoundRect((int)position.x, (int)position.y, width, height, 10, 10);
+        g.setColor(backgroundColor);
+        g.fillRoundRect((int)position.x, (int)position.y, width, height, 10, 10);
 
-        g.drawString(text, (int)position.x + width / 2 - (textSize * text.length()) / 2,
-                (int)position.y + 15 + height / 2 - textSize / 2);
+        g.setColor(textColor);
+        g.drawString(text, (int)position.x + width / 2 - (int)((textSize * text.length()) * 0.65 / 2),
+                (int)position.y + 15 + height / 2 - (int)(textSize * 0.9 / 2));
     }
+
+    public void setBackgroundColor(Color color){ backgroundColor = color; }
+    public void setTextColor(Color color){ textColor = color; }
 
     public void setPosition(Vector2 position){
         this.position.x = position.x;
@@ -50,6 +72,7 @@ public class ButtonUI implements UI{
     }
 
     public void buttonClicked(){
+        if(!visible) return ;
         this.buttonClickCallback.clicked();
     }
 }
