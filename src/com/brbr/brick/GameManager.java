@@ -5,10 +5,7 @@ import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.level.LevelManager;
-import com.brbr.brick.object.BallItem;
-import com.brbr.brick.object.Brick;
-import com.brbr.brick.object.GameObject;
-import com.brbr.brick.object.Wall;
+import com.brbr.brick.object.*;
 import com.brbr.brick.physics.*;
 import com.brbr.brick.render.Renderer;
 import com.brbr.brick.math.Transform;
@@ -202,6 +199,9 @@ public class GameManager {
         scene.gameObjectList.add(wall2);
         scene.gameObjectList.add(wall3);
         scene.gameObjectList.add(wall4);
+
+        RayPath rayPath = new RayPath(scene.frameWidth / 2, scene.frameHeight - 50, 500);
+        scene.rayPath = rayPath;
     }
 
     public void start() {
@@ -271,6 +271,8 @@ public class GameManager {
     private void handleInput(InputData inputData){
         if(inputData == null) return;
         uiManager.buttonClickCheck(inputData);
+        physicManager.handleInput(inputData);
+
     }
     private final static int GAME_WIDTH = 605;
     private final static int GAME_HEIGHT = 800;
