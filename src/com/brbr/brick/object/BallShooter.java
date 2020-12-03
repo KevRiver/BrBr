@@ -1,16 +1,26 @@
 package com.brbr.brick.object;
 
+import com.brbr.brick.core.ISchedulable;
+import com.brbr.brick.core.Scheduler;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.event.IEventListener;
+import com.brbr.brick.event.PressEventBus;
 import com.brbr.brick.event.ReleaseEventBus;
 import com.brbr.brick.math.Vector2;
+import com.brbr.brick.physics.Ball;
 
-public class BallShooter extends GameObject implements IEventListener<ReleaseEventBus> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class BallShooter extends GameObject {
     private double distanceBetweenBalls; // ball - ball distance;
     private double ballSpeed;
     private double shootInterval;
     private Vector2 shootDirection;
-    private int ammo;
+    private List<Ball> balls;
+    private int ballIndex;
+    private ReleaseEventListener releaseEventListener;
+    private PressEventListener pressEventListener;
 
     // constructor
     public BallShooter(){
@@ -23,21 +33,16 @@ public class BallShooter extends GameObject implements IEventListener<ReleaseEve
     }
 
     public void init(){
-        register(ReleaseEventBus.getInstance());
+        releaseEventListener = new ReleaseEventListener();
+        pressEventListener = new PressEventListener();
 
         ballSpeed = 500;
         distanceBetweenBalls = 20;
         setShootInterval(distanceBetweenBalls, ballSpeed);
         shootDirection = new Vector2();
-        ammo = 1;
     }
 
     // setter
-    public void setPosition(Vector2 position){
-        transform.position.x = position.x;
-        transform.position.y = position.y;
-    }
-
     public void setBallSpeed(double _ballSpeed){
         if(_ballSpeed <= 0){
             ballSpeed = 500;
@@ -60,44 +65,70 @@ public class BallShooter extends GameObject implements IEventListener<ReleaseEve
     }
 
     public void setAmmo(int _ammo){
-        ammo = _ammo > 0 ? _ammo : 1;
-    }
-
-    public void addAmmo(int _ammo){
-        ammo = _ammo > 0 ? ammo + _ammo : ammo;
-    }
-
-    // method
-    private void fire(){
-        for(int i = 0; i < ammo; i++){
-            // throw ball
-            // ball.setDirection(shootDirection)
-            // wait for interval -> need coroutine
-
+        balls.clear();
+        for(int i = 0; i < _ammo; i++){
+            balls.add(new Ball());
         }
     }
 
-    @Override
-    public void register(ReleaseEventBus releaseEvent) {
-        releaseEvent.addListener(this);
+    public void addAmmo(int _ammo){
+        for(int i = 0; i < _ammo; i++){
+            balls.add(new Ball());
+        }
     }
 
-    @Override
-    public void deregister(ReleaseEventBus releaseEvent) {
-        releaseEvent.removeListener(this);
+    private void requestFire(){    }
+    private void fire(int i){    }
+
+    class ReleaseEventListener implements IEventListener<ReleaseEventBus>{
+        public ReleaseEventListener(){
+            register(ReleaseEventBus.getInstance());
+        }
+        @Override
+        public void register(ReleaseEventBus releaseEventBus) {
+            releaseEventBus.addListener(this);
+        }
+
+        @Override
+        public void deregister(ReleaseEventBus releaseEventBus) {
+            releaseEventBus.removeListener(this);
+        }
+
+        @Override
+        public void onEvent(ReleaseEventBus releaseEventBus) {
+            double x = releaseEventBus.getMouseEvent().getX();
+            double y = releaseEventBus.getMouseEvent().getY();
+            Debugger.Print("Released: (" + x + ", " + y + ")");
+            Vector2 destination = new Vector2(x, y);
+            Vector2 direction = Vector2.subtract(destination, transform.position);
+            Debugger.Print("Direction: (" + direction.x + ", " + direction.y + ")");
+            // TODO: normalize direction
+            setShootDirection(direction);
+
+            ballIndex = 0;
+            requestFire();
+        }
     }
 
-    @Override
-    public void onEvent(ReleaseEventBus releaseEvent) {
-        int x,y;
-        x = releaseEvent.getMouseEvent().getX();
-        y = releaseEvent.getMouseEvent().getY();
-        Vector2 destination = new Vector2(x, y);
-        Vector2 direction = Vector2.subtract(destination, transform.position);
-        Debugger.Print("Direction: (" + direction.x + ", " + direction.y + ")");
-        // normalize direction
-        setShootDirection(direction);
+    class PressEventListener implements IEventListener<PressEventBus>{
+        public PressEventListener(){
+            register(PressEventBus.getInstance());
+        }
+        @Override
+        public void register(PressEventBus pressEventBus) {
+            pressEventBus.addListener(this);
+        }
 
-        fire();
+        @Override
+        public void deregister(PressEventBus pressEventBus) {
+            pressEventBus.removeListener(this);
+        }
+
+        @Override
+        public void onEvent(PressEventBus pressEventBus) {
+            double x = pressEventBus.getMouseEvent().getX();
+            double y = pressEventBus.getMouseEvent().getY();
+            Debugger.Print("Pressed: (" + x + ", " + y + ")");
+        }
     }
 }

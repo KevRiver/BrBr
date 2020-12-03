@@ -1,5 +1,6 @@
 package com.brbr.brick.event;
 
+import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.object.BallShooter;
 
 import javax.swing.*;

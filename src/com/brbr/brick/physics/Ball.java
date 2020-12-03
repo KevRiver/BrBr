@@ -37,13 +37,18 @@ public class Ball extends GameObject {
         direction.y = Math.sin(rad);
     }
 
-    public void setDirection(Vector2 dir){
+    public void setDirection(final Vector2 dir){
         direction.x = dir.x;
         direction.y = dir.y;
     }
 
     public void throwBall(double rot){
         setDirection(rot);
+        isMoving = true;
+    }
+
+    public void throwBall(Vector2 _direction){
+        setDirection(_direction);
         isMoving = true;
     }
 

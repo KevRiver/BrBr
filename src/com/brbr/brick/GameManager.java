@@ -5,6 +5,7 @@ import com.brbr.brick.UI.ButtonUI;
 import com.brbr.brick.UI.TextUI;
 import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
+import com.brbr.brick.core.Scheduler;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.object.BallItem;
 import com.brbr.brick.object.Brick;
@@ -27,6 +28,7 @@ public class GameManager {
     private PhysicManager physicManager;
     private UIManager uiManager;
     private InputManager inputManager;
+    private Scheduler scheduler;
     private AnimationManager animationManager;
 
     public GameManager() {
@@ -42,6 +44,7 @@ public class GameManager {
         physicManager = new PhysicManager(scene);
         animationManager = new AnimationManager(scene);
         inputManager = InputManager.getInstance();
+        scheduler = Scheduler.getInstance();
         uiManager = UIManager.getInstance();
 
         // init scene frame
@@ -102,11 +105,11 @@ public class GameManager {
 
         int[] ballXList = {100, 200, 300};
         int ballY = 350;
-        for (int ballX : ballXList) {
+        /*for (int ballX : ballXList) {
             Ball ball = new Ball(ballX, ballY);
             scene.gameObjectList.add(ball);
             ball.throwBall(-45);
-        }
+        }*/
 
         Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop);
         ((BoxCollider) wall1.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall0");
@@ -167,6 +170,8 @@ public class GameManager {
 
         // TODO : level
 
+        // scheduler
+        scheduler.update(dt);
         // animation
         animationManager.update(dt);
 

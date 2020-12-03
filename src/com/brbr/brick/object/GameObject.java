@@ -4,6 +4,7 @@ import com.brbr.brick.core.BRBehavior;
 import com.brbr.brick.core.Component;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Transform;
+import com.brbr.brick.math.Vector2;
 import com.brbr.brick.physics.Collider;
 
 import java.util.HashMap;
@@ -23,8 +24,7 @@ public class GameObject implements BRBehavior {
     public GameObject(int x, int y){
         this();
         // set GameObject's position to (x, y)
-        transform.position.x = x;
-        transform.position.y = y;
+        setPosition(new Vector2(x,y));
     }
 
     public <T extends Component> Component addComponent(T component){
@@ -54,6 +54,11 @@ public class GameObject implements BRBehavior {
         }catch (Exception exception){
             Debugger.Print(exception.toString());
         }
+    }
+
+    public void setPosition(Vector2 position){
+        transform.position.x = position.x;
+        transform.position.y = position.y;
     }
 
     @Override
