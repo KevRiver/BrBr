@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class LevelManager {
 
@@ -26,6 +27,14 @@ public class LevelManager {
         if (scene.needLevelUpdate) {
             createNewLevel();
             scene.needLevelUpdate = false;
+        } else {
+            scene.gameObjectList = scene.gameObjectList.stream()
+                    .filter(gameObject -> {
+                        if (gameObject instanceof Brick) {
+                            return ((Brick) gameObject).health > 0;
+                        } else return true;
+                    })
+                    .collect(Collectors.toList());
         }
     }
 
@@ -46,24 +55,27 @@ public class LevelManager {
             }
         }
 
-        Random random = new Random();
+        scene.scheduler.postDelayed(100, () -> {
+                    Random random = new Random();
 
-        List<Integer> itemIndexList = new ArrayList<>();
-        for (int i = 0; i < 6; i++) itemIndexList.add(i);
-        Collections.shuffle(itemIndexList);
-        itemIndexList = itemIndexList.subList(0, random.nextInt(3) + 2);
+                    List<Integer> itemIndexList = new ArrayList<>();
+                    for (int i = 0; i < 6; i++) itemIndexList.add(i);
+                    Collections.shuffle(itemIndexList);
+                    itemIndexList = itemIndexList.subList(0, random.nextInt(3) + 2);
 
-        for (int index : itemIndexList) {
-            Vector2 vector2 = new Vector2();
-            vector2.x = (float) index * (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN) + (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN + Coordinates.GAME_FRAME_STROKE) / 2f;
-            vector2.y = (float) Coordinates.BRICK_HEIGHT / 2f + scene.frameMarginTop + Coordinates.GAME_FRAME_STROKE;
-            Brick brick = new Brick();
-            Transform transform = new Transform();
-            transform.translate(vector2);
-            brick.transform = transform;
-            brick.health = scene.level;
-            ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick0");
-            scene.gameObjectList.add(brick);
-        }
+                    for (int index : itemIndexList) {
+                        Vector2 vector2 = new Vector2();
+                        vector2.x = (float) index * (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN) + (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN + Coordinates.GAME_FRAME_STROKE) / 2f;
+                        vector2.y = (float) Coordinates.BRICK_HEIGHT / 2f + scene.frameMarginTop + Coordinates.GAME_FRAME_STROKE;
+                        Brick brick = new Brick();
+                        Transform transform = new Transform();
+                        transform.translate(vector2);
+                        brick.transform = transform;
+                        brick.health = scene.level;
+                        ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick0");
+                        scene.gameObjectList.add(brick);
+                    }
+                }
+        );
     }
 }

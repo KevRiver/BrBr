@@ -1,5 +1,7 @@
 package com.brbr.brick.object;
 
+import com.brbr.brick.physics.Collider;
+
 public class Brick extends AnimationObject {
 
     public int health;
@@ -28,5 +30,10 @@ public class Brick extends AnimationObject {
             isMoving = false;
             animatedValue = 1f;
         }
+    }
+
+    @Override
+    public void onCollisionEnter(Collider collider) {
+        this.health--;
     }
 }
