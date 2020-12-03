@@ -202,6 +202,13 @@ public class GameManager {
         scene.gameObjectList.add(wall2);
         scene.gameObjectList.add(wall3);
         scene.gameObjectList.add(wall4);
+
+        // TODO : 공이 전부 소진 된 후 다음 레벨로 바뀌도록 변경 필요
+        for (int i = 0; i < 100; i++) {
+            scene.scheduler.postDelayed(i * 5000, () -> {
+                scene.needLevelUpdate = true;
+            });
+        }
     }
 
     public void start() {

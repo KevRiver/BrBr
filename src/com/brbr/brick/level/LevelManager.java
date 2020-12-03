@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class LevelManager {
 
@@ -26,6 +27,14 @@ public class LevelManager {
         if (scene.needLevelUpdate) {
             createNewLevel();
             scene.needLevelUpdate = false;
+        } else {
+            scene.gameObjectList = scene.gameObjectList.stream()
+                    .filter(gameObject -> {
+                        if (gameObject instanceof Brick) {
+                            return ((Brick) gameObject).health > 0;
+                        } else return true;
+                    })
+                    .collect(Collectors.toList());
         }
     }
 
