@@ -38,6 +38,7 @@ public class InputManager {
 
     public InputData poll(){
         if(input.isEmpty()){
+            Debugger.Print("Queue is empty");
             return null;
         }
         return input.poll();
@@ -47,7 +48,10 @@ public class InputManager {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-
+            if(!isActive) return;
+            Debugger.Print("MouseClicked");
+            InputData inputData = new InputData(InputData.InputType.Click, e.getX(), e.getY());
+            input.add(inputData);
         }
 
         @Override

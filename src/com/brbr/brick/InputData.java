@@ -4,7 +4,8 @@ public class InputData {
     public enum InputType{
         Press,
         Drag,
-        Release
+        Release,
+        Click
     }
     public InputType type;
     public int x, y; // pointer position
