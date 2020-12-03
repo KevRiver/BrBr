@@ -236,13 +236,13 @@ public class GameManager {
     }
 
     private void loop(long dt) {
-        switch(scene.gameStatus){
+        /*switch(scene.gameStatus){
             case Scene.BEFORE_GAME:
             case Scene.END_GAME:
             case Scene.PAUSE_GAME:
                 renderer.repaint();
                 return ;
-        }
+        }*/
 
         // scheduler
         scene.scheduler.update();
@@ -251,8 +251,7 @@ public class GameManager {
         physicManager.collisionCheck();
 
         // TODO : input
-        InputData inputData = inputManager.poll();
-        uiManager.buttonClickCheck(inputData);
+        handleInput(inputManager.poll());
 
         // TODO : logic
 
@@ -273,6 +272,10 @@ public class GameManager {
         }
     }
 
+    private void handleInput(InputData inputData){
+        if(inputData == null) return;
+        uiManager.buttonClickCheck(inputData);
+    }
     private final static int GAME_WIDTH = 605;
     private final static int GAME_HEIGHT = 800;
 }
