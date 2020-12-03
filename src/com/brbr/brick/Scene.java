@@ -24,7 +24,7 @@ public class Scene {
     public int frameWidth = UNINITIALIZED;
     public int frameHeight = UNINITIALIZED;
 
-    public boolean needLevelUpdate = false;
+    public boolean needLevelUpdate = true;
 
     private static final int UNINITIALIZED = -1;
 
