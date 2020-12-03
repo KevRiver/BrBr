@@ -57,7 +57,6 @@ public class InputManager {
         @Override
         public void mousePressed(MouseEvent e) {
             if(!isActive) return;
-            if(input.size() > INPUT_LIMIT) return;
             InputData inputData = new InputData(InputData.InputType.Press, e.getX(), e.getY());
             input.add(inputData);
         }
