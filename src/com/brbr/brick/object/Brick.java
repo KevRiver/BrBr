@@ -34,7 +34,6 @@ public class Brick extends AnimationObject {
 
     @Override
     public void onCollisionEnter(Collider collider) {
-        super.onCollisionEnter(collider);
         this.health--;
     }
 }
