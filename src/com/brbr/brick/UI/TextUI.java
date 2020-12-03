@@ -8,6 +8,7 @@ public class TextUI implements UI{
     public String text;
     public Vector2 position;
     public int textSize;
+    public boolean visible = true;
 
     public TextUI(String text){
         setText(text);
@@ -21,6 +22,7 @@ public class TextUI implements UI{
     }
 
     public void drawUI(Graphics g){
+        g.setColor(Color.BLACK);
         g.setFont(new Font("Verdana", Font.BOLD, textSize));
         g.drawString(text, (int)position.x, (int)position.y);
     }

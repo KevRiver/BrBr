@@ -1,11 +1,8 @@
 package com.brbr.brick;
 
-import com.brbr.brick.UI.ButtonClickCallback;
-import com.brbr.brick.UI.ButtonUI;
-import com.brbr.brick.UI.TextUI;
+import com.brbr.brick.UI.*;
 import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
-import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.object.BallItem;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
@@ -16,10 +13,10 @@ import com.brbr.brick.math.Transform;
 import com.brbr.brick.math.Vector2;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Random;
 
 public class GameManager {
-
     private final Thread gameThread = createGameThread();
 
     private Scene scene;
@@ -28,6 +25,10 @@ public class GameManager {
     private UIManager uiManager;
     private InputManager inputManager;
     private AnimationManager animationManager;
+
+    private UILayer beforeLayer;
+    private UILayer pauseLayer;
+    private UILayer proceedingLayer;
 
     public GameManager() {
         init();
@@ -50,24 +51,111 @@ public class GameManager {
                 (Coordinates.BRICK_MARGIN + 1) * Coordinates.BRICK_GRID_HEIGHT;
 
         createDummyData();
-        TextUI recordUI = new TextUI("Record: 0", new Vector2(scene.frameWidth / 2 - 48, 30), 20);
-        TextUI scoreUI = new TextUI("Score: 0", new Vector2(scene.frameWidth / 2 - 48, 60), 20);
 
-        //Todo: Delete
-        ButtonUI tmpButton = new ButtonUI("임시버튼", new Vector2(50, 15), 20, 100, 40,
-                new ButtonClickCallback() {
-                    @Override
-                    public void clicked() {
-                        Debugger.Print("button clicked");
-                    }
-                });
-        uiManager.addTextUI(recordUI);
-        uiManager.addTextUI(scoreUI);
-        uiManager.addButtonUI(tmpButton);
+        setProceedingUI();
+        setBeforeUI();
+        setPauseUI();
+
+        beforeGame();
 
         frame.getContentPane().add(renderer);
         frame.setSize(GAME_WIDTH, GAME_HEIGHT);
         frame.setVisible(true);
+    }
+
+    private void setBeforeUI(){
+        beforeLayer = new UILayer();
+
+        Color backgroundColor = new Color(251, 136, 54);
+        Color textColor = Color.WHITE;
+
+        ButtonUI startButton = new ButtonUI("Game Start", new Vector2(GAME_WIDTH / 2 - 100, GAME_HEIGHT / 2 - 55),
+                20, 200, 50);
+        startButton.setBackgroundColor(backgroundColor);
+        startButton.setTextColor(textColor);
+
+        ButtonUI quitButton = new ButtonUI("Quit", new Vector2(GAME_WIDTH / 2 - 100, GAME_HEIGHT / 2),
+                20, 200, 50);
+        quitButton.setBackgroundColor(backgroundColor);
+        quitButton.setTextColor(textColor);
+
+        startButton.setButtonClickCallback(() -> {
+            startGame();
+        });
+
+        quitButton.setButtonClickCallback(() -> { });
+
+        beforeLayer.addButtonUI(startButton);
+        beforeLayer.addButtonUI(quitButton);
+
+        beforeLayer.background = true;
+
+        uiManager.addLayer(beforeLayer);
+    }
+
+    private void setProceedingUI(){
+        proceedingLayer = new UILayer();
+        TextUI recordUI = new TextUI("RECORD: 0", new Vector2(scene.frameWidth / 2 - 48, 30), 20);
+        TextUI scoreUI = new TextUI("SCORE: 0", new Vector2(scene.frameWidth / 2 - 48, 60), 20);
+
+        ButtonUI pauseButton = new ButtonUI("Ⅱ", new Vector2(scene.frameWidth - 50, 15),
+                20, 40, 40);
+        pauseButton.setButtonClickCallback(() -> {
+            pauseGame();
+        });
+
+        proceedingLayer.addTextUI(recordUI);
+        proceedingLayer.addTextUI(scoreUI);
+        proceedingLayer.addButtonUI(pauseButton);
+
+        uiManager.addLayer(proceedingLayer);
+    }
+
+    private void setPauseUI(){
+        pauseLayer = new UILayer();
+
+        Color backgroundColor = new Color(251, 136, 54);
+        Color textColor = Color.WHITE;
+
+        ButtonUI resumeButton = new ButtonUI("resume", new Vector2(GAME_WIDTH / 2 - 90, GAME_HEIGHT / 2 - 40),
+                20, 180, 50);
+
+        resumeButton.setButtonClickCallback(() -> {
+            startGame();
+        });
+        resumeButton.setBackgroundColor(backgroundColor);
+        resumeButton.setTextColor(textColor);
+
+        pauseLayer.addButtonUI(resumeButton);
+
+        pauseLayer.background = true;
+
+        uiManager.addLayer(pauseLayer);
+    }
+
+    private void beforeGame(){
+        scene.gameStatus = Scene.BEFORE_GAME;
+        beforeLayer.setVisible(true);
+        pauseLayer.setVisible(false);
+        proceedingLayer.setClickUnable(true);
+    }
+
+    private void startGame(){
+        scene.gameStatus = Scene.PROCEEDING_GAME;
+        beforeLayer.setVisible(false);
+        pauseLayer.setVisible(false);
+        proceedingLayer.setClickUnable(false);
+    }
+
+    private void pauseGame(){
+        scene.gameStatus = Scene.PAUSE_GAME;
+        beforeLayer.setVisible(false);
+        pauseLayer.setVisible(true);
+        proceedingLayer.setClickUnable(true);
+    }
+
+    private void endGame(){
+        scene.gameStatus = Scene.END_GAME;
     }
 
     // dummy data TODO : remove
@@ -155,6 +243,13 @@ public class GameManager {
     }
 
     private void loop(long dt) {
+        switch(scene.gameStatus){
+            case Scene.BEFORE_GAME:
+            case Scene.END_GAME:
+            case Scene.PAUSE_GAME:
+                renderer.repaint();
+                return ;
+        }
         // TODO : physic
         physicManager.collisionCheck();
 
