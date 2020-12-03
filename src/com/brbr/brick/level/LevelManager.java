@@ -23,15 +23,9 @@ public class LevelManager {
     }
 
     public void update(long dt) {
-        switch (scene.gameState) {
-            case INIT -> scene.gameState = GameState.NEED_LEVEL_UPDATE;
-            case NEED_LEVEL_UPDATE -> {
-                createNewLevel();
-                scene.gameState = GameState.PLAYING;
-            }
-            case PLAYING -> {
-                // no-op
-            }
+        if (scene.needLevelUpdate) {
+            createNewLevel();
+            scene.needLevelUpdate = false;
         }
     }
 
@@ -71,11 +65,5 @@ public class LevelManager {
             ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick0");
             scene.gameObjectList.add(brick);
         }
-    }
-
-    public enum GameState {
-        INIT,
-        NEED_LEVEL_UPDATE,
-        PLAYING
     }
 }

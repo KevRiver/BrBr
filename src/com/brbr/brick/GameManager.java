@@ -62,7 +62,7 @@ public class GameManager {
                     @Override
                     public void clicked() {
                         Debugger.Print("button clicked");
-                        scene.gameState = LevelManager.GameState.NEED_LEVEL_UPDATE;
+                        scene.needLevelUpdate = true;
                     }
                 });
         uiManager.addTextUI(recordUI);
