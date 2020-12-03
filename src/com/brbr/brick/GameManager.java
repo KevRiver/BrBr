@@ -46,8 +46,10 @@ public class GameManager {
         physicManager = new PhysicManager(scene);
         levelManager = new LevelManager(scene);
         animationManager = new AnimationManager(scene);
+        inputManager = InputManager.getInstance();
         uiManager = UIManager.getInstance();
 
+        inputManager.setTarget();
         // init scene frame
         scene.frameMarginTop = Coordinates.GAME_FRAME_Y;
         scene.frameWidth = GAME_WIDTH;
@@ -245,6 +247,7 @@ public class GameManager {
         physicManager.collisionCheck();
 
         // TODO : input
+        InputData inputData = inputManager.poll();
         // TODO : logic
 
         // level
