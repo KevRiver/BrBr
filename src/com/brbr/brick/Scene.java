@@ -1,6 +1,7 @@
 package com.brbr.brick;
 
 import com.brbr.brick.object.GameObject;
+import com.brbr.brick.object.RayPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class Scene {
     public int gameStatus = BEFORE_GAME;
 
     public List<GameObject> gameObjectList = new ArrayList();
+    public RayPath rayPath;
 
     public int level = 0;
     public int framePerSecond;

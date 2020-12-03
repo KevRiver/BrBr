@@ -1,14 +1,17 @@
 package com.brbr.brick.physics;
 
+import com.brbr.brick.InputData;
 import com.brbr.brick.Scene;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Bounds;
 import com.brbr.brick.math.Vector2;
+import com.brbr.brick.object.RayPath;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.brbr.brick.math.Vector2.getDistance;
+import static com.brbr.brick.math.Vector2.getNormalized;
 
 public class PhysicManager {
 
@@ -58,6 +61,30 @@ public class PhysicManager {
                 }
             }
         }
+    }
+
+    public void handleInput(InputData input){
+        if(input.type != InputData.InputType.Press && input.type != InputData.InputType.Drag) return;
+        Vector2 dest = new Vector2(input.x, input.y);
+        Vector2 dir = new Vector2();
+        Vector2 src = new Vector2();
+        RayPath rayPath = scene.rayPath;
+        double length;
+        try{
+            length = rayPath.getLength();
+            src = rayPath.getRaySource();
+            dir = getRayDirection(src, dest);
+            rayPath.setRayPathPoints(getRayPath(src,dir,length));
+        }catch (Exception exception){
+            Debugger.Print(exception.toString());
+        }
+
+    }
+
+    public Vector2 getRayDirection(final Vector2 source, final Vector2 destination){
+        Vector2 direction = Vector2.subtract(destination, source);
+        Vector2.normalize(direction);
+        return direction;
     }
 
     public List<Vector2> getRayPath(Vector2 source, Vector2 direction, double length){
