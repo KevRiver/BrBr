@@ -243,6 +243,10 @@ public class GameManager {
                 renderer.repaint();
                 return ;
         }*/
+
+        // scheduler
+        scene.scheduler.update();
+
         // TODO : physic
         physicManager.collisionCheck();
 
