@@ -6,8 +6,8 @@ public class InputData {
         Drag,
         Release
     }
-    InputType type;
-    int x, y; // pointer position
+    public InputType type;
+    public int x, y; // pointer position
 
     public InputData(){}
     public InputData(InputType _type, int _x, int _y){

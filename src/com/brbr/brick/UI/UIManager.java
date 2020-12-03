@@ -1,5 +1,8 @@
 package com.brbr.brick.UI;
 
+import com.brbr.brick.InputData;
+import com.brbr.brick.debug.Debugger;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,4 +33,17 @@ public class UIManager {
         }
         return false;
     }
+
+    public boolean buttonClickCheck(InputData inputData){
+        if(inputData.type != InputData.InputType.Press) return false;
+        Debugger.Print("buttonclickcheck");
+        int pointX = inputData.x;
+        int pointY = inputData.y;
+
+        for(UILayer layer: layerList.stream().filter(layer -> !layer.clickUnable).collect(Collectors.toList())) {
+            return layer.buttonClickCheck(pointX, pointY);
+        }
+        return false;
+    }
+
 }

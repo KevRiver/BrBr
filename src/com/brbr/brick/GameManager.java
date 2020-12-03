@@ -49,7 +49,7 @@ public class GameManager {
         inputManager = InputManager.getInstance();
         uiManager = UIManager.getInstance();
 
-        inputManager.setTarget();
+        inputManager.setTarget(renderer);
         // init scene frame
         scene.frameMarginTop = Coordinates.GAME_FRAME_Y;
         scene.frameWidth = GAME_WIDTH;
@@ -248,6 +248,8 @@ public class GameManager {
 
         // TODO : input
         InputData inputData = inputManager.poll();
+        uiManager.buttonClickCheck(inputData);
+
         // TODO : logic
 
         // level

@@ -1,6 +1,7 @@
 package com.brbr.brick.physics;
 
 import com.brbr.brick.Scene;
+import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Bounds;
 import com.brbr.brick.math.Vector2;
 
@@ -89,7 +90,7 @@ public class PhysicManager {
         RaycastHit firstHit = null;
         RaycastHit hit;
         // check all static colliders
-        for(var s: staticObjects) {
+        for(var s: getStaticObjects()) {
             Bounds b = ((BoxCollider) s).bounds;
             if ((hit = isHit(source, dir, length, b)) != null) {
                 if (firstHit == null) {

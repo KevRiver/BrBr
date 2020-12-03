@@ -28,10 +28,6 @@ public class Renderer extends JPanel {
     public Renderer(Scene scene) {
         this.scene = scene;
         uiManager = UIManager.getInstance();
-
-        //Todo: delete
-        inputManager = InputManager.getInstance();
-        addMouseListener(inputManager.mouseEventListener);
     }
 
     @Override

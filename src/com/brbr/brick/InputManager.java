@@ -1,5 +1,7 @@
 package com.brbr.brick;
 
+import com.brbr.brick.debug.Debugger;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,6 +18,7 @@ public class InputManager {
     private InputManager(){
         mouseEventListener = new MouseEventListener();
         input = new LinkedList<>();
+        isActive = true;
 
     }
 
@@ -50,6 +53,7 @@ public class InputManager {
         @Override
         public void mousePressed(MouseEvent e) {
             if(!isActive) return;
+            Debugger.Print("MousePressed");
             InputData inputData = new InputData(InputData.InputType.Press, e.getX(), e.getY());
             input.add(inputData);
         }
