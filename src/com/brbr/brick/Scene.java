@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scene {
+    public static final int BEFORE_GAME = 0;
+    public static final int PROCEEDING_GAME = 1;
+    public static final int PAUSE_GAME = 2;
+    public static final int END_GAME = 3;
+
+    public int gameStatus = BEFORE_GAME;
+
     public List<GameObject> gameObjectList = new ArrayList();
 
     public int level = 0;

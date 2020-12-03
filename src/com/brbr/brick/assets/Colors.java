@@ -14,4 +14,5 @@ public class Colors {
             new Color(252, 77, 83),
             new Color(253, 64, 79)
     };
+    public final static Color LINE_COLOR = new Color(0,255,0, 85);
 }

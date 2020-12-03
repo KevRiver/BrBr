@@ -43,7 +43,8 @@ public class Renderer extends JPanel {
         drawGameObject(g);
 
         drawDebugText(g);
-        uiManager.drawUI(g);
+
+        uiManager.drawUI(g, getWidth(), getHeight());
     }
 
     private void drawBackground(Graphics g) {

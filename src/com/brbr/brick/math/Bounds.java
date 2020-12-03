@@ -22,6 +22,8 @@ public class Bounds {
     }
 
     // accessor
+    public Vector2 getMin(){return min;}
+    public Vector2 getMax(){return max;}
     public double getMinX(){
         return min.x;
     }
