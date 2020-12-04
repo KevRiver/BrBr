@@ -199,6 +199,15 @@ public class GameManager {
         scene.gameObjectList.add(wall2);
         scene.gameObjectList.add(wall3);
         scene.gameObjectList.add(wall4);
+
+        RayPath rayPath = new RayPath(scene.frameWidth / 2, scene.frameHeight - 50, 500);
+        scene.rayPath = rayPath;
+        // TODO : 공이 전부 소진 된 후 다음 레벨로 바뀌도록 변경 필요
+        for (int i = 0; i < 100; i++) {
+            scene.scheduler.postDelayed(i * 5000, () -> {
+                scene.needLevelUpdate = true;
+            });
+        }
     }
 
     public void start() {
@@ -240,6 +249,10 @@ public class GameManager {
                 renderer.repaint();
                 return ;
         }*/
+
+        // scheduler
+        scene.scheduler.update();
+
         // TODO : physic
         physicManager.collisionCheck();
 
@@ -268,10 +281,9 @@ public class GameManager {
     private void handleInput(InputData inputData){
         if(inputData == null) return;
         uiManager.buttonClickCheck(inputData);
-        Particle particle = new Particle(new Vector2(inputData.x, inputData.y));
-        scene.gameObjectList.add(particle);
-
+        physicManager.handleInput(inputData);
     }
+
     private final static int GAME_WIDTH = 605;
     private final static int GAME_HEIGHT = 800;
 }

@@ -2,6 +2,8 @@ package com.brbr.brick.object;
 
 import com.brbr.brick.math.Vector2;
 
+import java.awt.*;
+
 public class Particle extends AnimationObject {
     public Vector2 pos;
 
@@ -13,15 +15,18 @@ public class Particle extends AnimationObject {
 
     public boolean isMoving = true;
 
-    public Particle(Vector2 pos) {
-        animatedVector = new Vector2();
+    public Color color;
 
+    public Particle(Vector2 pos, Color color) {
+        this.color = color;
         this.pos = new Vector2();
         this.pos.x = pos.x;
         this.pos.y = pos.y;
 
+        animatedVector = new Vector2();
+
         gravity = (int)(Math.random() * 20);
-        xSpeed = (int)(Math.random() * 10);
+        xSpeed = (int)(Math.random() * 20) -  10;
     }
 
     @Override
@@ -36,7 +41,6 @@ public class Particle extends AnimationObject {
 
         time += (dt / 1000.0);
         if(time >= 0.5) opacity -= (dt / 1000.0);
-
 
         if(opacity <= 0){
             isMoving = false;
