@@ -6,12 +6,9 @@ import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Vector2;
-import com.brbr.brick.object.BallItem;
-import com.brbr.brick.object.Brick;
-import com.brbr.brick.object.GameObject;
+import com.brbr.brick.object.*;
 import com.brbr.brick.Scene;
 import com.brbr.brick.assets.Colors;
-import com.brbr.brick.object.Wall;
 import com.brbr.brick.physics.Ball;
 import com.brbr.brick.physics.BoxCollider;
 import com.brbr.brick.physics.CircleCollider;
@@ -132,6 +129,14 @@ public class Renderer extends JPanel {
                 drawOval(g, x, y, 10 + ballItem.animatedValue * 6);
                 g.setColor(Color.GREEN);
                 drawOval(g, x, y, 10);
+            } else if(gameObject instanceof Particle){
+                Particle particle = (Particle) gameObject;
+                g.setColor(new Color(0, 0, 0, particle.opacity));
+                g.fillRect(
+                        (int)(particle.pos.x + particle.animatedVector.x),
+                        (int)(particle.pos.y+particle.animatedVector.y),
+                        30, 30
+                );
             }
         }
     }

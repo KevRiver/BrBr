@@ -10,5 +10,4 @@ public abstract class AnimationObject extends GameObject {
         _animatedValue = (_animatedValue + getSpeed() * dt) % 2;
         animatedValue = Math.abs(_animatedValue - 1f);
     }
-
 }
