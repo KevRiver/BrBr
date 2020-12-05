@@ -67,7 +67,7 @@ public class LevelManager {
         if (scene.gameStatus == Scene.END_GAME) {
             scene.level = 0;
             scene.gameObjectList = scene.gameObjectList.stream()
-                    .filter(gameObject -> gameObject instanceof Brick)
+                    .filter(gameObject -> !(gameObject instanceof Brick))
                     .collect(Collectors.toList());
         }
     }
