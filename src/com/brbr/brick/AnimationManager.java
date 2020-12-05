@@ -1,7 +1,11 @@
 package com.brbr.brick;
 
+import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.object.AnimationObject;
 import com.brbr.brick.object.GameObject;
+import com.brbr.brick.object.Particle;
+
+import java.util.stream.Collectors;
 
 public class AnimationManager {
 
@@ -17,6 +21,12 @@ public class AnimationManager {
                 ((AnimationObject) object).update(dt);
             }
         }
+        scene.gameObjectList = scene.gameObjectList.stream()
+                .filter(gameObject -> {
+                    if (gameObject instanceof Particle) return ((Particle) gameObject).isMoving;
+                    else return true;
+                })
+                .collect(Collectors.toList());
     }
 
 }

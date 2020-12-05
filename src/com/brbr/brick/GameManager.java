@@ -30,6 +30,10 @@ public class GameManager {
     private UILayer pauseLayer;
     private UILayer proceedingLayer;
 
+    private TextUI scoreUI;
+    private TextUI recordUI;
+    private ButtonUI pauseButton;
+
     public GameManager() {
         init();
     }
@@ -98,8 +102,9 @@ public class GameManager {
 
     private void setProceedingUI(){
         proceedingLayer = new UILayer();
-        TextUI recordUI = new TextUI("RECORD: 0", new Vector2(scene.frameWidth / 2 - 48, 30), 20);
-        TextUI scoreUI = new TextUI("SCORE: 0", new Vector2(scene.frameWidth / 2 - 48, 60), 20);
+        recordUI = new TextUI("RECORD: " + scene.scoreManager.record,
+                new Vector2(scene.frameWidth / 2 - 48, 30), 20);
+        scoreUI = new TextUI("SCORE: 0", new Vector2(scene.frameWidth / 2 - 48, 60), 20);
 
         ButtonUI pauseButton = new ButtonUI("Ⅱ", new Vector2(scene.frameWidth - 50, 15),
                 20, 40, 40);
@@ -245,6 +250,7 @@ public class GameManager {
         /*switch(scene.gameStatus){
             case Scene.BEFORE_GAME:
             case Scene.END_GAME:
+                scene.scoreManager.saveRecordScore();
             case Scene.PAUSE_GAME:
                 renderer.repaint();
                 return ;
@@ -270,6 +276,9 @@ public class GameManager {
         // render
         renderer.repaint();
 
+        scoreUI.setText("SCORE: " + scene.scoreManager.score);
+        recordUI.setText("RECORD: " + scene.scoreManager.record);
+
         // TODO : 이동 논의
         for (GameObject gameObject : scene.gameObjectList) {
             if (gameObject instanceof Ball) {
@@ -282,8 +291,8 @@ public class GameManager {
         if(inputData == null) return;
         uiManager.buttonClickCheck(inputData);
         physicManager.handleInput(inputData);
-
     }
+
     private final static int GAME_WIDTH = 605;
     private final static int GAME_HEIGHT = 800;
 }
