@@ -14,6 +14,7 @@ public class InputManager {
     private Queue<InputData> input;
     private MouseEventListener mouseEventListener;
     private boolean isActive;
+    private final int INPUT_LIMIT = 10;
 
     private InputManager(){
         mouseEventListener = new MouseEventListener();
@@ -40,6 +41,7 @@ public class InputManager {
         if(input.isEmpty()){
             return null;
         }
+        Debugger.Print("Queue size: " + input.size());
         return input.poll();
     }
 
@@ -47,13 +49,14 @@ public class InputManager {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-
+            if(!isActive) return;
+            InputData inputData = new InputData(InputData.InputType.Click, e.getX(), e.getY());
+            input.add(inputData);
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
             if(!isActive) return;
-            Debugger.Print("MousePressed");
             InputData inputData = new InputData(InputData.InputType.Press, e.getX(), e.getY());
             input.add(inputData);
         }
@@ -78,6 +81,7 @@ public class InputManager {
         @Override
         public void mouseDragged(MouseEvent e) {
             if(!isActive) return;
+            if(input.size() > INPUT_LIMIT) input.clear();
             InputData inputData = new InputData(InputData.InputType.Drag, e.getX(), e.getY());
             input.add(inputData);
         }

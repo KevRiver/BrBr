@@ -35,7 +35,7 @@ public class UIManager {
     }
 
     public boolean buttonClickCheck(InputData inputData){
-        if(inputData.type != InputData.InputType.Press) return false;
+        if(inputData.type != InputData.InputType.Click) return false;
         Debugger.Print("buttonclickcheck");
         int pointX = inputData.x;
         int pointY = inputData.y;
