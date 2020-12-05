@@ -61,6 +61,13 @@ public class LevelManager {
                     .collect(Collectors.toList());
             scene.gameObjectList.addAll(particleList);
         }
+
+        if (scene.gameStatus == Scene.END_GAME) {
+            scene.level = 0;
+            scene.gameObjectList = scene.gameObjectList.stream()
+                    .filter(gameObject -> gameObject instanceof Brick)
+                    .collect(Collectors.toList());
+        }
     }
 
     private void createNewLevel() {
