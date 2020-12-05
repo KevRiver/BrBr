@@ -64,10 +64,13 @@ public class PhysicManager {
     }
 
     public void handleInput(InputData input){
-        if(input.type != InputData.InputType.Press && input.type != InputData.InputType.Drag) return;
+        if(input.type == InputData.InputType.Release){
+            scene.rayPath.isActive = false;
+            return;
+        }
+        scene.rayPath.isActive = true;
         Vector2 dest = new Vector2(input.x, input.y);
-        Vector2 dir = new Vector2();
-        Vector2 src = new Vector2();
+        Vector2 dir, src;
         RayPath rayPath = scene.rayPath;
         double length;
         try{
