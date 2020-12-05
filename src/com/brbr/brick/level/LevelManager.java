@@ -67,6 +67,7 @@ public class LevelManager {
         scene.level++;
         scene.scoreManager.updateScore(1);
 
+        int maxLevel = 0;
         for (GameObject gameObject : scene.gameObjectList) {
             if (gameObject instanceof Brick) {
                 Brick brick = (Brick) gameObject;
@@ -77,8 +78,13 @@ public class LevelManager {
                                 collider.bounds.getCenter().y + Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN
                         )
                 );
+                int brickLevel = (int) (collider.bounds.getCenter().y / (Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN));
+                if (maxLevel < brickLevel) maxLevel = brickLevel;
                 brick.animateMove();
             }
+        }
+        if (maxLevel == 10) {
+            scene.gameStatus = Scene.END_GAME;
         }
 
         scene.scheduler.postDelayed(100, () -> {
