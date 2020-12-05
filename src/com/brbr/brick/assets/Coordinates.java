@@ -9,6 +9,8 @@ public class Coordinates {
     public final static int BRICK_HEIGHT = 60;
     public final static int BRICK_MARGIN = 5;
 
+    public final static int PARTICLE_SIZE = 15;
+
     public final static int GAME_FRAME_Y = 100;
     public final static int GAME_FRAME_STROKE = 5;
 }

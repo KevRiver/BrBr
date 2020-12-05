@@ -1,11 +1,13 @@
 package com.brbr.brick.level;
 
 import com.brbr.brick.Scene;
+import com.brbr.brick.assets.Colors;
 import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.math.Transform;
 import com.brbr.brick.math.Vector2;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
+import com.brbr.brick.object.Particle;
 import com.brbr.brick.physics.BoxCollider;
 import com.brbr.brick.physics.ColliderType;
 
@@ -23,18 +25,41 @@ public class LevelManager {
         this.scene = scene;
     }
 
+    public void createParticles(List particles, Brick brick){
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 7; j++){
+                BoxCollider collider = (BoxCollider) (brick.getComponent("BoxCollider"));
+
+                Vector2 spawnPos = new Vector2(
+                        collider.bounds.getMinX() + j * Coordinates.PARTICLE_SIZE,
+                        collider.bounds.getMinY() + i * Coordinates.PARTICLE_SIZE
+                );
+                Particle particle = new Particle(spawnPos, Colors.BRICK_COLOR_LEVEL[0]);
+                particles.add(particle);
+            }
+        }
+    }
+
     public void update(long dt) {
         if (scene.needLevelUpdate) {
             createNewLevel();
             scene.needLevelUpdate = false;
         } else {
+            List<GameObject> particleList = new ArrayList();
+
             scene.gameObjectList = scene.gameObjectList.stream()
                     .filter(gameObject -> {
                         if (gameObject instanceof Brick) {
-                            return ((Brick) gameObject).health > 0;
+                            Brick brick = ((Brick) gameObject);
+
+                            if(brick.health > 0) return true;
+
+                            createParticles(particleList, brick);
+                            return false;
                         } else return true;
                     })
                     .collect(Collectors.toList());
+            scene.gameObjectList.addAll(particleList);
         }
     }
 

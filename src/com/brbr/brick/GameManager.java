@@ -288,8 +288,8 @@ public class GameManager {
         if(inputData == null) return;
         uiManager.buttonClickCheck(inputData);
         physicManager.handleInput(inputData);
-
     }
+
     private final static int GAME_WIDTH = 605;
     private final static int GAME_HEIGHT = 800;
 }
