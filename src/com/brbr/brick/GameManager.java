@@ -137,20 +137,11 @@ public class GameManager {
     }
 
     private void loop(long dt) {
-        /*switch(scene.gameStatus){
-            case Scene.BEFORE_GAME:
-            case Scene.END_GAME:
-                scene.scoreManager.saveRecordScore();
-            case Scene.PAUSE_GAME:
-                renderer.repaint();
-                return ;
-        }*/
-
         // scheduler
         scene.scheduler.update();
 
-        // TODO : physic
-        physicManager.collisionCheck();
+        // physic
+        physicManager.collisionCheck(dt);
 
         // TODO : input
         handleInput(inputManager.poll());
@@ -166,12 +157,12 @@ public class GameManager {
         // render
         renderer.repaint();
 
-        // TODO : 이동 논의
-        for (GameObject gameObject : scene.gameObjectList) {
-            if (gameObject instanceof Ball) {
-                ((Ball) gameObject).update(dt / 1000.0);
-            }
+        // score
+        if (scene.gameStatus == Scene.BEFORE_GAME || scene.gameStatus == Scene.END_GAME) {
+            scene.scoreManager.saveRecordScore();
         }
+
+        // TODO : 이동 논의
     }
 
     private void handleInput(InputData inputData){

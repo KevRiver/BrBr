@@ -41,6 +41,8 @@ public class LevelManager {
     }
 
     public void update(long dt) {
+        if (scene.gameStatus != Scene.PROCEEDING_GAME) return;
+
         if (scene.needLevelUpdate) {
             createNewLevel();
             scene.needLevelUpdate = false;
