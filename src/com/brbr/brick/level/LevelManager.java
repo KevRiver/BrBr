@@ -57,6 +57,8 @@ public class LevelManager {
     }
 
     public void update(long dt) {
+        if (scene.gameStatus != Scene.PROCEEDING_GAME) return;
+
         if (scene.needLevelUpdate) {
             createNewLevel();
             scene.needLevelUpdate = false;
@@ -85,12 +87,20 @@ public class LevelManager {
                     .collect(Collectors.toList());
             scene.gameObjectList.addAll(particleList);
         }
+
+        if (scene.gameStatus == Scene.END_GAME) {
+            scene.level = 0;
+            scene.gameObjectList = scene.gameObjectList.stream()
+                    .filter(gameObject -> !(gameObject instanceof Brick))
+                    .collect(Collectors.toList());
+        }
     }
 
     private void createNewLevel() {
         scene.level++;
         scene.scoreManager.updateScore(1);
 
+        int maxLevel = 0;
         for (GameObject gameObject : scene.gameObjectList) {
             if (gameObject instanceof Brick) {
                 Brick brick = (Brick) gameObject;
@@ -101,6 +111,8 @@ public class LevelManager {
                                 collider.bounds.getCenter().y + Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN
                         )
                 );
+                int brickLevel = (int) (collider.bounds.getCenter().y / (Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN));
+                if (maxLevel < brickLevel) maxLevel = brickLevel;
                 brick.animateMove();
             }
 
@@ -115,6 +127,9 @@ public class LevelManager {
                 );
                 item.animateMove();
             }
+        }
+        if (maxLevel == 10) {
+            scene.gameStatus = Scene.END_GAME;
         }
 
         scene.scheduler.postDelayed(100, () -> {

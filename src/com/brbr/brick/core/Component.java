@@ -9,6 +9,4 @@ public class Component {
 
     protected Component(){ }
     public void initWith(GameObject gameObject){ this.gameObject = gameObject; this.transform = gameObject.transform;}
-    public void update(double dt){ }
-    public void destroy(){ }
 }

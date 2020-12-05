@@ -16,6 +16,8 @@ public class AnimationManager {
     }
 
     public void update(long dt) {
+        if (scene.gameStatus != Scene.PROCEEDING_GAME) return;
+
         for (GameObject object : scene.gameObjectList) {
             if (object instanceof AnimationObject) {
                 ((AnimationObject) object).update(dt);

@@ -5,6 +5,7 @@ import com.brbr.brick.Scene;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Bounds;
 import com.brbr.brick.math.Vector2;
+import com.brbr.brick.object.GameObject;
 import com.brbr.brick.object.RayPath;
 
 import java.util.*;
@@ -45,7 +46,9 @@ public class PhysicManager {
     }
 
     /// kinematicObejects에 등록된 충돌체들과 static/trigger Objects에 등록된 충돌체들의 충돌 검사
-    public void collisionCheck() {
+    public void collisionCheck(long dt) {
+        if (scene.gameStatus != Scene.PROCEEDING_GAME) return;
+
         for (Collider k : getKinematicObjects()) {
             for (Collider s : getStaticObjects()) {
                 if (checkOverlap(k, s)) {
@@ -61,13 +64,22 @@ public class PhysicManager {
                 }
             }
         }
+
+        for (GameObject gameObject : scene.gameObjectList) {
+            if (gameObject instanceof Ball) {
+                ((Ball) gameObject).update(dt / 1000.0);
+            }
+        }
     }
 
     public void handleInput(InputData input){
-        if(input.type != InputData.InputType.Press && input.type != InputData.InputType.Drag) return;
+        if(input.type == InputData.InputType.Release){
+            scene.rayPath.isActive = false;
+            return;
+        }
+        scene.rayPath.isActive = true;
         Vector2 dest = new Vector2(input.x, input.y);
-        Vector2 dir = new Vector2();
-        Vector2 src = new Vector2();
+        Vector2 dir, src;
         RayPath rayPath = scene.rayPath;
         double length;
         try{

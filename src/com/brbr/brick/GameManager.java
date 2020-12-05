@@ -3,16 +3,12 @@ package com.brbr.brick;
 import com.brbr.brick.UI.*;
 import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
-import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.level.LevelManager;
 import com.brbr.brick.object.*;
 import com.brbr.brick.physics.*;
 import com.brbr.brick.render.Renderer;
-import com.brbr.brick.math.Transform;
-import com.brbr.brick.math.Vector2;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Random;
 
 public class GameManager {
@@ -25,6 +21,8 @@ public class GameManager {
     private LevelManager levelManager;
     private InputManager inputManager;
     private AnimationManager animationManager;
+
+    private BallShooter shooter;
 
     private UILayer beforeLayer;
     private UILayer pauseLayer;
@@ -43,13 +41,14 @@ public class GameManager {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         // TODO : init managers
         scene = new Scene();
+        uiManager = UIManager.getInstance(scene);
         renderer = new Renderer(scene);
         physicManager = new PhysicManager(scene);
         levelManager = new LevelManager(scene);
         animationManager = new AnimationManager(scene);
         inputManager = InputManager.getInstance();
         uiManager = UIManager.getInstance();
-
+        shooter = new BallShooter(scene);
         inputManager.setTarget(renderer);
         // init scene frame
         scene.frameMarginTop = Coordinates.GAME_FRAME_Y;
@@ -57,127 +56,18 @@ public class GameManager {
         scene.frameHeight = Coordinates.BRICK_HEIGHT * Coordinates.BRICK_GRID_HEIGHT +
                 (Coordinates.BRICK_MARGIN + 1) * Coordinates.BRICK_GRID_HEIGHT;
 
+        uiManager.init();
+
         createDummyData();
-
-        setProceedingUI();
-        setBeforeUI();
-        setPauseUI();
-
-        beforeGame();
 
         frame.getContentPane().add(renderer);
         frame.setSize(GAME_WIDTH, GAME_HEIGHT);
         frame.setVisible(true);
     }
 
-    private void setBeforeUI(){
-        beforeLayer = new UILayer();
-
-        Color backgroundColor = new Color(251, 136, 54);
-        Color textColor = Color.WHITE;
-
-        ButtonUI startButton = new ButtonUI("Game Start", new Vector2(GAME_WIDTH / 2 - 100, GAME_HEIGHT / 2 - 55),
-                20, 200, 50);
-        startButton.setBackgroundColor(backgroundColor);
-        startButton.setTextColor(textColor);
-
-        ButtonUI quitButton = new ButtonUI("Quit", new Vector2(GAME_WIDTH / 2 - 100, GAME_HEIGHT / 2),
-                20, 200, 50);
-        quitButton.setBackgroundColor(backgroundColor);
-        quitButton.setTextColor(textColor);
-
-        startButton.setButtonClickCallback(() -> {
-            startGame();
-        });
-
-        quitButton.setButtonClickCallback(() -> { });
-
-        beforeLayer.addButtonUI(startButton);
-        beforeLayer.addButtonUI(quitButton);
-
-        beforeLayer.background = true;
-
-        uiManager.addLayer(beforeLayer);
-    }
-
-    private void setProceedingUI(){
-        proceedingLayer = new UILayer();
-        recordUI = new TextUI("RECORD: " + scene.scoreManager.record,
-                new Vector2(scene.frameWidth / 2 - 48, 30), 20);
-        scoreUI = new TextUI("SCORE: 0", new Vector2(scene.frameWidth / 2 - 48, 60), 20);
-
-        ButtonUI pauseButton = new ButtonUI("Ⅱ", new Vector2(scene.frameWidth - 50, 15),
-                20, 40, 40);
-        pauseButton.setButtonClickCallback(() -> {
-            pauseGame();
-        });
-
-        proceedingLayer.addTextUI(recordUI);
-        proceedingLayer.addTextUI(scoreUI);
-        proceedingLayer.addButtonUI(pauseButton);
-
-        uiManager.addLayer(proceedingLayer);
-    }
-
-    private void setPauseUI(){
-        pauseLayer = new UILayer();
-
-        Color backgroundColor = new Color(251, 136, 54);
-        Color textColor = Color.WHITE;
-
-        ButtonUI resumeButton = new ButtonUI("resume", new Vector2(GAME_WIDTH / 2 - 90, GAME_HEIGHT / 2 - 40),
-                20, 180, 50);
-
-        resumeButton.setButtonClickCallback(() -> {
-            startGame();
-        });
-        resumeButton.setBackgroundColor(backgroundColor);
-        resumeButton.setTextColor(textColor);
-
-        pauseLayer.addButtonUI(resumeButton);
-
-        pauseLayer.background = true;
-
-        uiManager.addLayer(pauseLayer);
-    }
-
-    private void beforeGame(){
-        scene.gameStatus = Scene.BEFORE_GAME;
-        beforeLayer.setVisible(true);
-        pauseLayer.setVisible(false);
-        proceedingLayer.setClickUnable(true);
-    }
-
-    private void startGame(){
-        scene.gameStatus = Scene.PROCEEDING_GAME;
-        beforeLayer.setVisible(false);
-        pauseLayer.setVisible(false);
-        proceedingLayer.setClickUnable(false);
-    }
-
-    private void pauseGame(){
-        scene.gameStatus = Scene.PAUSE_GAME;
-        beforeLayer.setVisible(false);
-        pauseLayer.setVisible(true);
-        proceedingLayer.setClickUnable(true);
-    }
-
-    private void endGame(){
-        scene.gameStatus = Scene.END_GAME;
-    }
-
     // dummy data TODO : remove
     private void createDummyData() {
         Random random = new Random();
-
-
-        int[] ballXList = {100, 200, 300};
-        int ballY = 350;
-        for (int ballX : ballXList) {
-            Ball ball = new Ball(ballX, ballY);
-            scene.gameObjectList.add(ball);
-            ball.throwBall(-45);
-        }
 
         Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop);
         ((BoxCollider) wall1.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall");
@@ -238,20 +128,11 @@ public class GameManager {
     }
 
     private void loop(long dt) {
-        /*switch(scene.gameStatus){
-            case Scene.BEFORE_GAME:
-            case Scene.END_GAME:
-                scene.scoreManager.saveRecordScore();
-            case Scene.PAUSE_GAME:
-                renderer.repaint();
-                return ;
-        }*/
-
         // scheduler
         scene.scheduler.update();
 
-        // TODO : physic
-        physicManager.collisionCheck();
+        // physic
+        physicManager.collisionCheck(dt);
 
         // TODO : input
         handleInput(inputManager.poll());
@@ -267,23 +148,21 @@ public class GameManager {
         // render
         renderer.repaint();
 
-        scoreUI.setText("SCORE: " + scene.scoreManager.score);
-        recordUI.setText("RECORD: " + scene.scoreManager.record);
+        // score
+        if (scene.gameStatus == Scene.BEFORE_GAME || scene.gameStatus == Scene.END_GAME) {
+            scene.scoreManager.saveRecordScore();
+        }
 
         // TODO : 이동 논의
-        for (GameObject gameObject : scene.gameObjectList) {
-            if (gameObject instanceof Ball) {
-                ((Ball) gameObject).update(dt / 1000.0);
-            }
-        }
     }
 
     private void handleInput(InputData inputData){
         if(inputData == null) return;
         uiManager.buttonClickCheck(inputData);
         physicManager.handleInput(inputData);
+        shooter.handleInput(inputData);
     }
 
-    private final static int GAME_WIDTH = 605;
-    private final static int GAME_HEIGHT = 800;
+    public final static int GAME_WIDTH = 605;
+    public final static int GAME_HEIGHT = 800;
 }

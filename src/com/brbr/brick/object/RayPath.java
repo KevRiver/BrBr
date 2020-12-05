@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RayPath extends GameObject{
+    public boolean isActive;
     private Vector2 raySource;
     private List<Vector2> rayPathPoints;
     private double length;
@@ -29,6 +30,7 @@ public class RayPath extends GameObject{
     }
 
     private void init(){
+        isActive = false;
         raySource = transform.position;
         rayPathPoints = new ArrayList<>();
     }

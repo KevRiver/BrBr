@@ -37,8 +37,19 @@ public class Ball extends GameObject {
         direction.y = Math.sin(rad);
     }
 
+    public void setDirection(Vector2 dir){
+        Vector2.normalize(dir);
+        direction.x = dir.x;
+        direction.y = dir.y;
+    }
+
     public void throwBall(double rot){
         setDirection(rot);
+        isMoving = true;
+    }
+
+    public void throwBall(){
+        Debugger.Print("throw ball");
         isMoving = true;
     }
 
