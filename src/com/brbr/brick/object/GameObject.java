@@ -9,7 +9,7 @@ import com.brbr.brick.physics.Collider;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameObject implements BRBehavior {
+public class GameObject extends BRBehavior {
     public Transform transform;
     protected Map<String, Component> componentMap;
 
@@ -54,15 +54,5 @@ public class GameObject implements BRBehavior {
         }catch (Exception exception){
             Debugger.Print(exception.toString());
         }
-    }
-
-    @Override
-    public void onCollisionEnter(Collider collider) {
-
-    }
-
-    @Override
-    public void onTriggerEnter(Collider collider) {
-
     }
 }
