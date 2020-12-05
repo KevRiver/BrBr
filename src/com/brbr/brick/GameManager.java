@@ -26,6 +26,16 @@ public class GameManager {
     private InputManager inputManager;
     private AnimationManager animationManager;
 
+    private BallShooter shooter;
+
+    private UILayer beforeLayer;
+    private UILayer pauseLayer;
+    private UILayer proceedingLayer;
+
+    private TextUI scoreUI;
+    private TextUI recordUI;
+    private ButtonUI pauseButton;
+
     public GameManager() {
         init();
     }
@@ -41,7 +51,8 @@ public class GameManager {
         levelManager = new LevelManager(scene);
         animationManager = new AnimationManager(scene);
         inputManager = InputManager.getInstance();
-
+        uiManager = UIManager.getInstance();
+        shooter = new BallShooter(scene);
         inputManager.setTarget(renderer);
         // init scene frame
         scene.frameMarginTop = Coordinates.GAME_FRAME_Y;
@@ -71,7 +82,7 @@ public class GameManager {
             scene.gameObjectList.add(item);
 
         }
-
+/*
         int[] ballXList = {100, 200, 300};
         int ballY = 350;
         for (int ballX : ballXList) {
@@ -79,7 +90,7 @@ public class GameManager {
             scene.gameObjectList.add(ball);
             ball.throwBall(-45);
         }
-
+*/
         Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop);
         ((BoxCollider) wall1.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall0");
 
@@ -171,6 +182,7 @@ public class GameManager {
         if(inputData == null) return;
         uiManager.buttonClickCheck(inputData);
         physicManager.handleInput(inputData);
+        shooter.handleInput(inputData);
     }
 
     public final static int GAME_WIDTH = 605;

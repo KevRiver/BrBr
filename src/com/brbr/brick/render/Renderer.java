@@ -63,6 +63,7 @@ public class Renderer extends JPanel {
 
     private void drawRayPath(Graphics g){
         if(scene.rayPath == null) return;
+        if(!scene.rayPath.isActive) return;
         if(scene.rayPath.getRayPathPoints().size() == 0) return;
 
         Graphics2D g2 = ((Graphics2D) g);
