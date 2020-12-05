@@ -3,7 +3,6 @@ package com.brbr.brick.object;
 import com.brbr.brick.physics.Collider;
 
 public class Brick extends AnimationObject {
-    public int level;
     public int health;
     private boolean isMoving = false;
 

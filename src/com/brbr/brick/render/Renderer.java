@@ -130,7 +130,7 @@ public class Renderer extends JPanel {
                 CircleCollider circle = ((CircleCollider)ball.getComponent("CircleCollider"));
                 Vector2 position = new Vector2(circle.center.x - circle.radius, circle.center.y - circle.radius);
                 g.setColor(Color.RED);
-                g.drawOval((int)position.x, (int)position.y, ball.size, ball.size );
+                g.drawOval((int)position.x, (int)position.y, Coordinates.BALL_SIZE, Coordinates.BALL_SIZE );
             } else if (gameObject instanceof Wall) {
                 Wall wall = (Wall) gameObject;
                 int x, y, width, height;
@@ -143,15 +143,20 @@ public class Renderer extends JPanel {
                 g.fillRect(x,y,width,height);
             } else if (gameObject instanceof BallItem) {
                 BallItem ballItem = (BallItem) gameObject;
-                int x = (int) ballItem.transform.position.x;
-                int y = (int) ballItem.transform.position.y;
+                CircleCollider collider = ((CircleCollider)ballItem.getComponent("CircleCollider"));
 
                 g.setColor(Color.GREEN);
-                drawOval(g, x, y, 15 + ballItem.animatedValue * 6);
+                drawOval(g, (int)collider.center.x,
+                        (int)collider.center.y - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
+                        Coordinates.ITEM_SIZE + 5 + ballItem.animatedValue * 6);
                 g.setColor(Color.WHITE);
-                drawOval(g, x, y, 10 + ballItem.animatedValue * 6);
+                drawOval(g, (int)collider.center.x,
+                        (int)collider.center.y  - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
+                        Coordinates.ITEM_SIZE + ballItem.animatedValue * 6);
                 g.setColor(Color.GREEN);
-                drawOval(g, x, y, 10);
+                drawOval(g, (int)collider.center.x,
+                        (int)collider.center.y  - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
+                        Coordinates.ITEM_SIZE);
             } else if(gameObject instanceof Particle){
                 Particle particle = (Particle) gameObject;
                 g.setColor(new Color(particle.color.getRed(),

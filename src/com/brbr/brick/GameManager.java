@@ -169,16 +169,7 @@ public class GameManager {
     // dummy data TODO : remove
     private void createDummyData() {
         Random random = new Random();
-        for (int i = 0; i < 4; i++) {
-            BallItem item = new BallItem();
-            Transform transform = new Transform(
-                    (float) (random.nextInt(6)) * Coordinates.BRICK_WIDTH,
-                    (float) (random.nextInt(8)) * Coordinates.BRICK_HEIGHT
-            );
-            item.transform = transform;
-            scene.gameObjectList.add(item);
 
-        }
 
         int[] ballXList = {100, 200, 300};
         int ballY = 350;
@@ -189,16 +180,16 @@ public class GameManager {
         }
 
         Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop);
-        ((BoxCollider) wall1.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall0");
+        ((BoxCollider) wall1.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall");
 
         Wall wall2 = new Wall(0, scene.frameHeight / 2 + scene.frameMarginTop);
-        ((BoxCollider) wall2.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall1");
+        ((BoxCollider) wall2.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall");
 
         Wall wall3 = new Wall(scene.frameWidth / 2, scene.frameHeight + scene.frameMarginTop);
-        ((BoxCollider) wall3.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall2");
+        ((BoxCollider) wall3.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall");
 
         Wall wall4 = new Wall(scene.frameWidth, scene.frameHeight / 2 + scene.frameMarginTop);
-        ((BoxCollider) wall4.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall3");
+        ((BoxCollider) wall4.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall");
 
         scene.gameObjectList.add(wall1);
         scene.gameObjectList.add(wall2);

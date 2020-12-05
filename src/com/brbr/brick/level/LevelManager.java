@@ -3,14 +3,18 @@ package com.brbr.brick.level;
 import com.brbr.brick.Scene;
 import com.brbr.brick.assets.Colors;
 import com.brbr.brick.assets.Coordinates;
+import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Transform;
 import com.brbr.brick.math.Vector2;
+import com.brbr.brick.object.BallItem;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.object.Particle;
 import com.brbr.brick.physics.BoxCollider;
+import com.brbr.brick.physics.CircleCollider;
 import com.brbr.brick.physics.ColliderType;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +29,7 @@ public class LevelManager {
         this.scene = scene;
     }
 
-    public void createParticles(List particles, Brick brick){
+    public void createBrickParticles(List particles, Brick brick){
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 7; j++){
                 BoxCollider collider = (BoxCollider) (brick.getComponent("BoxCollider"));
@@ -37,6 +41,18 @@ public class LevelManager {
                 Particle particle = new Particle(spawnPos, Colors.BRICK_COLOR_LEVEL[0]);
                 particles.add(particle);
             }
+        }
+    }
+
+    public void createItemParticles(List particles, BallItem item){
+        for(int i = 0; i < 20; i++){
+            CircleCollider collider = (CircleCollider) item.getComponent("CircleCollider");
+            Vector2 spawnPos = new Vector2(
+                    collider.center.x + Math.random() * Coordinates.BALL_SIZE - Coordinates.BALL_SIZE / 2,
+                    collider.center.y + Math.random() * Coordinates.BALL_SIZE  - Coordinates.BALL_SIZE / 2
+            );
+            Particle particle = new Particle(spawnPos, Color.GREEN);
+            particles.add(particle);
         }
     }
 
@@ -54,9 +70,17 @@ public class LevelManager {
 
                             if(brick.health > 0) return true;
 
-                            createParticles(particleList, brick);
+                            createBrickParticles(particleList, brick);
                             return false;
-                        } else return true;
+                        }
+                        if(gameObject instanceof BallItem){
+                            BallItem item = ((BallItem) gameObject);
+                            if(!item.isEaten) return true;
+
+                            createItemParticles(particleList, item);
+                            return false;
+                        }
+                        else return true;
                     })
                     .collect(Collectors.toList());
             scene.gameObjectList.addAll(particleList);
@@ -79,6 +103,18 @@ public class LevelManager {
                 );
                 brick.animateMove();
             }
+
+            if(gameObject instanceof BallItem){
+                BallItem item = (BallItem) gameObject;
+                CircleCollider collider = ((CircleCollider) item.getComponent("CircleCollider"));
+                collider.setCenter(
+                        new Vector2(
+                                collider.center.x,
+                                collider.center.y + Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN
+                        )
+                );
+                item.animateMove();
+            }
         }
 
         scene.scheduler.postDelayed(100, () -> {
@@ -87,6 +123,8 @@ public class LevelManager {
                     List<Integer> itemIndexList = new ArrayList<>();
                     for (int i = 0; i < 6; i++) itemIndexList.add(i);
                     Collections.shuffle(itemIndexList);
+
+                    int itemIndex = itemIndexList.get(itemIndexList.size() - 1);
                     itemIndexList = itemIndexList.subList(0, random.nextInt(3) + 2);
 
                     for (int index : itemIndexList) {
@@ -98,10 +136,21 @@ public class LevelManager {
                         transform.translate(vector2);
                         brick.transform = transform;
                         brick.health = scene.level;
-                        brick.level = scene.level;
-                        ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick0");
+                        ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick");
                         scene.gameObjectList.add(brick);
                     }
+
+                    BallItem item = new BallItem();
+
+                    CircleCollider collider = new CircleCollider(Coordinates.ITEM_SIZE / 2, ColliderType.STATIC);
+                    Vector2 itemCenter = new Vector2(
+                            (float) itemIndex * (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN) + (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN) / 2f + Coordinates.GAME_FRAME_STROKE,
+                            (float) Coordinates.BRICK_HEIGHT / 2f + scene.frameMarginTop + Coordinates.GAME_FRAME_STROKE
+                    );
+                    collider.setCenter(itemCenter);
+
+                    ((CircleCollider) item.addComponent(collider)).setTag("item");
+                    scene.gameObjectList.add(item);
                 }
         );
     }
