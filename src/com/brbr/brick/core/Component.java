@@ -7,6 +7,11 @@ public class Component {
     public GameObject gameObject;
     public Transform transform;
 
-    protected Component(){ }
-    public void initWith(GameObject gameObject){ this.gameObject = gameObject; this.transform = gameObject.transform;}
+    protected Component() {
+    }
+
+    public void initWith(GameObject gameObject) {
+        this.gameObject = gameObject;
+        this.transform = gameObject.transform;
+    }
 }

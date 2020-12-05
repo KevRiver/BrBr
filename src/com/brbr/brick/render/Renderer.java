@@ -1,10 +1,8 @@
 package com.brbr.brick.render;
 
 import com.brbr.brick.InputManager;
-import com.brbr.brick.UI.UI;
 import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
-import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Vector2;
 import com.brbr.brick.object.*;
 import com.brbr.brick.Scene;
@@ -23,8 +21,6 @@ public class Renderer extends JPanel {
     private Scene scene;
     private UIManager uiManager;
 
-    private InputManager inputManager; //Todo: delete
-
     public Renderer(Scene scene) {
         this.scene = scene;
         uiManager = UIManager.getInstance();
@@ -35,7 +31,6 @@ public class Renderer extends JPanel {
         super.paint(g);
 
         drawBackground(g);
-        //drawGameFrame(g);
         drawRayPath(g);
 
         drawGameObject(g);
@@ -50,38 +45,25 @@ public class Renderer extends JPanel {
         g.fillRect(0, 0, getWidth(), getHeight());
     }
 
-    private void drawGameFrame(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, Coordinates.GAME_FRAME_Y, getWidth(), Coordinates.GAME_FRAME_STROKE);
-        g.fillRect(
-                0,
-                Coordinates.GAME_FRAME_Y + Coordinates.GAME_FRAME_STROKE + scene.frameHeight,
-                getWidth(),
-                Coordinates.GAME_FRAME_STROKE
-        );
-    }
-
-    private void drawRayPath(Graphics g){
-        if(scene.rayPath == null) return;
-        if(!scene.rayPath.isActive) return;
-        if(scene.rayPath.getRayPathPoints().size() == 0) return;
+    private void drawRayPath(Graphics g) {
+        if (scene.rayPath == null) return;
+        if (!scene.rayPath.isActive) return;
+        if (scene.rayPath.getRayPathPoints().size() == 0) return;
 
         Graphics2D g2 = ((Graphics2D) g);
         g2.setStroke(new BasicStroke(10));
         g2.setColor(Colors.LINE_COLOR);
         List<Vector2> rayPathPoints = scene.rayPath.getRayPathPoints();
         double sx, sy, dx, dy;
-        for(int i = 0; i < rayPathPoints.size() - 1; i++){
+        for (int i = 0; i < rayPathPoints.size() - 1; i++) {
             sx = rayPathPoints.get(i).x;
             dx = rayPathPoints.get(i + 1).x;
             sy = rayPathPoints.get(i).y;
             dy = rayPathPoints.get(i + 1).y;
-            g2.draw(new Line2D.Double(sx,sy,dx,dy));
+            g2.draw(new Line2D.Double(sx, sy, dx, dy));
         }
     }
 
-    // game grid : w*h = 8*6. (상단에 1칸, 상하좌우 5px 여 있음)
-    // brick : w*h = 95 * 60.
     private void drawGameObject(Graphics g) {
         int minBrickHealth = Integer.MAX_VALUE;
         int maxBrickHealth = Integer.MIN_VALUE;
@@ -128,46 +110,46 @@ public class Renderer extends JPanel {
                 );
             } else if (gameObject instanceof Ball) {
                 Ball ball = (Ball) gameObject;
-                CircleCollider circle = ((CircleCollider)ball.getComponent("CircleCollider"));
+                CircleCollider circle = ((CircleCollider) ball.getComponent("CircleCollider"));
                 Vector2 position = new Vector2(circle.center.x - circle.radius, circle.center.y - circle.radius);
                 g.setColor(Color.RED);
-                g.drawOval((int)position.x, (int)position.y, Coordinates.BALL_SIZE, Coordinates.BALL_SIZE );
+                g.drawOval((int) position.x, (int) position.y, Coordinates.BALL_SIZE, Coordinates.BALL_SIZE);
             } else if (gameObject instanceof Wall) {
                 Wall wall = (Wall) gameObject;
                 int x, y, width, height;
-                BoxCollider collider = (BoxCollider)(wall.getComponent("BoxCollider"));
-                x = (int)(collider.bounds.getMinX());
-                y = (int)(collider.bounds.getMinY());
+                BoxCollider collider = (BoxCollider) (wall.getComponent("BoxCollider"));
+                x = (int) (collider.bounds.getMinX());
+                y = (int) (collider.bounds.getMinY());
                 width = collider.bounds.getWidth();
                 height = collider.bounds.getHeight();
                 g.setColor(Color.BLACK);
-                g.fillRect(x,y,width,height);
+                g.fillRect(x, y, width, height);
             } else if (gameObject instanceof BallItem) {
                 BallItem ballItem = (BallItem) gameObject;
-                CircleCollider collider = ((CircleCollider)ballItem.getComponent("CircleCollider"));
+                CircleCollider collider = ((CircleCollider) ballItem.getComponent("CircleCollider"));
 
                 g.setColor(Color.GREEN);
-                drawOval(g, (int)collider.center.x,
-                        (int)collider.center.y - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
+                drawOval(g, (int) collider.center.x,
+                        (int) collider.center.y - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
                         Coordinates.ITEM_SIZE + 5 + ballItem.animatedValue * 6);
                 g.setColor(Color.WHITE);
-                drawOval(g, (int)collider.center.x,
-                        (int)collider.center.y  - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
+                drawOval(g, (int) collider.center.x,
+                        (int) collider.center.y - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
                         Coordinates.ITEM_SIZE + ballItem.animatedValue * 6);
                 g.setColor(Color.GREEN);
-                drawOval(g, (int)collider.center.x,
-                        (int)collider.center.y  - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
+                drawOval(g, (int) collider.center.x,
+                        (int) collider.center.y - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
                         Coordinates.ITEM_SIZE);
-            } else if(gameObject instanceof Particle){
+            } else if (gameObject instanceof Particle) {
                 Particle particle = (Particle) gameObject;
                 g.setColor(new Color(particle.color.getRed(),
                         particle.color.getGreen(),
                         particle.color.getBlue(),
-                        (int)(particle.opacity * 255)));
+                        (int) (particle.opacity * 255)));
 
                 g.fillRect(
-                        (int)(particle.pos.x + particle.animatedVector.x),
-                        (int)(particle.pos.y+particle.animatedVector.y),
+                        (int) (particle.pos.x + particle.animatedVector.x),
+                        (int) (particle.pos.y + particle.animatedVector.y),
                         Coordinates.PARTICLE_SIZE, Coordinates.PARTICLE_SIZE
                 );
             }

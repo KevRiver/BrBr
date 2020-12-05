@@ -1,11 +1,10 @@
 package com.brbr.brick.UI;
 
-import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Vector2;
 
 import java.awt.*;
 
-public class ButtonUI implements UI{
+public class ButtonUI implements UI {
     private ButtonClickCallback buttonClickCallback;
 
     public String text;
@@ -17,7 +16,7 @@ public class ButtonUI implements UI{
     public Color backgroundColor;
     public Color textColor;
 
-    public ButtonUI(String text){
+    public ButtonUI(String text) {
         setText(text);
         position = new Vector2();
 
@@ -25,7 +24,7 @@ public class ButtonUI implements UI{
         textColor = Color.BLACK;
     }
 
-    public ButtonUI(String text, Vector2 position, int textSize, int width, int height){
+    public ButtonUI(String text, Vector2 position, int textSize, int width, int height) {
         this(text);
         setPosition(position);
         setTextSize(textSize);
@@ -33,46 +32,45 @@ public class ButtonUI implements UI{
         this.height = height;
     }
 
-    public ButtonUI(String text, Vector2 position, int textSize, int width, int height,
-                    ButtonClickCallback buttonClickCallback){
-        this(text, position, textSize, width, height);
+    public void setButtonClickCallback(ButtonClickCallback buttonClickCallback) {
         this.buttonClickCallback = buttonClickCallback;
     }
 
-    public void setButtonClickCallback(ButtonClickCallback buttonClickCallback){
-        this.buttonClickCallback = buttonClickCallback;
-    }
-
-    public void drawUI(Graphics g){
+    public void drawUI(Graphics g) {
         g.setFont(new Font("Verdana", Font.BOLD, textSize));
         g.setColor(textColor);
-        g.drawRoundRect((int)position.x, (int)position.y, width, height, 10, 10);
+        g.drawRoundRect((int) position.x, (int) position.y, width, height, 10, 10);
         g.setColor(backgroundColor);
-        g.fillRoundRect((int)position.x, (int)position.y, width, height, 10, 10);
+        g.fillRoundRect((int) position.x, (int) position.y, width, height, 10, 10);
 
         g.setColor(textColor);
-        g.drawString(text, (int)position.x + width / 2 - (int)((textSize * text.length()) * 0.65 / 2),
-                (int)position.y + 15 + height / 2 - (int)(textSize * 0.9 / 2));
+        g.drawString(text, (int) position.x + width / 2 - (int) ((textSize * text.length()) * 0.65 / 2),
+                (int) position.y + 15 + height / 2 - (int) (textSize * 0.9 / 2));
     }
 
-    public void setBackgroundColor(Color color){ backgroundColor = color; }
-    public void setTextColor(Color color){ textColor = color; }
+    public void setBackgroundColor(Color color) {
+        backgroundColor = color;
+    }
 
-    public void setPosition(Vector2 position){
+    public void setTextColor(Color color) {
+        textColor = color;
+    }
+
+    public void setPosition(Vector2 position) {
         this.position.x = position.x;
         this.position.y = position.y;
     }
 
-    public void setTextSize(int textSize){
+    public void setTextSize(int textSize) {
         this.textSize = textSize;
     }
 
-    public void setText(String text){
+    public void setText(String text) {
         this.text = text;
     }
 
-    public void buttonClicked(){
-        if(!visible) return ;
+    public void buttonClicked() {
+        if (!visible) return;
         this.buttonClickCallback.clicked();
     }
 }

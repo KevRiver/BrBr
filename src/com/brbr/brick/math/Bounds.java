@@ -8,69 +8,76 @@ public class Bounds {
     private int height;
 
     // constructor
-    public Bounds(){
+    public Bounds() {
         center = new Vector2();
         min = new Vector2();
         max = new Vector2();
     }
 
-    public Bounds(int width, int height){
+    public Bounds(int width, int height) {
         this();
         this.width = width;
         this.height = height;
         updateBounds();
     }
 
-    // accessor
-    public Vector2 getMin(){return min;}
-    public Vector2 getMax(){return max;}
-    public double getMinX(){
+    public Vector2 getMin() {
+        return min;
+    }
+
+    public Vector2 getMax() {
+        return max;
+    }
+
+    public double getMinX() {
         return min.x;
     }
-    public double getMinY(){
+
+    public double getMinY() {
         return min.y;
     }
-    public double getMaxX(){
+
+    public double getMaxX() {
         return max.x;
     }
-    public double getMaxY(){
+
+    public double getMaxY() {
         return max.y;
     }
-    public int getWidth(){
+
+    public int getWidth() {
         return width;
     }
-    public int getHeight(){
+
+    public int getHeight() {
         return height;
     }
 
-    public Vector2 getCenter(){
+    public Vector2 getCenter() {
         return center;
     }
 
-    // mutator
-    public void setBounds(int width, int height){
+    public void setBounds(int width, int height) {
         this.width = width;
         this.height = height;
         updateBounds();
 
     }
 
-    public void setCenter(Vector2 position){
+    public void setCenter(Vector2 position) {
         this.center.x = position.x;
         this.center.y = position.y;
         updateBounds();
     }
 
-    // toString
-    public String toString(){
-        String toStr = ""+"min(" + min.x + ", " + min.y + ")" + " max(" + max.x + ", "+max.y+")";
-        return toStr;
+    public String toString() {
+        return "" + "min(" + min.x + ", " + min.y + ")" + " max(" + max.x + ", " + max.y + ")";
     }
-    // methods
-    private void updateBounds(){
-        min.x = center.x - (double)width / 2;
-        min.y = center.y - (double)height / 2;
-        max.x = center.x + (double)width / 2;
-        max.y = center.y + (double)height / 2;
+
+    private void updateBounds() {
+        min.x = center.x - (double) width / 2;
+        min.y = center.y - (double) height / 2;
+        max.x = center.x + (double) width / 2;
+        max.y = center.y + (double) height / 2;
     }
 }

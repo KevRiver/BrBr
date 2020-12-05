@@ -1,6 +1,5 @@
 package com.brbr.brick;
 
-import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.object.AnimationObject;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.object.Particle;

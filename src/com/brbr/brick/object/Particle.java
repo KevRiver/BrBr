@@ -25,24 +25,26 @@ public class Particle extends AnimationObject {
 
         animatedVector = new Vector2();
 
-        gravity = (int)(Math.random() * 20);
-        xSpeed = (int)(Math.random() * 20) -  10;
+        gravity = (int) (Math.random() * 20);
+        xSpeed = (int) (Math.random() * 20) - 10;
     }
 
     @Override
-    float getSpeed() { return 0; }
+    float getSpeed() {
+        return 0;
+    }
 
     @Override
     public void update(long dt) {
-        if(!isMoving) return ;
+        if (!isMoving) return;
         gravity += 1.2;
         animatedVector.y += gravity * (dt / 100.0);
         animatedVector.x += xSpeed * (dt / 100.0);
 
         time += (dt / 1000.0);
-        if(time >= 0.5) opacity -= (dt / 1000.0);
+        if (time >= 0.5) opacity -= (dt / 1000.0);
 
-        if(opacity <= 0){
+        if (opacity <= 0) {
             isMoving = false;
             opacity = 0;
         }

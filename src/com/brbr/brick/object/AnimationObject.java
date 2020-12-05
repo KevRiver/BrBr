@@ -3,6 +3,7 @@ package com.brbr.brick.object;
 public abstract class AnimationObject extends GameObject {
 
     abstract float getSpeed();
+
     public float animatedValue = 0f;
     private float _animatedValue = 0f;
 

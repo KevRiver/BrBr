@@ -16,54 +16,54 @@ public class InputManager {
     private boolean isActive;
     private final int INPUT_LIMIT = 10;
 
-    private InputManager(){
+    private InputManager() {
         mouseEventListener = new MouseEventListener();
         input = new LinkedList<>();
         isActive = true;
 
     }
 
-    public static InputManager getInstance(){
-        if(instance == null) return new InputManager();
+    public static InputManager getInstance() {
+        if (instance == null) return new InputManager();
         return instance;
     }
 
-    public void setActive(boolean activation){
+    public void setActive(boolean activation) {
         isActive = activation;
     }
 
-    public void setTarget(JComponent component){
+    public void setTarget(JComponent component) {
         component.addMouseMotionListener(mouseEventListener);
         component.addMouseListener(mouseEventListener);
     }
 
-    public InputData poll(){
-        if(input.isEmpty()){
+    public InputData poll() {
+        if (input.isEmpty()) {
             return null;
         }
         Debugger.Print("Queue size: " + input.size());
         return input.poll();
     }
 
-    class MouseEventListener implements MouseMotionListener, MouseListener{
+    class MouseEventListener implements MouseMotionListener, MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            if(!isActive) return;
+            if (!isActive) return;
             InputData inputData = new InputData(InputData.InputType.Click, e.getX(), e.getY());
             input.add(inputData);
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if(!isActive) return;
+            if (!isActive) return;
             InputData inputData = new InputData(InputData.InputType.Press, e.getX(), e.getY());
             input.add(inputData);
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            if(!isActive) return;
+            if (!isActive) return;
             InputData inputData = new InputData(InputData.InputType.Release, e.getX(), e.getY());
             input.add(inputData);
         }
@@ -80,8 +80,8 @@ public class InputManager {
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            if(!isActive) return;
-            if(input.size() > INPUT_LIMIT) input.clear();
+            if (!isActive) return;
+            if (input.size() > INPUT_LIMIT) input.clear();
             InputData inputData = new InputData(InputData.InputType.Drag, e.getX(), e.getY());
             input.add(inputData);
         }
@@ -91,7 +91,4 @@ public class InputManager {
 
         }
     }
-
-
-
 }

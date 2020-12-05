@@ -1,6 +1,5 @@
 package com.brbr.brick;
 
-import com.brbr.brick.UI.*;
 import com.brbr.brick.UI.UIManager;
 import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.level.LevelManager;
@@ -9,7 +8,6 @@ import com.brbr.brick.physics.*;
 import com.brbr.brick.render.Renderer;
 
 import javax.swing.*;
-import java.util.Random;
 
 public class GameManager {
     private final Thread gameThread = createGameThread();
@@ -24,14 +22,6 @@ public class GameManager {
 
     private BallShooter shooter;
 
-    private UILayer beforeLayer;
-    private UILayer pauseLayer;
-    private UILayer proceedingLayer;
-
-    private TextUI scoreUI;
-    private TextUI recordUI;
-    private ButtonUI pauseButton;
-
     public GameManager() {
         init();
     }
@@ -39,7 +29,6 @@ public class GameManager {
     private void init() {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        // TODO : init managers
         scene = new Scene();
         uiManager = UIManager.getInstance(scene);
         renderer = new Renderer(scene);
@@ -50,6 +39,7 @@ public class GameManager {
         uiManager = UIManager.getInstance();
         shooter = new BallShooter(scene);
         inputManager.setTarget(renderer);
+
         // init scene frame
         scene.frameMarginTop = Coordinates.GAME_FRAME_Y;
         scene.frameWidth = GAME_WIDTH;
@@ -67,8 +57,6 @@ public class GameManager {
 
     // dummy data TODO : remove
     private void createDummyData() {
-        Random random = new Random();
-
         Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop);
         ((BoxCollider) wall1.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall");
 
@@ -134,10 +122,8 @@ public class GameManager {
         // physic
         physicManager.collisionCheck(dt);
 
-        // TODO : input
+        // input
         handleInput(inputManager.poll());
-
-        // TODO : logic
 
         // level
         levelManager.update(dt);
@@ -152,12 +138,10 @@ public class GameManager {
         if (scene.gameStatus == Scene.BEFORE_GAME || scene.gameStatus == Scene.END_GAME) {
             scene.scoreManager.saveRecordScore();
         }
-
-        // TODO : 이동 논의
     }
 
-    private void handleInput(InputData inputData){
-        if(inputData == null) return;
+    private void handleInput(InputData inputData) {
+        if (inputData == null) return;
         uiManager.buttonClickCheck(inputData);
         physicManager.handleInput(inputData);
         shooter.handleInput(inputData);

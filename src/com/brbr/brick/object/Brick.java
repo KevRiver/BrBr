@@ -12,7 +12,8 @@ public class Brick extends AnimationObject {
 
     @Override
     float getSpeed() {
-        if (isMoving) return 1 / 150f; else return 0f;
+        if (isMoving) return 1 / 150f;
+        else return 0f;
     }
 
     public void animateMove() {

@@ -3,7 +3,6 @@ package com.brbr.brick.level;
 import com.brbr.brick.Scene;
 import com.brbr.brick.assets.Colors;
 import com.brbr.brick.assets.Coordinates;
-import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Transform;
 import com.brbr.brick.math.Vector2;
 import com.brbr.brick.object.BallItem;
@@ -29,9 +28,9 @@ public class LevelManager {
         this.scene = scene;
     }
 
-    public void createBrickParticles(List particles, Brick brick){
-        for(int i = 0; i < 5; i++){
-            for(int j = 0; j < 7; j++){
+    public void createBrickParticles(List particles, Brick brick) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 7; j++) {
                 BoxCollider collider = (BoxCollider) (brick.getComponent("BoxCollider"));
 
                 Vector2 spawnPos = new Vector2(
@@ -44,12 +43,12 @@ public class LevelManager {
         }
     }
 
-    public void createItemParticles(List particles, BallItem item){
-        for(int i = 0; i < 20; i++){
+    public void createItemParticles(List particles, BallItem item) {
+        for (int i = 0; i < 20; i++) {
             CircleCollider collider = (CircleCollider) item.getComponent("CircleCollider");
             Vector2 spawnPos = new Vector2(
                     collider.center.x + Math.random() * Coordinates.BALL_SIZE - Coordinates.BALL_SIZE / 2,
-                    collider.center.y + Math.random() * Coordinates.BALL_SIZE  - Coordinates.BALL_SIZE / 2
+                    collider.center.y + Math.random() * Coordinates.BALL_SIZE - Coordinates.BALL_SIZE / 2
             );
             Particle particle = new Particle(spawnPos, Color.GREEN);
             particles.add(particle);
@@ -70,19 +69,18 @@ public class LevelManager {
                         if (gameObject instanceof Brick) {
                             Brick brick = ((Brick) gameObject);
 
-                            if(brick.health > 0) return true;
+                            if (brick.health > 0) return true;
 
                             createBrickParticles(particleList, brick);
                             return false;
                         }
-                        if(gameObject instanceof BallItem){
+                        if (gameObject instanceof BallItem) {
                             BallItem item = ((BallItem) gameObject);
-                            if(!item.isEaten) return true;
+                            if (!item.isEaten) return true;
 
                             createItemParticles(particleList, item);
                             return false;
-                        }
-                        else return true;
+                        } else return true;
                     })
                     .collect(Collectors.toList());
             scene.gameObjectList.addAll(particleList);
@@ -116,7 +114,7 @@ public class LevelManager {
                 brick.animateMove();
             }
 
-            if(gameObject instanceof BallItem){
+            if (gameObject instanceof BallItem) {
                 BallItem item = (BallItem) gameObject;
                 CircleCollider collider = ((CircleCollider) item.getComponent("CircleCollider"));
                 collider.setCenter(

@@ -27,13 +27,13 @@ public class UIManager {
     private TextUI recordUI;
     private ButtonUI pauseButton;
 
-    public static UIManager getInstance(Scene scene){
-        if(instance == null) instance = new UIManager(scene);
+    public static UIManager getInstance(Scene scene) {
+        if (instance == null) instance = new UIManager(scene);
         return instance;
     }
 
-    public static UIManager getInstance(){
-        if(instance == null) throw new NullPointerException();
+    public static UIManager getInstance() {
+        if (instance == null) throw new NullPointerException();
         return instance;
     }
 
@@ -47,7 +47,7 @@ public class UIManager {
         setPauseUI();
     }
 
-    private void setBeforeUI(){
+    private void setBeforeUI() {
         beforeLayer = new UILayer();
 
         Color backgroundColor = new Color(251, 136, 54);
@@ -65,7 +65,8 @@ public class UIManager {
 
         startButton.setButtonClickCallback(() -> scene.gameStatus = Scene.PROCEEDING_GAME);
 
-        quitButton.setButtonClickCallback(() -> { });
+        quitButton.setButtonClickCallback(() -> {
+        });
 
         beforeLayer.addButtonUI(startButton);
         beforeLayer.addButtonUI(quitButton);
@@ -75,7 +76,7 @@ public class UIManager {
         addLayer(beforeLayer);
     }
 
-    private void setProceedingUI(){
+    private void setProceedingUI() {
         proceedingLayer = new UILayer();
         recordUI = new TextUI("RECORD: " + scene.scoreManager.record,
                 new Vector2(scene.frameWidth / 2f - 48, 30), 20);
@@ -92,7 +93,7 @@ public class UIManager {
         addLayer(proceedingLayer);
     }
 
-    private void setPauseUI(){
+    private void setPauseUI() {
         pauseLayer = new UILayer();
 
         Color backgroundColor = new Color(251, 136, 54);
@@ -112,11 +113,11 @@ public class UIManager {
         addLayer(pauseLayer);
     }
 
-    private void addLayer(UILayer layer){
+    private void addLayer(UILayer layer) {
         layerList.add(layer);
     }
 
-    public void drawUI(Graphics g, int gameWidth, int gameHeight){
+    public void drawUI(Graphics g, int gameWidth, int gameHeight) {
         scoreUI.setText("SCORE: " + scene.scoreManager.score);
         recordUI.setText("RECORD: " + scene.scoreManager.record);
 
@@ -144,25 +145,25 @@ public class UIManager {
             }
         }
 
-        for(UILayer layer: layerList.stream().filter(layer -> layer.visible).collect(Collectors.toList())) {
+        for (UILayer layer : layerList.stream().filter(layer -> layer.visible).collect(Collectors.toList())) {
             layer.drawUI(g, gameWidth, gameHeight);
         }
     }
 
-    public boolean buttonClickCheck(int pointX, int pointY){
-        for(UILayer layer: layerList.stream().filter(layer -> !layer.clickUnable).collect(Collectors.toList())) {
+    public boolean buttonClickCheck(int pointX, int pointY) {
+        for (UILayer layer : layerList.stream().filter(layer -> !layer.clickUnable).collect(Collectors.toList())) {
             return layer.buttonClickCheck(pointX, pointY);
         }
         return false;
     }
 
-    public boolean buttonClickCheck(InputData inputData){
-        if(inputData.type != InputData.InputType.Click) return false;
+    public boolean buttonClickCheck(InputData inputData) {
+        if (inputData.type != InputData.InputType.Click) return false;
         Debugger.Print("buttonclickcheck");
         int pointX = inputData.x;
         int pointY = inputData.y;
 
-        for(UILayer layer: layerList.stream().filter(layer -> !layer.clickUnable).collect(Collectors.toList())) {
+        for (UILayer layer : layerList.stream().filter(layer -> !layer.clickUnable).collect(Collectors.toList())) {
             return layer.buttonClickCheck(pointX, pointY);
         }
         return false;
