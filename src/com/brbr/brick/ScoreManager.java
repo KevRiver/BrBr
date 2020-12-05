@@ -8,12 +8,10 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class ScoreManager {
-    public int score;
     public int record;
+    public int score;
 
     public ScoreManager(){
-        this.score = 150;
-
         File file = new File("./score.dat");
         try{
             Scanner sc = new Scanner(file);
@@ -40,5 +38,6 @@ public class ScoreManager {
 
     public void updateScore(int getScore){
         this.score += getScore;
+        if(record < score) record = score;
     }
 }

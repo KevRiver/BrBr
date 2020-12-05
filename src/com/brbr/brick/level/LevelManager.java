@@ -65,6 +65,7 @@ public class LevelManager {
 
     private void createNewLevel() {
         scene.level++;
+        scene.scoreManager.updateScore(1);
 
         for (GameObject gameObject : scene.gameObjectList) {
             if (gameObject instanceof Brick) {
@@ -97,6 +98,7 @@ public class LevelManager {
                         transform.translate(vector2);
                         brick.transform = transform;
                         brick.health = scene.level;
+                        brick.level = scene.level;
                         ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick0");
                         scene.gameObjectList.add(brick);
                     }

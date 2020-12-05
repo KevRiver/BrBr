@@ -276,6 +276,9 @@ public class GameManager {
         // render
         renderer.repaint();
 
+        scoreUI.setText("SCORE: " + scene.scoreManager.score);
+        recordUI.setText("RECORD: " + scene.scoreManager.record);
+
         // TODO : 이동 논의
         for (GameObject gameObject : scene.gameObjectList) {
             if (gameObject instanceof Ball) {
