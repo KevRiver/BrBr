@@ -49,6 +49,8 @@ public class GameManager {
         scene.frameHeight = Coordinates.BRICK_HEIGHT * Coordinates.BRICK_GRID_HEIGHT +
                 (Coordinates.BRICK_MARGIN + 1) * Coordinates.BRICK_GRID_HEIGHT;
 
+        uiManager.init();
+
         createDummyData();
 
         frame.getContentPane().add(renderer);

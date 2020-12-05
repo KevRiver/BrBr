@@ -39,8 +39,6 @@ public class UIManager {
 
     public UIManager(Scene scene) {
         this.scene = scene;
-
-        init();
     }
 
     public void init() {
@@ -48,7 +46,6 @@ public class UIManager {
         setBeforeUI();
         setPauseUI();
     }
-
 
     private void setBeforeUI(){
         beforeLayer = new UILayer();
@@ -81,8 +78,8 @@ public class UIManager {
     private void setProceedingUI(){
         proceedingLayer = new UILayer();
         recordUI = new TextUI("RECORD: " + scene.scoreManager.record,
-                new Vector2(scene.frameWidth / 2 - 48, 30), 20);
-        scoreUI = new TextUI("SCORE: 0", new Vector2(scene.frameWidth / 2 - 48, 60), 20);
+                new Vector2(scene.frameWidth / 2f - 48, 30), 20);
+        scoreUI = new TextUI("SCORE: 0", new Vector2(scene.frameWidth / 2f - 48, 60), 20);
 
         ButtonUI pauseButton = new ButtonUI("Ⅱ", new Vector2(scene.frameWidth - 50, 15),
                 20, 40, 40);
@@ -101,7 +98,7 @@ public class UIManager {
         Color backgroundColor = new Color(251, 136, 54);
         Color textColor = Color.WHITE;
 
-        ButtonUI resumeButton = new ButtonUI("resume", new Vector2(GAME_WIDTH / 2 - 90, GAME_HEIGHT / 2 - 40),
+        ButtonUI resumeButton = new ButtonUI("resume", new Vector2(GAME_WIDTH / 2f - 90, GAME_HEIGHT / 2f - 40),
                 20, 180, 50);
 
         resumeButton.setButtonClickCallback(() -> scene.gameStatus = Scene.PROCEEDING_GAME);
