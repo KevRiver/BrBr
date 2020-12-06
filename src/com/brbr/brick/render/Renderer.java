@@ -112,6 +112,8 @@ public class Renderer extends JPanel {
                 Ball ball = (Ball) gameObject;
                 CircleCollider circle = ((CircleCollider) ball.getComponent("CircleCollider"));
                 Vector2 position = new Vector2(circle.center.x - circle.radius, circle.center.y - circle.radius);
+                Graphics2D g2 = ((Graphics2D) g);
+                g2.setStroke(new BasicStroke(3));
                 g.setColor(Color.RED);
                 g.drawOval((int) position.x, (int) position.y, Coordinates.BALL_SIZE, Coordinates.BALL_SIZE);
             } else if (gameObject instanceof Wall) {

@@ -73,8 +73,9 @@ public class GameManager {
         scene.gameObjectList.add(wall2);
         scene.gameObjectList.add(wall3);
         scene.gameObjectList.add(wall4);
-
-        RayPath rayPath = new RayPath(scene.frameWidth / 2, scene.frameHeight + scene.frameMarginTop - 30, 500);
+        
+        shooter.setPosition(scene.frameWidth / 2, scene.frameHeight + scene.frameMarginTop - 30);
+        RayPath rayPath = new RayPath(((int) shooter.transform.position.x), ((int) shooter.transform.position.y), 500);
         scene.rayPath = rayPath;
     }
 
@@ -136,7 +137,7 @@ public class GameManager {
 
     private void handleInput(InputData inputData) {
         if (inputData == null) return;
-        uiManager.buttonClickCheck(inputData);
+        if(uiManager.buttonClickCheck(inputData)) return;
         physicManager.handleInput(inputData);
         shooter.handleInput(inputData);
     }

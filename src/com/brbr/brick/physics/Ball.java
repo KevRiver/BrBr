@@ -29,7 +29,6 @@ public class Ball extends GameObject {
     }
 
     public void setDirection(Vector2 dir) {
-        Vector2.normalize(dir);
         direction.x = dir.x;
         direction.y = dir.y;
     }

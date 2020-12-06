@@ -2,6 +2,7 @@ package com.brbr.brick.object;
 
 import com.brbr.brick.InputData;
 import com.brbr.brick.Scene;
+import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Vector2;
 import com.brbr.brick.physics.Ball;
 
@@ -19,6 +20,11 @@ public class BallShooter extends GameObject {
         setShootInterval(330);
     }
 
+    public void setPosition(int x, int y){
+        transform.position.x = x;
+        transform.position.y = y;
+    }
+
     public void setShootDirection(Vector2 shootDirection) {
         this.shootDirection = shootDirection;
     }
@@ -28,7 +34,6 @@ public class BallShooter extends GameObject {
     }
 
     public void shoot() {
-        transform.position = scene.rayPath.getRaySource();
         for (int i = 0; i < scene.ballCount; i++) {
             Ball newBall = new Ball(((int) transform.position.x), ((int) transform.position.y));
             addBallToScene(scene, newBall);
@@ -42,6 +47,7 @@ public class BallShooter extends GameObject {
 
     public void handleInput(InputData inputData) {
         if (!scene.needToShoot) return;
+        Debugger.Print("x: " + inputData.x + " y: " + inputData.y);
 
         if (inputData.type == InputData.InputType.Release) {
             Vector2 src = transform.position;
@@ -49,6 +55,7 @@ public class BallShooter extends GameObject {
             Vector2 dir = Vector2.subtract(dest, src);
             Vector2.normalize(dir);
             setShootDirection(dir);
+            Debugger.Print("dir: " + dir.x + ", " + dir.y);
             shoot();
         }
     }

@@ -102,6 +102,10 @@ public class PhysicManager {
     public Vector2 getRayDirection(final Vector2 source, final Vector2 destination) {
         Vector2 direction = Vector2.subtract(destination, source);
         Vector2.normalize(direction);
+        if(direction.y > 0){
+            direction.x = direction.x > 0? 0.999_847_695_156 : -0.999_847_695_156;
+            direction.y = -0.017_452_406_437;
+        }
         return direction;
     }
 

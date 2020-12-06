@@ -99,6 +99,7 @@ public class LevelManager {
 
         if (scene.gameStatus == Scene.END_GAME) {
             scene.level = 0;
+            scene.ballCount = 1;
             scene.gameObjectList = scene.gameObjectList.stream()
                     .filter(gameObject -> !(gameObject instanceof Brick))
                     .collect(Collectors.toList());
@@ -137,6 +138,7 @@ public class LevelManager {
                 item.animateMove();
             }
         }
+
         if (maxLevel == 10) {
             scene.gameStatus = Scene.END_GAME;
         }
@@ -175,6 +177,8 @@ public class LevelManager {
 
                     ((CircleCollider) item.addComponent(collider)).setTag("item");
                     scene.gameObjectList.add(item);
+
+
                 }
         );
     }
