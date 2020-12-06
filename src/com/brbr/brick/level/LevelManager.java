@@ -79,6 +79,7 @@ public class LevelManager {
                             BallItem item = ((BallItem) gameObject);
                             if (!item.isEaten) return true;
 
+                            scene.ballCount++;
                             createItemParticles(particleList, item);
                             return false;
                         } else return true;

@@ -29,7 +29,7 @@ public class BallShooter extends GameObject {
 
     public void shoot() {
         transform.position = scene.rayPath.getRaySource();
-        for (int i = 0; i < scene.level; i++) {
+        for (int i = 0; i < scene.ballCount; i++) {
             Ball newBall = new Ball(((int) transform.position.x), ((int) transform.position.y));
             addBallToScene(scene, newBall);
             newBall.setDirection(shootDirection);
