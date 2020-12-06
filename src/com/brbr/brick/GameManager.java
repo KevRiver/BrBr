@@ -64,7 +64,7 @@ public class GameManager {
         ((BoxCollider) wall2.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall");
 
         Wall wall3 = new Wall(scene.frameWidth / 2, scene.frameHeight + scene.frameMarginTop);
-        ((BoxCollider) wall3.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall");
+        ((BoxCollider) wall3.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall_bottom");
 
         Wall wall4 = new Wall(scene.frameWidth, scene.frameHeight / 2 + scene.frameMarginTop);
         ((BoxCollider) wall4.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall");
@@ -74,14 +74,8 @@ public class GameManager {
         scene.gameObjectList.add(wall3);
         scene.gameObjectList.add(wall4);
 
-        RayPath rayPath = new RayPath(scene.frameWidth / 2, scene.frameHeight - 50, 500);
+        RayPath rayPath = new RayPath(scene.frameWidth / 2, scene.frameHeight + scene.frameMarginTop - 30, 500);
         scene.rayPath = rayPath;
-        // TODO : 공이 전부 소진 된 후 다음 레벨로 바뀌도록 변경 필요
-        for (int i = 0; i < 100; i++) {
-            scene.scheduler.postDelayed(i * 5000, () -> {
-                scene.needLevelUpdate = true;
-            });
-        }
     }
 
     public void start() {

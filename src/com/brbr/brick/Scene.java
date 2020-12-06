@@ -20,6 +20,7 @@ public class Scene {
     public RayPath rayPath;
 
     public int level = 0;
+    public int ballCount = 1;
     public int framePerSecond;
 
     public int frameMarginTop = 100;
@@ -27,6 +28,7 @@ public class Scene {
     public int frameHeight = UNINITIALIZED;
 
     public boolean needLevelUpdate = true;
+    public boolean needToShoot = false;
 
     private static final int UNINITIALIZED = -1;
 

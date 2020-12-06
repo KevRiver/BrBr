@@ -63,7 +63,10 @@ public class UIManager {
         quitButton.setBackgroundColor(backgroundColor);
         quitButton.setTextColor(textColor);
 
-        startButton.setButtonClickCallback(() -> scene.gameStatus = Scene.PROCEEDING_GAME);
+        startButton.setButtonClickCallback(() -> {
+            scene.gameStatus = Scene.PROCEEDING_GAME;
+            scene.needToShoot = true;
+        });
 
         quitButton.setButtonClickCallback(() -> {
         });

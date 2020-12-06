@@ -12,6 +12,7 @@ public class Ball extends GameObject {
     private boolean isMoving = false;
     private Collider collider;
     public Vector2 direction;
+    public boolean needToDestroy = false;
 
     public Ball(int x, int y) {
         super(x, y);
@@ -94,6 +95,8 @@ public class Ball extends GameObject {
             }
             transform.translate(relativePosition);
             this.collider.setCenter(transform.position);
+        } else if (collider.tag.equals("wall_bottom")) {
+            needToDestroy = true;
         }
     }
 

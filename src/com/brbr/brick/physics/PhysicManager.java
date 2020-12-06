@@ -70,9 +70,15 @@ public class PhysicManager {
                 ((Ball) gameObject).update(dt / 1000.0);
             }
         }
+
+        scene.gameObjectList = scene.gameObjectList.stream()
+                .filter(gameObject -> !((gameObject instanceof Ball) && ((Ball) gameObject).needToDestroy))
+                .collect(Collectors.toList());
     }
 
     public void handleInput(InputData input) {
+        if (!scene.needToShoot) return;
+
         if (input.type == InputData.InputType.Release) {
             scene.rayPath.isActive = false;
             return;
@@ -130,6 +136,7 @@ public class PhysicManager {
         RaycastHit hit;
         // check all static colliders
         for (var s : getStaticObjects()) {
+            if (!(s instanceof BoxCollider)) continue;
             Bounds b = ((BoxCollider) s).bounds;
             if ((hit = isHit(source, dir, length, b)) != null) {
                 if (firstHit == null) {

@@ -9,6 +9,7 @@ import com.brbr.brick.object.BallItem;
 import com.brbr.brick.object.Brick;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.object.Particle;
+import com.brbr.brick.physics.Ball;
 import com.brbr.brick.physics.BoxCollider;
 import com.brbr.brick.physics.CircleCollider;
 import com.brbr.brick.physics.ColliderType;
@@ -78,12 +79,22 @@ public class LevelManager {
                             BallItem item = ((BallItem) gameObject);
                             if (!item.isEaten) return true;
 
+                            scene.ballCount++;
                             createItemParticles(particleList, item);
                             return false;
                         } else return true;
                     })
                     .collect(Collectors.toList());
             scene.gameObjectList.addAll(particleList);
+
+            long ballCount = scene.gameObjectList.stream()
+                    .filter(gameObject -> gameObject instanceof Ball)
+                    .count();
+            if (ballCount == 0 && !scene.needToShoot) {
+                scene.needLevelUpdate = true;
+                scene.needToShoot = true;
+            }
+
         }
 
         if (scene.gameStatus == Scene.END_GAME) {
