@@ -62,6 +62,8 @@ public class BallShooter extends GameObject {
     }
 
     public void handleInput(InputData inputData) {
+        if (!scene.needToShoot) return;
+
         if (inputData.type == InputData.InputType.Release) {
             if (isBallMoving) return;
             Vector2 src = transform.position;
