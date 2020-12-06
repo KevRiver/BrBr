@@ -165,7 +165,7 @@ public class LevelManager {
 
                     BallItem item = new BallItem();
 
-                    CircleCollider collider = new CircleCollider(Coordinates.ITEM_SIZE / 2);
+                    CircleCollider collider = new CircleCollider(Coordinates.ITEM_SIZE / 2, ColliderType.STATIC);
                     Vector2 itemCenter = new Vector2(
                             (float) itemIndex * (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN) + (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN) / 2f + Coordinates.GAME_FRAME_STROKE,
                             (float) Coordinates.BRICK_HEIGHT / 2f + scene.frameMarginTop + Coordinates.GAME_FRAME_STROKE

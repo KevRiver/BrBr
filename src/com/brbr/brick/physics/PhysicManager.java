@@ -136,6 +136,7 @@ public class PhysicManager {
         RaycastHit hit;
         // check all static colliders
         for (var s : getStaticObjects()) {
+            if (!(s instanceof BoxCollider)) continue;
             Bounds b = ((BoxCollider) s).bounds;
             if ((hit = isHit(source, dir, length, b)) != null) {
                 if (firstHit == null) {
