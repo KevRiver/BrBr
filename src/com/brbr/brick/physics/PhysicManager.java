@@ -77,6 +77,8 @@ public class PhysicManager {
     }
 
     public void handleInput(InputData input) {
+        if (!scene.needToShoot) return;
+
         if (input.type == InputData.InputType.Release) {
             scene.rayPath.isActive = false;
             return;
