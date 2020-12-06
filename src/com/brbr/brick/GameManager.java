@@ -74,7 +74,7 @@ public class GameManager {
         scene.gameObjectList.add(wall3);
         scene.gameObjectList.add(wall4);
 
-        RayPath rayPath = new RayPath(scene.frameWidth / 2, scene.frameHeight - 50, 500);
+        RayPath rayPath = new RayPath(scene.frameWidth / 2, scene.frameHeight + scene.frameMarginTop - 30, 500);
         scene.rayPath = rayPath;
     }
 

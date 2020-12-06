@@ -16,13 +16,7 @@ public class BallShooter extends GameObject {
     }
 
     private void init() {
-        setPosition(340, 650);
         setShootInterval(330);
-    }
-
-    public void setPosition(int x, int y) {
-        transform.position.x = x;
-        transform.position.y = y;
     }
 
     public void setShootDirection(Vector2 shootDirection) {
@@ -34,8 +28,9 @@ public class BallShooter extends GameObject {
     }
 
     public void shoot() {
+        transform.position = scene.rayPath.getRaySource();
         for (int i = 0; i < scene.level; i++) {
-            Ball newBall = new Ball(((int) transform.position.x), ((int) transform.position.x));
+            Ball newBall = new Ball(((int) transform.position.x), ((int) transform.position.y));
             addBallToScene(scene, newBall);
             newBall.setDirection(shootDirection);
             scene.scheduler.postDelayed((long) shootInterval * i, () -> {
