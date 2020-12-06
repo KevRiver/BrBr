@@ -76,12 +76,6 @@ public class GameManager {
 
         RayPath rayPath = new RayPath(scene.frameWidth / 2, scene.frameHeight - 50, 500);
         scene.rayPath = rayPath;
-        // TODO : 공이 전부 소진 된 후 다음 레벨로 바뀌도록 변경 필요
-        for (int i = 0; i < 100; i++) {
-            scene.scheduler.postDelayed(i * 5000, () -> {
-                scene.needLevelUpdate = true;
-            });
-        }
     }
 
     public void start() {

@@ -58,6 +58,7 @@ public class BallShooter extends GameObject {
                 ball.throwBall();
             });
         }
+        scene.needToShoot = false;
     }
 
     public void handleInput(InputData inputData) {
