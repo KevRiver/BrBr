@@ -70,6 +70,10 @@ public class PhysicManager {
                 ((Ball) gameObject).update(dt / 1000.0);
             }
         }
+
+        scene.gameObjectList = scene.gameObjectList.stream()
+                .filter(gameObject -> !((gameObject instanceof Ball) && ((Ball) gameObject).needToDestroy))
+                .collect(Collectors.toList());
     }
 
     public void handleInput(InputData input) {

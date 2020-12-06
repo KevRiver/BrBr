@@ -64,7 +64,7 @@ public class GameManager {
         ((BoxCollider) wall2.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall");
 
         Wall wall3 = new Wall(scene.frameWidth / 2, scene.frameHeight + scene.frameMarginTop);
-        ((BoxCollider) wall3.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall");
+        ((BoxCollider) wall3.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall_bottom");
 
         Wall wall4 = new Wall(scene.frameWidth, scene.frameHeight / 2 + scene.frameMarginTop);
         ((BoxCollider) wall4.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall");
