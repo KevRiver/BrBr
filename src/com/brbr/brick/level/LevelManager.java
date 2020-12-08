@@ -12,7 +12,6 @@ import com.brbr.brick.object.Particle;
 import com.brbr.brick.physics.Ball;
 import com.brbr.brick.physics.BoxCollider;
 import com.brbr.brick.physics.CircleCollider;
-import com.brbr.brick.physics.ColliderType;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -118,16 +117,9 @@ public class LevelManager {
                 newPosition.y += Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN;
                 brick.setPosition(newPosition);
                 brick.animateMove();
-                /*BoxCollider collider = ((BoxCollider) brick.getComponent("BoxCollider"));
-                collider.setCenter(
-                        new Vector2(
-                                collider.bounds.getCenter().x,
-                                collider.bounds.getCenter().y + Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN
-                        )
-                );
+                BoxCollider collider = ((BoxCollider) brick.getComponent("BoxCollider"));
                 int brickLevel = (int) (collider.bounds.getCenter().y / (Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN));
                 if (maxLevel < brickLevel) maxLevel = brickLevel;
-                brick.animateMove();*/
             }
 
             if (gameObject instanceof BallItem) {
