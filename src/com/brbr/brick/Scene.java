@@ -11,6 +11,7 @@ public class Scene {
     public static final int PROCEEDING_GAME = 1;
     public static final int PAUSE_GAME = 2;
     public static final int END_GAME = 3;
+    public static final int RESET_GAME = 4;
 
     public ScoreManager scoreManager = new ScoreManager();
     public Scheduler scheduler = new Scheduler();

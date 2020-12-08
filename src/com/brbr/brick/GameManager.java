@@ -48,7 +48,7 @@ public class GameManager {
 
         uiManager.init();
 
-        createDummyData();
+        createGameObjects();
 
         frame.getContentPane().add(renderer);
         frame.setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -56,7 +56,7 @@ public class GameManager {
     }
 
     // dummy data TODO : remove
-    private void createDummyData() {
+    private void createGameObjects() {
         Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop, scene.frameWidth, 10);
         wall1.setTag("wall");
 
@@ -110,7 +110,19 @@ public class GameManager {
         });
     }
 
+    private void resetGame(){
+        scene.gameObjectList.clear();
+        scene.scoreManager.score = 0;
+        scene.level = 0;
+        scene.ballCount = 1;
+        scene.gameStatus = Scene.PROCEEDING_GAME;
+        scene.needToShoot = true;
+        createGameObjects();
+    }
+
     private void loop(long dt) {
+        if(scene.gameStatus == Scene.RESET_GAME) resetGame();
+
         // scheduler
         scene.scheduler.update();
 
