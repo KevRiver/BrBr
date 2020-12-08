@@ -1,6 +1,5 @@
 package com.brbr.brick.physics;
 
-import com.brbr.brick.SoundManager;
 import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Bounds;
