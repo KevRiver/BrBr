@@ -66,6 +66,7 @@ public class UIManager {
         startButton.setButtonClickCallback(() -> {
             scene.gameStatus = Scene.PROCEEDING_GAME;
             scene.needToShoot = true;
+            scene.needLevelUpdate = true;
         });
 
         quitButton.setButtonClickCallback(() -> {

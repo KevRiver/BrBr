@@ -132,6 +132,8 @@ public class LevelManager {
                         scene.level = 0;
                         scene.ballCount = 1;
                         scene.scoreManager.score = 0;
+                        scene.needToShoot = false;
+                        scene.needLevelUpdate = false;
                         scene.gameObjectList = scene.gameObjectList.stream()
                                 .filter(gameObject -> !(gameObject instanceof Brick))
                                 .filter(gameObject -> !(gameObject instanceof BallItem))
