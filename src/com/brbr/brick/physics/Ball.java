@@ -1,5 +1,6 @@
 package com.brbr.brick.physics;
 
+import com.brbr.brick.SoundManager;
 import com.brbr.brick.assets.Coordinates;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Bounds;
@@ -8,7 +9,10 @@ import com.brbr.brick.math.MathExtension;
 import com.brbr.brick.math.Vector2;
 import com.brbr.brick.render.CircleRenderComponent;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
+import java.io.IOException;
 
 public class Ball extends GameObject {
     private final int ballSpeed = 500;
