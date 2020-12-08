@@ -132,7 +132,10 @@ public class LevelManager {
         }
 
         if (maxLevel == 10) {
-            scene.gameStatus = Scene.END_GAME;
+            scene.scheduler.postDelayed(
+                    300,
+                    () -> scene.gameStatus = Scene.END_GAME
+            );
         }
 
         scene.scheduler.postDelayed(100, () -> {
