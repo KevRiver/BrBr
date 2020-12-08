@@ -110,6 +110,7 @@ public class GameManager {
     }
 
     private void resetGame(){
+        scene.scoreManager.score = 0;
         scene.gameStatus = Scene.PROCEEDING_GAME;
         scene.needToShoot = true;
         scene.needLevelUpdate = true;

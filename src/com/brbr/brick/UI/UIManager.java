@@ -27,6 +27,8 @@ public class UIManager {
 
     private TextUI scoreUI;
     private TextUI recordUI;
+    private TextUI endRecordUI;
+    private TextUI endScoreUI;
     private ButtonUI pauseButton;
 
     public static UIManager getInstance(Scene scene) {
@@ -127,9 +129,9 @@ public class UIManager {
         TextUI gameOverUI = new TextUI("Game Over",
                 new Vector2(GAME_WIDTH / 2f - 120, scene.frameHeight / 2f - 50), 40);
 
-        TextUI endRecordUI = new TextUI("RECORD: " + scene.scoreManager.record,
+        endRecordUI = new TextUI("RECORD: " + scene.scoreManager.record,
                 new Vector2(GAME_WIDTH / 2f - 100, scene.frameHeight / 2f - 5), 20);
-        TextUI endScoreUI = new TextUI("SCORE: 0", new Vector2(GAME_WIDTH / 2f - 100, scene.frameHeight / 2f + 20), 20);
+        endScoreUI = new TextUI("SCORE: " + scene.scoreManager.score, new Vector2(GAME_WIDTH / 2f - 100, scene.frameHeight / 2f + 20), 20);
 
         ButtonUI restartButton = new ButtonUI("Restart", new Vector2(GAME_WIDTH / 2f - 100, GAME_HEIGHT / 2f - 45),
                 20, 200, 50);
@@ -160,6 +162,8 @@ public class UIManager {
     public void drawUI(Graphics g, int gameWidth, int gameHeight) {
         scoreUI.setText("SCORE: " + scene.scoreManager.score);
         recordUI.setText("RECORD: " + scene.scoreManager.record);
+        endScoreUI.setText("SCORE: " + scene.scoreManager.score);
+        endRecordUI.setText("RECORD: " + scene.scoreManager.record);
 
         switch (scene.gameStatus) {
             case Scene.BEFORE_GAME -> {
