@@ -77,6 +77,20 @@ public class Renderer extends JPanel {
                 if(!renderComponent.isActive) break;
                 renderComponent.draw(g);
             }
+
+            if (gameObject instanceof Particle) {
+                Particle particle = (Particle) gameObject;
+                g.setColor(new Color(particle.color.getRed(),
+                        particle.color.getGreen(),
+                        particle.color.getBlue(),
+                        (int) (particle.opacity * 255)));
+
+                g.fillRect(
+                        (int) (particle.pos.x + particle.animatedVector.x),
+                        (int) (particle.pos.y + particle.animatedVector.y),
+                        Coordinates.PARTICLE_SIZE, Coordinates.PARTICLE_SIZE
+                );
+            }
         }
     }
 
