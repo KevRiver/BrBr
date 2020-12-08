@@ -6,11 +6,15 @@ import com.brbr.brick.math.Bounds;
 import com.brbr.brick.object.GameObject;
 import com.brbr.brick.math.MathExtension;
 import com.brbr.brick.math.Vector2;
+import com.brbr.brick.render.CircleRenderComponent;
+
+import java.awt.*;
 
 public class Ball extends GameObject {
     private final int ballSpeed = 500;
     private boolean isMoving = false;
     private Collider collider;
+    private CircleRenderComponent circleRenderComponent;
     public Vector2 direction;
     public boolean needToDestroy = false;
 
@@ -19,6 +23,11 @@ public class Ball extends GameObject {
         collider = (CircleCollider) (addComponent(new CircleCollider(Coordinates.BALL_SIZE / 2f)));
         collider.setTag("Ball");
         collider.type = ColliderType.KINEMATIC;
+
+        circleRenderComponent = ((CircleRenderComponent) this.addComponent(new CircleRenderComponent(this.transform.position, Coordinates.BALL_SIZE / 2)));
+        circleRenderComponent.stroke = 3;
+        circleRenderComponent.color = Color.RED;
+
         direction = new Vector2();
     }
 
@@ -33,37 +42,16 @@ public class Ball extends GameObject {
         direction.y = dir.y;
     }
 
-    public void throwBall(double rot) {
-        setDirection(rot);
-        isMoving = true;
-    }
-
     public void throwBall() {
-        Debugger.Print("throw ball");
         isMoving = true;
     }
 
     public void update(double dt) {
         if (!isMoving) return;
         transform.translate(direction.multiply(ballSpeed * dt));
+        circleRenderComponent.setPosition(transform.position);
 
         collider.setCenter(transform.position);
-    }
-
-    public void changeRot(int status) {
-        if (status == 1)
-            transform.rotation = Math.PI - transform.rotation;
-
-        else
-            transform.rotation = -transform.rotation;
-
-        while (transform.rotation < -Math.PI * 2) {
-            transform.rotation += Math.PI * 2;
-        }
-
-        while (transform.rotation > Math.PI * 2) {
-            transform.rotation -= Math.PI * 2;
-        }
     }
 
     @Override

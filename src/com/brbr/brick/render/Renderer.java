@@ -20,6 +20,10 @@ import java.awt.*;
 public class Renderer extends JPanel {
     private Scene scene;
     private UIManager uiManager;
+    private String[] keys = {RectRenderComponent.class.getSimpleName(),
+            CircleRenderComponent.class.getSimpleName(),
+            DelegateRenderComponent.class.getSimpleName()
+    };
 
     public Renderer(Scene scene) {
         this.scene = scene;
@@ -65,108 +69,15 @@ public class Renderer extends JPanel {
     }
 
     private void drawGameObject(Graphics g) {
-        int minBrickHealth = Integer.MAX_VALUE;
-        int maxBrickHealth = Integer.MIN_VALUE;
         for (GameObject gameObject : scene.gameObjectList) {
-            if (gameObject instanceof Brick) {
-                int health = ((Brick) gameObject).health;
-                if (minBrickHealth > health) minBrickHealth = health;
-                if (maxBrickHealth < health) maxBrickHealth = health;
+            RenderComponent renderComponent;
+            for(String key: keys){
+                renderComponent = ((RenderComponent) gameObject.getComponent(key));
+                if(renderComponent == null) continue;
+                if(!renderComponent.isActive) break;
+                renderComponent.draw(g);
             }
         }
-        int[] healthLevelStep = new int[Colors.BRICK_COLOR_LEVEL.length];
-        for (int i = 0; i < Colors.BRICK_COLOR_LEVEL.length; i++) {
-            healthLevelStep[i] = (int) ((maxBrickHealth - minBrickHealth) /
-                    (float) Colors.BRICK_COLOR_LEVEL.length * (i + 1) +
-                    minBrickHealth);
-        }
-
-        for (GameObject gameObject : scene.gameObjectList) {
-            if (gameObject instanceof Brick) {
-                Brick brick = (Brick) gameObject;
-
-                int healthLevel = 0;
-                for (int i = 0; i < Colors.BRICK_COLOR_LEVEL.length; i++) {
-                    if (brick.health <= healthLevelStep[i]) {
-                        healthLevel = i;
-                        break;
-                    }
-                }
-                BoxCollider collider = (BoxCollider) (brick.getComponent("BoxCollider"));
-
-                g.setColor(Colors.BRICK_COLOR_LEVEL[healthLevel]);
-                g.fillRect(
-                        (int) (collider.bounds.getMinX()),
-                        (int) (collider.bounds.getMinY() - (1 - brick.animatedValue) * Coordinates.BRICK_HEIGHT),
-                        collider.bounds.getWidth(),
-                        collider.bounds.getHeight()
-                );
-
-                g.setColor(Color.WHITE);
-                g.drawString(
-                        String.valueOf(brick.health),
-                        (int) (collider.bounds.getCenter().x),
-                        (int) (collider.bounds.getCenter().y)
-                );
-            } else if (gameObject instanceof Ball) {
-                Ball ball = (Ball) gameObject;
-                CircleCollider circle = ((CircleCollider) ball.getComponent("CircleCollider"));
-                Vector2 position = new Vector2(circle.center.x - circle.radius, circle.center.y - circle.radius);
-                Graphics2D g2 = ((Graphics2D) g);
-                g2.setStroke(new BasicStroke(3));
-                g.setColor(Color.RED);
-                g.drawOval((int) position.x, (int) position.y, Coordinates.BALL_SIZE, Coordinates.BALL_SIZE);
-            } else if (gameObject instanceof Wall) {
-                Wall wall = (Wall) gameObject;
-                int x, y, width, height;
-                BoxCollider collider = (BoxCollider) (wall.getComponent("BoxCollider"));
-                x = (int) (collider.bounds.getMinX());
-                y = (int) (collider.bounds.getMinY());
-                width = collider.bounds.getWidth();
-                height = collider.bounds.getHeight();
-                g.setColor(Color.BLACK);
-                g.fillRect(x, y, width, height);
-            } else if (gameObject instanceof BallItem) {
-                BallItem ballItem = (BallItem) gameObject;
-                CircleCollider collider = ((CircleCollider) ballItem.getComponent("CircleCollider"));
-
-                g.setColor(Color.GREEN);
-                drawOval(g, (int) collider.center.x,
-                        (int) collider.center.y - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
-                        Coordinates.ITEM_SIZE + 5 + ballItem.animatedValue * 6);
-                g.setColor(Color.WHITE);
-                drawOval(g, (int) collider.center.x,
-                        (int) collider.center.y - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
-                        Coordinates.ITEM_SIZE + ballItem.animatedValue * 6);
-                g.setColor(Color.GREEN);
-                drawOval(g, (int) collider.center.x,
-                        (int) collider.center.y - (1 - ballItem.moveAnimatedValue) * Coordinates.BRICK_HEIGHT,
-                        Coordinates.ITEM_SIZE);
-            } else if (gameObject instanceof Particle) {
-                Particle particle = (Particle) gameObject;
-                g.setColor(new Color(particle.color.getRed(),
-                        particle.color.getGreen(),
-                        particle.color.getBlue(),
-                        (int) (particle.opacity * 255)));
-
-                g.fillRect(
-                        (int) (particle.pos.x + particle.animatedVector.x),
-                        (int) (particle.pos.y + particle.animatedVector.y),
-                        Coordinates.PARTICLE_SIZE, Coordinates.PARTICLE_SIZE
-                );
-            }
-        }
-    }
-
-    private void drawOval(Graphics g, float centerX, float centerY, float radius) {
-        float x = centerX - radius;
-        float y = centerY - radius;
-        g.fillOval(
-                Math.round(x),
-                Math.round(y),
-                Math.round(radius * 2),
-                Math.round(radius * 2)
-        );
     }
 
     private void drawDebugText(Graphics g) {
