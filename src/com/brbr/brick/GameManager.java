@@ -57,17 +57,17 @@ public class GameManager {
 
     // dummy data TODO : remove
     private void createDummyData() {
-        Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop);
-        ((BoxCollider) wall1.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall");
+        Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop, scene.frameWidth, 10);
+        wall1.setTag("wall");
 
-        Wall wall2 = new Wall(0, scene.frameHeight / 2 + scene.frameMarginTop);
-        ((BoxCollider) wall2.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall");
+        Wall wall2 = new Wall(0, scene.frameHeight / 2 + scene.frameMarginTop, 10, scene.frameHeight);
+        wall2.setTag("wall");
 
-        Wall wall3 = new Wall(scene.frameWidth / 2, scene.frameHeight + scene.frameMarginTop);
-        ((BoxCollider) wall3.addComponent(new BoxCollider(scene.frameWidth, 10, ColliderType.STATIC))).setTag("wall_bottom");
+        Wall wall3 = new Wall(scene.frameWidth / 2, scene.frameHeight + scene.frameMarginTop, scene.frameWidth, 10);
+        wall3.setTag("wall_bottom");
 
-        Wall wall4 = new Wall(scene.frameWidth, scene.frameHeight / 2 + scene.frameMarginTop);
-        ((BoxCollider) wall4.addComponent(new BoxCollider(10, scene.frameHeight, ColliderType.STATIC))).setTag("wall");
+        Wall wall4 = new Wall(scene.frameWidth, scene.frameHeight / 2 + scene.frameMarginTop, 10, scene.frameHeight);
+        wall4.setTag("wall");
 
         scene.gameObjectList.add(wall1);
         scene.gameObjectList.add(wall2);

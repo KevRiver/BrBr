@@ -4,6 +4,7 @@ import com.brbr.brick.core.BRBehavior;
 import com.brbr.brick.core.Component;
 import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Transform;
+import com.brbr.brick.math.Vector2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,11 @@ public class GameObject extends BRBehavior {
         this();
         transform.position.x = x;
         transform.position.y = y;
+    }
+
+    public void setPosition(Vector2 _position){
+        transform.position.x = _position.x;
+        transform.position.y = _position.y;
     }
 
     public <T extends Component> Component addComponent(T component) {

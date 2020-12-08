@@ -114,7 +114,11 @@ public class LevelManager {
         for (GameObject gameObject : scene.gameObjectList) {
             if (gameObject instanceof Brick) {
                 Brick brick = (Brick) gameObject;
-                BoxCollider collider = ((BoxCollider) brick.getComponent("BoxCollider"));
+                Vector2 newPosition = new Vector2(brick.transform.position.x, brick.transform.position.y);
+                newPosition.y += Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN;
+                brick.setPosition(newPosition);
+                brick.animateMove();
+                /*BoxCollider collider = ((BoxCollider) brick.getComponent("BoxCollider"));
                 collider.setCenter(
                         new Vector2(
                                 collider.bounds.getCenter().x,
@@ -123,18 +127,14 @@ public class LevelManager {
                 );
                 int brickLevel = (int) (collider.bounds.getCenter().y / (Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN));
                 if (maxLevel < brickLevel) maxLevel = brickLevel;
-                brick.animateMove();
+                brick.animateMove();*/
             }
 
             if (gameObject instanceof BallItem) {
                 BallItem item = (BallItem) gameObject;
-                CircleCollider collider = ((CircleCollider) item.getComponent("CircleCollider"));
-                collider.setCenter(
-                        new Vector2(
-                                collider.center.x,
-                                collider.center.y + Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN
-                        )
-                );
+                Vector2 newPosition = new Vector2(item.transform.position.x, item.transform.position.y);
+                newPosition.y += Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN;
+                item.setPosition(newPosition);
                 item.animateMove();
             }
         }
@@ -157,25 +157,18 @@ public class LevelManager {
                         Vector2 vector2 = new Vector2();
                         vector2.x = (float) index * (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN) + (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN + Coordinates.GAME_FRAME_STROKE) / 2f;
                         vector2.y = (float) Coordinates.BRICK_HEIGHT / 2f + scene.frameMarginTop + Coordinates.GAME_FRAME_STROKE;
-                        Brick brick = new Brick();
                         Transform transform = new Transform();
                         transform.translate(vector2);
-                        brick.transform = transform;
-                        brick.health = scene.level;
-                        ((BoxCollider) brick.addComponent(new BoxCollider(Coordinates.BRICK_WIDTH, Coordinates.BRICK_HEIGHT, ColliderType.STATIC))).setTag("brick");
+                        Brick brick = new Brick(transform.position, scene.level);
                         scene.gameObjectList.add(brick);
                     }
 
-                    BallItem item = new BallItem();
 
-                    CircleCollider collider = new CircleCollider(Coordinates.ITEM_SIZE / 2, ColliderType.STATIC);
                     Vector2 itemCenter = new Vector2(
                             (float) itemIndex * (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN) + (Coordinates.BRICK_WIDTH + Coordinates.BRICK_MARGIN) / 2f + Coordinates.GAME_FRAME_STROKE,
                             (float) Coordinates.BRICK_HEIGHT / 2f + scene.frameMarginTop + Coordinates.GAME_FRAME_STROKE
                     );
-                    collider.setCenter(itemCenter);
-
-                    ((CircleCollider) item.addComponent(collider)).setTag("item");
+                    BallItem item = new BallItem(itemCenter);
                     scene.gameObjectList.add(item);
 
 
