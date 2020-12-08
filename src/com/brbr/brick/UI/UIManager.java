@@ -139,6 +139,7 @@ public class UIManager {
 
         ButtonUI quitButton = new ButtonUI("Quit", new Vector2(GAME_WIDTH / 2f - 100, GAME_HEIGHT / 2f+ 10),
                 20, 200, 50);
+        quitButton.setButtonClickCallback(() -> System.exit(0));
         quitButton.setBackgroundColor(backgroundColor);
 
         quitButton.setTextColor(textColor);

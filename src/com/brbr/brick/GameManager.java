@@ -55,7 +55,6 @@ public class GameManager {
         frame.setVisible(true);
     }
 
-    // dummy data TODO : remove
     private void createGameObjects() {
         Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop, scene.frameWidth, 10);
         wall1.setTag("wall");
@@ -111,13 +110,9 @@ public class GameManager {
     }
 
     private void resetGame(){
-        scene.gameObjectList.clear();
-        scene.scoreManager.score = 0;
-        scene.level = 0;
-        scene.ballCount = 1;
         scene.gameStatus = Scene.PROCEEDING_GAME;
         scene.needToShoot = true;
-        createGameObjects();
+        scene.needLevelUpdate = true;
     }
 
     private void loop(long dt) {
