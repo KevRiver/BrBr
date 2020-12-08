@@ -69,8 +69,7 @@ public class UIManager {
             scene.needLevelUpdate = true;
         });
 
-        quitButton.setButtonClickCallback(() -> {
-        });
+        quitButton.setButtonClickCallback(() -> System.exit(0));
 
         beforeLayer.addButtonUI(startButton);
         beforeLayer.addButtonUI(quitButton);
