@@ -137,6 +137,7 @@ public class LevelManager {
                         scene.gameObjectList = scene.gameObjectList.stream()
                                 .filter(gameObject -> !(gameObject instanceof Brick))
                                 .filter(gameObject -> !(gameObject instanceof BallItem))
+                                .filter(gameObject -> !(gameObject instanceof Particle))
                                 .collect(Collectors.toList());
                     }
             );
