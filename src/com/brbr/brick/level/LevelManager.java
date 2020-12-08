@@ -12,7 +12,6 @@ import com.brbr.brick.object.Particle;
 import com.brbr.brick.physics.Ball;
 import com.brbr.brick.physics.BoxCollider;
 import com.brbr.brick.physics.CircleCollider;
-import com.brbr.brick.physics.ColliderType;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -96,14 +95,6 @@ public class LevelManager {
             }
 
         }
-
-        if (scene.gameStatus == Scene.END_GAME) {
-            scene.level = 0;
-            scene.ballCount = 1;
-            scene.gameObjectList = scene.gameObjectList.stream()
-                    .filter(gameObject -> !(gameObject instanceof Brick))
-                    .collect(Collectors.toList());
-        }
     }
 
     private void createNewLevel() {
@@ -118,16 +109,9 @@ public class LevelManager {
                 newPosition.y += Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN;
                 brick.setPosition(newPosition);
                 brick.animateMove();
-                /*BoxCollider collider = ((BoxCollider) brick.getComponent("BoxCollider"));
-                collider.setCenter(
-                        new Vector2(
-                                collider.bounds.getCenter().x,
-                                collider.bounds.getCenter().y + Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN
-                        )
-                );
+                BoxCollider collider = ((BoxCollider) brick.getComponent("BoxCollider"));
                 int brickLevel = (int) (collider.bounds.getCenter().y / (Coordinates.BRICK_HEIGHT + Coordinates.BRICK_MARGIN));
                 if (maxLevel < brickLevel) maxLevel = brickLevel;
-                brick.animateMove();*/
             }
 
             if (gameObject instanceof BallItem) {
@@ -140,7 +124,22 @@ public class LevelManager {
         }
 
         if (maxLevel == 10) {
-            scene.gameStatus = Scene.END_GAME;
+            scene.scheduler.postDelayed(
+                    300,
+                    () -> {
+                        scene.gameStatus = Scene.END_GAME;
+
+                        scene.level = 0;
+                        scene.ballCount = 1;
+                        scene.scoreManager.score = 0;
+                        scene.needToShoot = false;
+                        scene.needLevelUpdate = false;
+                        scene.gameObjectList = scene.gameObjectList.stream()
+                                .filter(gameObject -> !(gameObject instanceof Brick))
+                                .filter(gameObject -> !(gameObject instanceof BallItem))
+                                .collect(Collectors.toList());
+                    }
+            );
         }
 
         scene.scheduler.postDelayed(100, () -> {
