@@ -66,10 +66,10 @@ public class UIManager {
         startButton.setButtonClickCallback(() -> {
             scene.gameStatus = Scene.PROCEEDING_GAME;
             scene.needToShoot = true;
+            scene.needLevelUpdate = true;
         });
 
-        quitButton.setButtonClickCallback(() -> {
-        });
+        quitButton.setButtonClickCallback(() -> System.exit(0));
 
         beforeLayer.addButtonUI(startButton);
         beforeLayer.addButtonUI(quitButton);
