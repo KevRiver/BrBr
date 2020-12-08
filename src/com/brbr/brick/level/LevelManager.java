@@ -95,14 +95,6 @@ public class LevelManager {
             }
 
         }
-
-        if (scene.gameStatus == Scene.END_GAME) {
-            scene.level = 0;
-            scene.ballCount = 1;
-            scene.gameObjectList = scene.gameObjectList.stream()
-                    .filter(gameObject -> !(gameObject instanceof Brick))
-                    .collect(Collectors.toList());
-        }
     }
 
     private void createNewLevel() {
@@ -134,7 +126,17 @@ public class LevelManager {
         if (maxLevel == 10) {
             scene.scheduler.postDelayed(
                     300,
-                    () -> scene.gameStatus = Scene.END_GAME
+                    () -> {
+                        scene.gameStatus = Scene.END_GAME;
+
+                        scene.level = 0;
+                        scene.ballCount = 1;
+                        scene.scoreManager.score = 0;
+                        scene.gameObjectList = scene.gameObjectList.stream()
+                                .filter(gameObject -> !(gameObject instanceof Brick))
+                                .filter(gameObject -> !(gameObject instanceof BallItem))
+                                .collect(Collectors.toList());
+                    }
             );
         }
 
