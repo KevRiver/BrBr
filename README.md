@@ -15,8 +15,6 @@
   <img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot3.png" alt="screenshot3" width="190"/>
 </div>
 
-<hr> 
-
 <h2>Team</h2>
 
 ### [7kQon](https://github.com/7kQon)
