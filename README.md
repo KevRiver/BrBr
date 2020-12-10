@@ -10,9 +10,9 @@
 <h2>ScreenShots</h2>
 
 <div>
-  <img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot1.png" alt="screenshot1" width="190"/>
-  <img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot2.png" alt="screenshot2" width="190"/>
-  <img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot3.png" alt="screenshot3" width="190"/>
+  <img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot1.png" alt="screenshot1" width="220"/>
+  <img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot2.png" alt="screenshot2" width="220"/>
+  <img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot3.png" alt="screenshot3" width="220"/>
 </div>
 
 <h2>Team</h2>
