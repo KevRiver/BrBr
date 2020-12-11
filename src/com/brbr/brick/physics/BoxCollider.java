@@ -4,7 +4,7 @@ import com.brbr.brick.object.GameObject;
 import com.brbr.brick.math.Bounds;
 import com.brbr.brick.math.Vector2;
 
-public class BoxCollider extends Collider {
+public class BoxCollider extends Collider { // 사각 충돌을 위한 Collider
     public Bounds bounds;
 
     public BoxCollider(ColliderType type) {
@@ -32,7 +32,7 @@ public class BoxCollider extends Collider {
         bounds.setBounds(width, height);
     }
 
-    public Vector2 getPositionRelativeTo(BoxCollider collider) {
+    public Vector2 getPositionRelativeTo(BoxCollider collider) { // 충돌된 GameObject가 상대적으로 어디에 위치해 있는지 나타내주는 메서드
         Bounds b = collider.bounds;
         //Debugger.Print(collider.tag +" "+ b.toString());
         if (bounds.getMaxX() >= b.getMinX() && bounds.getMinX() < b.getMinX()) {

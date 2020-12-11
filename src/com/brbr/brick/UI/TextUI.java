@@ -4,7 +4,7 @@ import com.brbr.brick.math.Vector2;
 
 import java.awt.*;
 
-public class TextUI implements UI {
+public class TextUI implements UI { // 텍스트 UI
     public String text;
     public Vector2 position;
     public int textSize;
@@ -21,7 +21,7 @@ public class TextUI implements UI {
         setTextSize(size);
     }
 
-    public void drawUI(Graphics g) {
+    public void drawUI(Graphics g) { // 글자만 렌더해준다.
         g.setColor(Color.BLACK);
         g.setFont(new Font("Verdana", Font.BOLD, textSize));
         g.drawString(text, (int) position.x, (int) position.y);

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import static com.brbr.brick.math.Vector2.getDistance;
 import static com.brbr.brick.math.Vector2.getNormalized;
 
-public class PhysicManager {
+public class PhysicManager { // 충돌체크를 확인해주는 클래스
 
     private final Scene scene;
 
@@ -333,22 +333,22 @@ public class PhysicManager {
             return false;
         }
 
-        if (c.x < bound.getMinX() && c.y < bound.getMinY()) { // 사각형의 왼쪽 상단에 위치
+        if (c.x < bound.getMinX() && c.y < bound.getMinY()) { // 원과 사각형의 왼쪽 상단에서 충돌
             double distance = getDistance(c, new Vector2(bound.getMinX(), bound.getMinY()));
             return !(distance > r);
         }
 
-        if (c.x > bound.getMaxX() && c.y < bound.getMinY()) { // 사각형의 오른쪽 상단에 위치
+        if (c.x > bound.getMaxX() && c.y < bound.getMinY()) { // 원과 사각형의 오른쪽 상단에서 충돌
             double distance = getDistance(c, new Vector2(bound.getMaxX(), bound.getMinY()));
             return !(distance > r);
         }
 
-        if (c.x < bound.getMinX() && c.y > bound.getMaxY()) { // 사각형의 왼쪽 하단에 위
+        if (c.x < bound.getMinX() && c.y > bound.getMaxY()) { // 원과 사각형의 왼쪽 하단에서 충돌
             double distance = getDistance(c, new Vector2(bound.getMinX(), bound.getMaxY()));
             return !(distance > r);
         }
 
-        if (c.x > bound.getMaxX() && c.y > bound.getMaxY()) { // 사각형의 오른쪽 하단에 위치
+        if (c.x > bound.getMaxX() && c.y > bound.getMaxY()) { // 원과 사각형의 오른쪽 하단에서 충돌
             double distance = getDistance(c, new Vector2(bound.getMaxX(), bound.getMaxY()));
             return !(distance > r);
         }

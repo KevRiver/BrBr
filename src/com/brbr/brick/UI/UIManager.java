@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import static com.brbr.brick.GameManager.GAME_HEIGHT;
 import static com.brbr.brick.GameManager.GAME_WIDTH;
 
-public class UIManager {
+public class UIManager { // UI들을 관리하는 클래스
 
     private Scene scene;
     private static UIManager instance = null;
@@ -31,7 +31,7 @@ public class UIManager {
     private TextUI endScoreUI;
     private ButtonUI pauseButton;
 
-    public static UIManager getInstance(Scene scene) {
+    public static UIManager getInstance(Scene scene) { // 싱글턴 패턴을 이용하여 구현
         if (instance == null) instance = new UIManager(scene);
         return instance;
     }
@@ -52,7 +52,7 @@ public class UIManager {
         setEndUI();
     }
 
-    private void setBeforeUI() {
+    private void setBeforeUI() { // 게임 시작 전 화면의 UI Layer를 세팅해준다.
         beforeLayer = new UILayer();
 
         Color backgroundColor = new Color(251, 136, 54);
@@ -84,7 +84,7 @@ public class UIManager {
         addLayer(beforeLayer);
     }
 
-    private void setProceedingUI() {
+    private void setProceedingUI() { // 게임 진행중인 화면의 UI Layer를 세팅해준다.
         proceedingLayer = new UILayer();
         recordUI = new TextUI("RECORD: " + scene.scoreManager.record,
                 new Vector2(scene.frameWidth / 2f - 48, 30), 20);
@@ -101,7 +101,7 @@ public class UIManager {
         addLayer(proceedingLayer);
     }
 
-    private void setPauseUI() {
+    private void setPauseUI() { // 일시정지 화면의 UI Layer를 세팅해준다
         pauseLayer = new UILayer();
 
         Color backgroundColor = new Color(251, 136, 54);
@@ -121,7 +121,7 @@ public class UIManager {
         addLayer(pauseLayer);
     }
 
-    private void setEndUI(){
+    private void setEndUI(){ // 게임 종료 화면의 UI Layer를 세팅해준다
         endLayer = new UILayer();
         Color backgroundColor = new Color(251, 136, 54);
         Color textColor = Color.WHITE;
@@ -157,9 +157,10 @@ public class UIManager {
 
     private void addLayer(UILayer layer) {
         layerList.add(layer);
-    }
+    } // 레이어를 LayerList에 추가해준다.
 
     public void drawUI(Graphics g, int gameWidth, int gameHeight) {
+        // UI를 그려주고 Scene에서 gameStatus에 따라 Layer의 visible을 지정해준다
         scoreUI.setText("SCORE: " + scene.scoreManager.score);
         recordUI.setText("RECORD: " + scene.scoreManager.record);
         endScoreUI.setText("SCORE: " + scene.scoreManager.score);
@@ -204,7 +205,7 @@ public class UIManager {
         return false;
     }
 
-    public boolean buttonClickCheck(InputData inputData) {
+    public boolean buttonClickCheck(InputData inputData) { // 직접 버튼을 구현하여 해당 레이어에서버튼이 클릭되었는지 체크해주는 메서드
         if (inputData.type != InputData.InputType.Click) return false;
         Debugger.Print("buttonclickcheck");
         int pointX = inputData.x;

@@ -13,7 +13,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
 
-public class Ball extends GameObject {
+public class Ball extends GameObject { // 게임에서 발사되는 공의 클래스
     private final int ballSpeed = 500;
     private boolean isMoving = false;
     private Collider collider;
@@ -34,22 +34,22 @@ public class Ball extends GameObject {
         direction = new Vector2();
     }
 
-    public void setDirection(double rot) {
+    public void setDirection(double rot) { // degree를 받아와서 cos, sin값으로 direction을 지정해주는 메서드
         double rad = MathExtension.deg2rad(rot);
         direction.x = Math.cos(rad);
         direction.y = Math.sin(rad);
     }
 
-    public void setDirection(Vector2 dir) {
+    public void setDirection(Vector2 dir) { // 방향 값을 가져와서 direction에 저장하는 메서드
         direction.x = dir.x;
         direction.y = dir.y;
     }
 
     public void throwBall() {
         isMoving = true;
-    }
+    } // 볼을 발사할 때 호출해주는 메서드, isMoving이 true일 때만 공이 움직임
 
-    public void update(double dt) {
+    public void update(double dt) { // 매 프레임 마다 공을 움직여주는 메서드
         if (!isMoving) return;
         transform.translate(direction.multiply(ballSpeed * dt));
         circleRenderComponent.setPosition(transform.position);
@@ -58,7 +58,8 @@ public class Ball extends GameObject {
     }
 
     @Override
-    public void onCollisionEnter(Collider collider) {
+    public void onCollisionEnter(Collider collider) { // 공이 어떤 GameObejct와 충돌되었을 때 호출되는 메서드
+        // 벽이나 벽돌에 닿았을 경우 direction값을 수정하여 공이 튕기게 해준다.
         if (collider.tag.equals("brick") || collider.tag.equals("wall")) {
             Vector2 relativePosition = this.collider.getPositionRelativeTo((BoxCollider) collider);
             if (relativePosition.equals(Vector2.up) || relativePosition.equals(Vector2.down)) {
