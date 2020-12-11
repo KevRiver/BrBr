@@ -1,21 +1,21 @@
 # BrBR
-<div align="center">
-<img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/>
-    <img src="https://img.shields.io/badge/java-%23ED8B00.svg?&style=for-the-badge&logo=java&logoColor=white"/>
+<div>
+  <img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/>
+  <img src="https://img.shields.io/badge/java-%23ED8B00.svg?&style=for-the-badge&logo=java&logoColor=white"/>
+  <p>
+    A game of removing bricks by firing a ball
+  </p>
 </div>
-<p>
-A game of removing bricks by firing a ball
-</p>
 
+<h2>ScreenShots</h2>
 
+<div>
+  <img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot1.png" alt="screenshot1" width="220"/>
+  <img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot2.png" alt="screenshot2" width="220"/>
+  <img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot3.png" alt="screenshot3" width="220"/>
+</div>
 
-
-##ScreenShots
-<img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot1.png" alt="screenshot1" width="190"/>
-<img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot2.png" alt="screenshot2" width="190"/>
-<img src="https://eunseo-test.s3.ap-northeast-2.amazonaws.com/uploads/screenshot3.png" alt="screenshot3" width="190"/>
-
-##Team
+<h2>Team</h2>
 
 ### [7kQon](https://github.com/7kQon)
 Main Client Developer
