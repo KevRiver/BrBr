@@ -8,10 +8,7 @@ import com.brbr.brick.math.MathExtension;
 import com.brbr.brick.math.Vector2;
 import com.brbr.brick.render.CircleRenderComponent;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
-import java.io.IOException;
 
 public class Ball extends GameObject { // 게임에서 발사되는 공의 클래스
     private final int ballSpeed = 500;

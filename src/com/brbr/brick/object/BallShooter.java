@@ -6,6 +6,7 @@ import com.brbr.brick.debug.Debugger;
 import com.brbr.brick.math.Vector2;
 import com.brbr.brick.physics.Ball;
 
+// 공을 발사하는 게임 오브젝트
 public class BallShooter extends GameObject {
     private Vector2 shootDirection;
     private double shootInterval;
@@ -18,7 +19,7 @@ public class BallShooter extends GameObject {
 
     private void init() {
         setShootInterval(330);
-    }
+    } // 0.33 초
 
     public void setPosition(int x, int y){
         transform.position.x = x;
@@ -43,7 +44,7 @@ public class BallShooter extends GameObject {
             });
         }
         scene.needToShoot = false;
-    }
+    } // 발사해야할 공 개수만큼 새로운 공을 생성, 등록, 방향 설정 스케줄러에 등록
 
     public void handleInput(InputData inputData) {
         if (!scene.needToShoot) return;
@@ -58,9 +59,9 @@ public class BallShooter extends GameObject {
             Debugger.Print("dir: " + dir.x + ", " + dir.y);
             shoot();
         }
-    }
+    } // 입력 데이터 처리
 
     private void addBallToScene(Scene scene, Ball ball) {
         scene.gameObjectList.add(ball);
-    }
+    } // 생성된 Ball 객체 등록
 }

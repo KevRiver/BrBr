@@ -9,12 +9,12 @@ import java.awt.event.MouseMotionListener;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class InputManager {
+public class InputManager { // 싱글톤 패턴 구현
     private static InputManager instance = null;
-    private Queue<InputData> input;
-    private MouseEventListener mouseEventListener;
+    private Queue<InputData> input; // InputData queue
+    private MouseEventListener mouseEventListener; // MouseListener, MouseMotionListener 구현
     private boolean isActive;
-    private final int INPUT_LIMIT = 10;
+    private final int INPUT_LIMIT = 10; // Input Throttling Threshold
 
     private InputManager() {
         mouseEventListener = new MouseEventListener();
@@ -35,7 +35,7 @@ public class InputManager {
     public void setTarget(JComponent component) {
         component.addMouseMotionListener(mouseEventListener);
         component.addMouseListener(mouseEventListener);
-    }
+    } // 파라미터로 받은 JComponent에 자신을 등록
 
     public InputData poll() {
         if (input.isEmpty()) {
@@ -43,8 +43,9 @@ public class InputManager {
         }
         Debugger.Print("Queue size: " + input.size());
         return input.poll();
-    }
+    } // 큐에 있는 입력 데이터 폴링
 
+    // Role: 마우스 입력을 InputManger의 큐에 추가
     class MouseEventListener implements MouseMotionListener, MouseListener {
 
         @Override
@@ -58,6 +59,14 @@ public class InputManager {
         public void mousePressed(MouseEvent e) {
             if (!isActive) return;
             InputData inputData = new InputData(InputData.InputType.Press, e.getX(), e.getY());
+            input.add(inputData);
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            if (!isActive) return;
+            if (input.size() > INPUT_LIMIT) input.clear();
+            InputData inputData = new InputData(InputData.InputType.Drag, e.getX(), e.getY());
             input.add(inputData);
         }
 
@@ -76,14 +85,6 @@ public class InputManager {
         @Override
         public void mouseExited(MouseEvent e) {
 
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            if (!isActive) return;
-            if (input.size() > INPUT_LIMIT) input.clear();
-            InputData inputData = new InputData(InputData.InputType.Drag, e.getX(), e.getY());
-            input.add(inputData);
         }
 
         @Override

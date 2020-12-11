@@ -5,6 +5,7 @@ import com.brbr.brick.math.Vector2;
 
 import java.awt.*;
 
+// 화면에 그림을 그리는 컴포넌트
 public class RenderComponent extends Component {
     public Vector2 position;
     public Color color;
