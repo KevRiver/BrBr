@@ -4,7 +4,7 @@ import com.brbr.brick.math.Vector2;
 
 import java.awt.*;
 
-public class ButtonUI implements UI {
+public class ButtonUI implements UI { // 버튼 UI
     private ButtonClickCallback buttonClickCallback;
 
     public String text;
@@ -36,7 +36,7 @@ public class ButtonUI implements UI {
         this.buttonClickCallback = buttonClickCallback;
     }
 
-    public void drawUI(Graphics g) {
+    public void drawUI(Graphics g) { // 영역 안에 버튼을 렌더해준다.
         g.setFont(new Font("Verdana", Font.BOLD, textSize));
         g.setColor(textColor);
         g.drawRoundRect((int) position.x, (int) position.y, width, height, 10, 10);

@@ -55,7 +55,7 @@ public class GameManager {
         frame.setVisible(true);
     }
 
-    private void createGameObjects() {
+    private void createGameObjects() { // 게임에서 사용되는 기본 오브젝트들을 생성해주는 메서드
         Wall wall1 = new Wall(scene.frameWidth / 2, scene.frameMarginTop, scene.frameWidth, 10);
         wall1.setTag("wall");
 
@@ -109,7 +109,7 @@ public class GameManager {
         });
     }
 
-    private void resetGame(){
+    private void resetGame(){ // 게임이 다시시작 될 때 게임 초기화 해주는 메서드
         scene.scoreManager.score = 0;
         scene.gameStatus = Scene.PROCEEDING_GAME;
         scene.needToShoot = true;

@@ -3,7 +3,7 @@ package com.brbr.brick.physics;
 import com.brbr.brick.math.Bounds;
 import com.brbr.brick.math.Vector2;
 
-public class CircleCollider extends Collider {
+public class CircleCollider extends Collider { // 원 충돌을 위한 Collider
     public double radius;
     public Vector2 center;
 
@@ -32,7 +32,7 @@ public class CircleCollider extends Collider {
         center.y = position.y;
     }
 
-    public Vector2 getPositionRelativeTo(BoxCollider collider) {
+    public Vector2 getPositionRelativeTo(BoxCollider collider) {// 충돌된 GameObject가 상대적으로 어디에 위치해 있는지 나타내주는 메서드
         Bounds bound = collider.bounds;
         if (bound.getMinX() <= center.x && center.x <= bound.getMaxX()) {
             if (center.y <= bound.getMinY()) { // 사각형의 위에 위치

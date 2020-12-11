@@ -4,7 +4,7 @@ import com.brbr.brick.math.Vector2;
 
 import java.awt.*;
 
-public class Particle extends AnimationObject {
+public class Particle extends AnimationObject { // 벽돌이 부서지거나 아이템을 먹었을 때 발생하는 파티클 클래스
     public Vector2 pos;
 
     public float gravity;
@@ -35,7 +35,8 @@ public class Particle extends AnimationObject {
     }
 
     @Override
-    public void update(long dt) {
+    public void update(long dt) { // 매 프레임마다 particle의 좌표를 조정해주는 메서드
+        // 가속도를 주어 매 프레임마다 바닥에 떨어지는 효과를 준다
         if (!isMoving) return;
         gravity += 1.2;
         animatedVector.y += gravity * (dt / 100.0);
