@@ -4,6 +4,7 @@ import com.brbr.brick.math.Vector2;
 
 import java.awt.*;
 
+// 직사각형 모양을 그리는 렌더 컴포넌트
 public class RectRenderComponent extends RenderComponent {
     public int width, height;
 

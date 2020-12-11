@@ -1,5 +1,6 @@
 package com.brbr.brick;
 
+// 입력 데이터 모델
 public class InputData {
     public enum InputType {
         Press,

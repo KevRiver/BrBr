@@ -61,14 +61,13 @@ public class Bounds {
         this.width = width;
         this.height = height;
         updateBounds();
-
     }
 
     public void setCenter(Vector2 position) {
         this.center.x = position.x;
         this.center.y = position.y;
         updateBounds();
-    }
+    } // center 값을 변경 후 min, max 갱신
 
     public String toString() {
         return "" + "min(" + min.x + ", " + min.y + ")" + " max(" + max.x + ", " + max.y + ")";
@@ -79,5 +78,5 @@ public class Bounds {
         min.y = center.y - (double) height / 2;
         max.x = center.x + (double) width / 2;
         max.y = center.y + (double) height / 2;
-    }
+    } // min, max 갱신
 }

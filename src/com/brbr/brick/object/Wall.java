@@ -6,6 +6,7 @@ import com.brbr.brick.render.RectRenderComponent;
 
 import java.awt.*;
 
+// 벽 모델
 public class Wall extends GameObject {
     public int width, height;
     private BoxCollider boxCollider;

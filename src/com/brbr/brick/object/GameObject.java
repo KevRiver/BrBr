@@ -39,15 +39,15 @@ public class GameObject extends BRBehavior {
         component.initWith(this);
         componentMap.put(key, component);
         return component;
-    }
+    } // 컴포넌트 해시맵에 해당 클래스의 SimpleName 을 키값으로 추가
 
     public Component getComponent(String componentName) {
         return componentMap.get(componentName);
-    }
+    } // 키 값을 통해 컴포넌트에 접근
 
     public Map<String, Component> getComponents() {
         return Map.copyOf(componentMap);
-    }
+    } // 컴포넌트 해시맵 접근
 
     public void removeComponent(String componentName) {
         try {

@@ -1,5 +1,6 @@
 package com.brbr.brick.math;
 
+// 위치, 스케일, 회전 값을 저장하는 클래스
 public class Transform {
     public com.brbr.brick.math.Vector2 position;
     public com.brbr.brick.math.Vector2 scale;
@@ -20,7 +21,7 @@ public class Transform {
     public void translate(com.brbr.brick.math.Vector2 speed) {
         position.x += speed.x;
         position.y += speed.y;
-    }
+    } // 파라미터로 들어온 속도 만큼 위치 변경
 
     public void rotate(float rot) {
         rotation = (rotation + rot) % 360;

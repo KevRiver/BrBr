@@ -5,6 +5,7 @@ import com.brbr.brick.math.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 
+// 공 발사 궤적 모델
 public class RayPath extends GameObject {
     public boolean isActive;
     private Vector2 raySource;
