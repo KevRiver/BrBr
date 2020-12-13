@@ -12,6 +12,7 @@ import com.brbr.brick.render.DrawDelegate;
 import javax.swing.*;
 import java.awt.*;
 
+// 충돌하면 체력이 깎기는 벽돌 객체
 public class Brick extends AnimationObject {
     public int health;
     private boolean isMoving = false;

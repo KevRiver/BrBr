@@ -6,6 +6,7 @@ import com.brbr.brick.object.RayPath;
 import java.util.ArrayList;
 import java.util.List;
 
+// 게임 내의 state를 저장하는 클래스
 public class Scene {
     public static final int BEFORE_GAME = 0;
     public static final int PROCEEDING_GAME = 1;

@@ -10,6 +10,7 @@ import com.brbr.brick.render.DrawDelegate;
 
 import java.awt.*;
 
+// 획득하면 공이 늘어나는 아이템
 public class BallItem extends AnimationObject {
     private boolean isMoving = false;
     public float moveAnimatedValue = 1f;

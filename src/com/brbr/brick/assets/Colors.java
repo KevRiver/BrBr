@@ -2,6 +2,7 @@ package com.brbr.brick.assets;
 
 import java.awt.*;
 
+// 게임에서 사용하는 색상 지정
 public class Colors {
     public final static Color BACKGROUND_COLOR = new Color(247, 247, 247);
     public final static Color[] BRICK_COLOR_LEVEL = {

@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 
+// scene에 있는 gameObject들을 화면에 그리는 클래스
 public class Renderer extends JPanel {
     private Scene scene;
     private UIManager uiManager;

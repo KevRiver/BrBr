@@ -9,6 +9,7 @@ import com.brbr.brick.render.Renderer;
 
 import javax.swing.*;
 
+// 게임내에 존재하는 매니저들을 연결하고 JFrame을 실행하는 최상위 클래스
 public class GameManager {
     private final Thread gameThread = createGameThread();
 

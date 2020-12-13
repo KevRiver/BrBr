@@ -2,6 +2,7 @@ package com.brbr.brick;
 
 import java.util.PriorityQueue;
 
+// 특정 시간 후에 action을 실행하기 위한 scheduler
 public class Scheduler {
 
     private final PriorityQueue<Entry> queue = new PriorityQueue<>();

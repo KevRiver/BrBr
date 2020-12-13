@@ -1,5 +1,6 @@
 package com.brbr.brick.assets;
 
+// 게임에서 사용하는 좌표/값 정의
 public class Coordinates {
 
     public final static int BRICK_GRID_WIDTH = 6;

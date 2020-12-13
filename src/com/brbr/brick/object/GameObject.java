@@ -9,6 +9,7 @@ import com.brbr.brick.math.Vector2;
 import java.util.HashMap;
 import java.util.Map;
 
+// 좌표와 컴포넌트를 가지고 있는 게임 내에 존재하는 컴포넌트들을 관리하는 super class
 public class GameObject extends BRBehavior {
     public Transform transform;
     protected Map<String, Component> componentMap;

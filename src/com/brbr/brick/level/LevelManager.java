@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+// 새로운 레벨을 생성하고 기존에 있던 벽돌들을 움직이는 역할
 public class LevelManager {
 
     private Scene scene;

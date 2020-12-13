@@ -3,6 +3,7 @@ package com.brbr.brick.debug;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+// 디버깅용 로거
 public class Debugger {
     public final static boolean DEBUG = true;
 

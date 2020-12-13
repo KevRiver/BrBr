@@ -1,5 +1,6 @@
 package com.brbr.brick.object;
 
+// animatedValue를 통해 애니메이션을 구현 할 수 있는 추상 클래스
 public abstract class AnimationObject extends GameObject {
 
     abstract float getSpeed();
